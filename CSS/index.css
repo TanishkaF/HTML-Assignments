@@ -1,0 +1,232 @@
+* {
+    box-sizing: border-box;
+}
+
+input {
+    border-radius: 6px;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.extraSpace {
+    padding-top: 5px;
+    padding-bottom: 25px;
+}
+
+.legendClass{
+    padding-bottom: 10px;
+}
+
+h1{
+    text-align: center;
+    color: black;
+}
+
+h2{
+    margin-bottom: -5px;
+  margin-top: -10px;
+}
+
+h3 {
+    text-decoration: underline;
+    text-align: left;
+    text-decoration-thickness: bold;
+}
+
+.box-main-main{
+    border: 2px solid black; 
+    padding: 25px;color:blacksmoke;
+    background-color:white;
+}
+
+.profile-photo {
+    float: right;
+    right: 10px;
+    top: -68px;
+    font-size: 18px;
+    position: relative;
+    height: 90px;
+    width: 90px;
+    border: 1px solid black; 
+    border-radius: 50%;
+    background-color: black;
+}
+
+
+/* .profile-photo input[type="file"] {
+    display: none;
+}
+
+.profile-photo label {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+
+} */
+
+
+.radioB
+ {
+    width: 100%;   
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-flex;
+}
+
+.radio-container {
+    display: flex;
+    align-items: center;
+}
+
+input[type="radio"] {
+    margin-right: 5px; 
+}
+
+/* address */
+.containerA {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px;
+}
+
+.containerAdd {
+    flex: 1 1 100%;
+    padding: 0px;
+    /* border: 2px solid #4CAF50; */
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.containerAG {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.containerP{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+
+.containerAG select,
+.containerAG input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.sameCurr {
+    padding-top: 10px;
+    grid-column: span 2;
+}
+
+/* hobby */
+.container-hobby {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+
+.hobbies-container {
+    flex: 1 1 100%;
+    padding-left: 5px;
+    /* border: 2px solid #4CAF50; */
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.hobby-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px;
+}
+
+.hobby-item {
+    flex: 1 1 calc(33.33% - 10px);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.hobbies-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.hobbies-container input {
+    margin-right: 5px;
+}
+
+.message-feedback-container {
+    flex: 1 1 calc(50% - 10px);
+    padding: 5px;
+    /* border: 2px solid #4CAF50; */
+    border-radius: 8px;
+    /* margin-left: 5px; */
+    margin-bottom: 20px;
+}
+
+.message-feedback-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.message-feedback-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.footer-buttons {
+    position: sticky;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background-color: white;
+    margin-left: 84%;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    height: 30px;
+    width: 80px;
+    margin-left: 1px;
+}
+
+@media screen and (max-width: 600px) {
+    .containerAG {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .containerP{       
+        grid-template-columns: repeat(1, 1fr);
+       
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-buttons {
+        margin-left: 55%;
+    }
+}
