@@ -45,10 +45,10 @@ h3 {
 
 .profile-photo {
     float: right;
-    right: 10px;
-    top: -68px;
+    right: 28px;
+    top: 60px;
     font-size: 18px;
-    position: relative;
+    position: absolute;
     height: 90px;
     width: 90px;
     border: 1px solid black; 
@@ -70,6 +70,10 @@ h3 {
 
 } */
 
+.extraNew{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 
 .radioB
  {
