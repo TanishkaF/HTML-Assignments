@@ -1,1 +1,488 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+    <title>Admission Form</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body onload="displayUserData()">
+
+    <div id="customAlert" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAlert()">&times;</span>
+            <!-- Add this button inside your popup div -->
+            <button onclick="clearForm()" id="clearButton">Clear Form</button>
+            <div id="displayData"></div>
+        </div>
+    </div>
+
+    <div class="box-main-main">
+
+        <h1><u>Admission Form</u></h1>
+
+        <form name='registration' id="myForm">
+
+
+
+            <!-- PERSONAL INFO -->
+            <div>
+                <fieldset>
+
+                    <legend>
+                        <h2>PERSONAL DETAILS:</h2>
+                    </legend>
+
+
+                    <!-- <h3>Name</h3> -->
+
+                    <div class="profile-photo">
+                        <img src="path/to/your/prifile.jpg" alt="" id="previewImage">
+                    </div>
+
+                    <div class="containerAG containerP extraNew">
+                        <div>
+                            <label for="fname">First Name:</label>
+                            <input type="text" id="fname" name="name" placeholder="First Name" required>
+                        </div>
+                        <div>
+                            <label for="mname">Middle Name:</label>
+                            <input type="text" id="mname" name="name" placeholder="Middle Name">
+                        </div>
+                        <div>
+                            <label for="lname">Last Name:</label>
+                            <input type="text" id="lname" name="name" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="containerAG containerP extraNew">
+                        <div>
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div>
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required placeholder="Password">
+                        </div>
+                        <div>
+                            <label for="password">Confirm Password:</label>
+                            <input type="password" id="cpassword" name="cpassword" required
+                                placeholder="Confirm Password">
+                        </div>
+                    </div>
+
+
+                    <!-- <h3>Age:</h3> -->
+                    <div class="containerAG containerP extraNew">
+                        <div>
+                            <label for="birthday">Birthday:</label>
+                            <input type="date" id="birthday" name="birthday" required>
+                        </div>
+                        <div>
+                            <label for="age">Age:</label>
+                            <input type="numbers" id="age" name="age">
+                        </div>
+                        <div>
+                            <label>Gender:</label>
+                            <div class="radioB">
+                                <div class="radio-container">
+                                    <input type="radio" id="male" name="gender" value="male">
+                                    <label for="male">Male</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" id="female" name="gender" value="female">
+                                    <label for="female">Female</label>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <h3>Verification:</h3> -->
+                    <div class="containerAG containerP extraNew">
+                        <div>
+                            <label for="phone">Contact No:</label>
+                            <input type="numbers" name="phone" id="phone" placeholder="Please Enter 10 Digits" required>
+                        </div>
+                        <div>
+                            <label for="aadhar">Aadhar No:</label>
+                            <input type="numbers" name="aadhar" id="aadhar" placeholder="Please Enter 12 Digits"
+                                required>
+
+                        </div>
+                        <div>
+                            <label for="pan">Pan No:</label>
+                            <input type="numbers" name="pan" id="pan" placeholder="Pan Card">
+
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+
+            <div class="extraSpace"></div>
+
+            <!-- ADDRESS -->
+             <div>
+                <fieldset>
+
+                    <legend>
+                        <h2>ADDRESS:</h2>
+                    </legend>
+
+
+                    <h3>Current Address:</h3>
+                    <div class="containerAG">
+                        <div>
+
+                            <label for="country">Country:</label>
+                            <select id="ccountry" name="country" required>
+                                <option value="" disabled selected>Select Country</option>
+                                <option value="ind">India</option>
+                                <option value="canada">Canada</option>
+                                <option value="uk">United Kingdom</option>
+                                <option value="australia">Australia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="state">State:</label>
+                            <select id="cstate" name="state" required>
+                                <option value="" disabled selected>Select State</option>
+                                <optgroup label="India">
+                                    <option value="dl">Delhi</option>
+                                    <option value="kl">Kolkata</option>
+                                    <option value="mb">Mumbai</option>
+                                    <option value="od">Odisha</option>
+                                </optgroup>
+                                <optgroup label="Canada">
+                                    <option value="on">Ontario</option>
+                                    <option value="bc">British Columbia</option>
+                                    <option value="ab">Alberta</option>
+                                    <option value="qc">Quebec</option>
+                                </optgroup>
+                                <optgroup label="United Kingdom">
+                                    <option value="eng">England</option>
+                                    <option value="sco">Scotland</option>
+                                    <option value="wal">Wales</option>
+                                    <option value="ni">Northern Ireland</option>
+                                </optgroup>
+                                <optgroup label="Australia">
+                                    <option value="nsw">New South Wales</option>
+                                    <option value="vic">Victoria</option>
+                                    <option value="qld">Queensland</option>
+                                    <option value="wa">Western Australia</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="c1address"> Address Line 1:</label>
+                            <input type="text" id="c1address" name="address" required placeholder="Address Line 1">
+                        </div>
+                        <div>
+                            Address Line 2: <input type="text" id="c2address" name="address"
+                                placeholder="Address Line 2">
+                        </div>
+                        <div>
+                            <label for="pinCode">Pincode:</label>
+                            <input type="numbers" id="cpinCode" name="pinCode" required placeholder="Pincode">
+                        </div>
+                    </div>
+
+                    <div class="containerAdd">
+                        <h3>Permanent Address:</h3>
+                        <div class="containerAG">
+                            <div>
+                                <label for="country">Country:</label>
+                                <select id="pcountry" name="country" required>
+                                    <option value="" disabled selected>Select Country</option>
+                                    <option value="ind">India</option>
+                                    <option value="canada">Canada</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="australia">Australia</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="state">State:</label>
+                                <select id="pstate" name="state" required>
+                                    <option value="" disabled selected>Select State</option>
+                                    <optgroup label="India">
+                                        <option value="dl">Delhi</option>
+                                        <option value="kl">Kolkata</option>
+                                        <option value="mb">Mumbai</option>
+                                        <option value="od">Odisha</option>
+                                    </optgroup>
+                                    <optgroup label="Canada">
+                                        <option value="on">Ontario</option>
+                                        <option value="bc">British Columbia</option>
+                                        <option value="ab">Alberta</option>
+                                        <option value="qc">Quebec</option>
+                                    </optgroup>
+                                    <optgroup label="United Kingdom">
+                                        <option value="eng">England</option>
+                                        <option value="sco">Scotland</option>
+                                        <option value="wal">Wales</option>
+                                        <option value="ni">Northern Ireland</option>
+                                    </optgroup>
+                                    <optgroup label="Australia">
+                                        <option value="nsw">New South Wales</option>
+                                        <option value="vic">Victoria</option>
+                                        <option value="qld">Queensland</option>
+                                        <option value="wa">Western Australia</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div>
+                                Address Line 1: <input type="text" id="p1address" name="p1address" required
+                                    placeholder="Address Line 1">
+                            </div>
+                            <div>
+                                Address Line 2: <input type="text" id="p2address" name="p2address"
+                                    placeholder="Address Line 2">
+                            </div>
+                            <div>
+                                <label for="pinCode">Pincode:</label>
+                                <input type="numbers" id="ppinCode" name="ppinCode" required placeholder="PinCode">
+                            </div>
+
+                        </div>
+                        <div class="sameCurr">
+                            <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent">
+                            <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div> 
+
+            <div class="extraSpace"></div>
+
+            <!-- EDUCATION -->
+             <div>
+                <fieldset>
+
+                    <legend>
+                        <h2>EDUCATION:</h2>
+                    </legend>
+
+
+                    <h3>MATRICULATION(10)</h3>
+
+                    <div class="containerAG">
+                        <div>
+
+                            <label for="instname">Institute Name:</label>
+                            <input type="text" id="instname10" name="instname" placeholder="Institute Name">
+                        </div>
+                        <div>
+                            <label for="board">Board:</label>
+                            <select id="board10" name="board" required>
+                                <option value="" disabled selected>Select Board</option>
+                                <option value="icse">ICSE</option>
+                                <option value="cbse">CBSE</option>
+                                <option value="satetBoard">State Board</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Marks:</label>
+                            <div class="radioB">
+                                <div class="radio-container">
+                                    <input type="radio" id="cgpa10" name="marks" value="cgpa">
+                                    <label for="cgpa">CGPA</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" id="percentage" name="marks" value="percentage">
+                                    <label for="percentage">Percentage</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <label> Enter Aggregate:</label>
+                            <input type="text" id="grade10Value" name="grade10Value" required
+                                placeholder="Enter Aggregate">
+                        </div>
+                        <div>
+                            <label for="yop">Year of Passing:</label>
+                            <input type="text" id="yop10" name="yop10" placeholder="YOP">
+                        </div>
+                    </div>
+
+                    <h3>Intermediate(12)</h3>
+
+                    <div class="containerAG">
+                        <div>
+                            <label for="instname">Institute Name:</label>
+                            <input type="text" id="instname12" name="instname" placeholder="Institute Name">
+                        </div>
+                        <div>
+                            <label for="board">Board:</label>
+                            <select id="board12" name="board" required>
+                                <option value="" disabled selected>Select Board</option>
+                                <option value="icse">ICSE</option>
+                                <option value="cbse">CBSE</option>
+                                <option value="satetBoard">State Board</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Marks:</label>
+                            <div class="radioB">
+                                <div class="radio-container">
+                                    <input type="radio" id="cgpa12" name="marks12" value="cgpa">
+                                    <label for="cgpa">CGPA</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" id="percentage12" name="marks12" value="percentage">
+                                    <label for="percentage">Percentage</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <label> Enter Aggregate:</label>
+                            <input type="text" id="grade12Value" name="grade12Value" required
+                                placeholder="Enter Aggregate">
+                        </div>
+                        <div>
+                            <label for="yop">Year of Passing:</label>
+                            <input type="text" id="yop12" name="yop12" placeholder="YOP">
+                        </div>
+                    </div>
+
+                    <h3>Graduate:</h3>
+                    <div class="containerAG">
+                        <div>
+                            <label for="instname">Institute Name:</label>
+
+                            <input type="text" id="instnameg" name="instname" placeholder="Institute Name">
+                        </div>
+                        <div>
+                            <label for="board">Board:</label>
+                            <select id="boardg" name="board" required>
+                                <option value="" disabled selected>Select Board</option>
+                                <option value="icse">ICSE</option>
+                                <option value="cbse">CBSE</option>
+                                <option value="satetBoard">State Board</option>
+                            </select>
+
+                        </div>
+                        <div>
+                            <label>Marks:</label>
+                            <div class="radioB">
+                                <div class="radio-container">
+                                    <input type="radio" id="cgpag" name="marksg" value="cgpa">
+                                    <label for="cgpa">CGPA</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" id="percentageg" name="marksg" value="percentage">
+                                    <label for="percentage">Percentage</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div>
+                            <label> Enter Aggregate:</label>
+                            <input type="text" id="gradegValue" name="gradegValue" required
+                                placeholder="Enter Aggregate">
+                        </div>
+                        <div>
+                            <label for="yop">Year of Passing:</label>
+                            <input type="text" id="yopg" name="yopg" placeholder="YOP">
+                        </div>
+                    </div>
+                </fieldset>
+            </div> -->
+
+            <div class="extraSpace"></div>
+
+            <!-- HOBBY -->
+            <div>
+                <fieldset>
+                    <legend>
+                        <h2>Hobbies:</h2>
+                    </legend>
+                    <div class="container-hobby">
+                        <div class="hobbies-container">
+                            <div class="hobby-row">
+                                <div class="hobby-item">
+                                    <label for="hob1">
+                                        <input type="checkbox" id="hob1" name="hobbies" value="Dancing"> Dancing
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob2">
+                                        <input type="checkbox" id="hob2" name="hobbies" value="Singing"> Singing
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob3">
+                                        <input type="checkbox" id="hob3" name="hobbies" value="Coding"> Coding
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hobby-row">
+                                <div class="hobby-item">
+                                    <label for="hob4">
+                                        <input type="checkbox" id="hob4" name="hobbies" value="Web Designing"> Web
+                                        Designing
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob5">
+                                        <input type="checkbox" id="hob5" name="hobbies" value="Board Games"> Board Games
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob6">
+                                        <input type="checkbox" id="hob6" name="hobbies" value="Camping"> Camping
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="hobby-row">
+                                <div class="hobby-item">
+                                    <label for="hob7">
+                                        <input type="checkbox" id="hob7" name="hobbies" value="Running"> Running
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob8">
+                                        <input type="checkbox" id="hob8" name="hobbies" value="Sleeping"> Sleeping
+                                    </label>
+                                </div>
+                                <div class="hobby-item">
+                                    <label for="hob9">
+                                        <input type="checkbox" id="hob9" name="hobbies" value="Reading"> Reading
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="message-feedback-container">
+                            <h3>Message and Feedback:</h3>
+                            <label for="message">Message:</label>
+                            <textarea id="message" name="message" rows="3" cols="30"
+                                placeholder="Enter message you want to provide."></textarea>
+
+                            <label for="feedback">Feedback:</label>
+                            <textarea id="feedback" name="feedback" rows="4" cols="40"
+                                placeholder="Please feel free to give any feedback to us."></textarea>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="footer-buttons">
+                <input type="submit" value="Submit" onclick="validateAndStore()">
+                <input type="reset" value="Reset" onclick="resetForm()">
+            </div>
+            <!-- <button type="button" onclick="validateAndStore()">Submit</button> -->
+
+
+        </form>
+
+    </div>
+
+    <script src="index.js"></script>
+
+
+</body>
+
+</html>
