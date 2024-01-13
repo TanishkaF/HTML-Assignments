@@ -12,7 +12,7 @@ input {
     display: table;
 }
 
-.extraSpace {
+.extra-space {
     padding-top: 5px;
     padding-bottom: 25px;
 }
@@ -70,12 +70,12 @@ h3 {
 
 } */
 
-.extraNew{
+.extra-new{
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.radioB
+.radio-button
  {
     width: 100%;   
     padding: 8px;
@@ -96,13 +96,13 @@ input[type="radio"] {
 }
 
 /* address */
-.containerA {
+.container-AG {
     display: flex;
     flex-wrap: wrap;
     margin: 20px;
 }
 
-.containerAdd {
+.container-Add {
     flex: 1 1 100%;
     padding: 0px;
     /* border: 2px solid #4CAF50; */
@@ -110,7 +110,7 @@ input[type="radio"] {
     margin-bottom: 20px;
 }
 
-.containerAG {
+.container-AG {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -118,7 +118,7 @@ input[type="radio"] {
     margin-bottom: 5px;
 }
 
-.containerP{
+.container-permanent-address{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
@@ -126,8 +126,8 @@ input[type="radio"] {
     margin-bottom: 5px;
 }
 
-.containerAG select,
-.containerAG input {
+.container-AG select,
+.container-AG input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -136,7 +136,7 @@ input[type="radio"] {
     box-sizing: border-box;
 }
 
-.sameCurr {
+.same-curr {
     padding-top: 10px;
     grid-column: span 2;
 }
@@ -225,11 +225,11 @@ input[type="reset"]{
 }
 
 @media screen and (max-width: 600px) {
-    .containerAG {
+    .container-AG {
         grid-template-columns: repeat(1, 1fr);
     }
 
-    .containerP{       
+    .container-permanent-address{       
         grid-template-columns: repeat(1, 1fr);
        
     }
