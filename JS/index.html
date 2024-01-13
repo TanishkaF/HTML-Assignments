@@ -21,9 +21,7 @@
 
         <h1><u>Admission Form</u></h1>
 
-        <form name='registration' id="myForm">
-
-
+        <form name='registration' id="dataForm">
 
             <!-- PERSONAL INFO -->
             <div>
@@ -40,56 +38,57 @@
                         <img src="path/to/your/prifile.jpg" alt="" id="previewImage">
                     </div>
 
-                    <div class="containerAG containerP extraNew">
+                    <div class=" container-AG container-permanent-address extra-new">
                         <div>
                             <label for="fname">First Name:</label>
-                            <input type="text" id="fname" name="name" placeholder="First Name" required>
+                            <input type="text" id="firstName" name="name" placeholder="First Name" data-store="Name">
                         </div>
                         <div>
                             <label for="mname">Middle Name:</label>
-                            <input type="text" id="mname" name="name" placeholder="Middle Name">
+                            <input type="text" id="middleName" name="name" placeholder="Middle Name" data-store="Name">
                         </div>
                         <div>
                             <label for="lname">Last Name:</label>
-                            <input type="text" id="lname" name="name" placeholder="Last Name">
+                            <input type="text" id="lastName" name="name" placeholder="Last Name" data-store="Name">
                         </div>
                     </div>
 
-                    <div class="containerAG containerP extraNew">
+                    <div class=" container-AG container-permanent-address extra-new">
                         <div>
                             <label for="email">Email:</label>
-                            <input type="text" id="email" name="email" placeholder="Email" required>
+                            <input type="text" id="email" name="email" placeholder="Email" data-store="Email">
                         </div>
                         <div>
                             <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" required placeholder="Password">
+                            <input type="password" id="password" name="password" placeholder="Password"
+                                data-store="Password">
                         </div>
                         <div>
                             <label for="password">Confirm Password:</label>
-                            <input type="password" id="cpassword" name="cpassword" required
-                                placeholder="Confirm Password">
+                            <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password"
+                                data-store="ConfirmPassword">
                         </div>
                     </div>
 
 
                     <!-- <h3>Age:</h3> -->
-                    <div class="containerAG containerP extraNew">
+                    <div class=" container-AG container-permanent-address extra-new">
                         <div>
                             <label for="birthday">Birthday:</label>
-                            <input type="date" id="birthday" name="birthday" required>
+                            <input type="date" id="birthday" name="birthday" data-store="Birthday">
                         </div>
                         <div>
                             <label for="age">Age:</label>
-                            <input type="numbers" id="age" name="age">
+                            <input type="numbers" id="age" name="age" data-store="Age">
                         </div>
                         <div>
                             <label>Gender:</label>
-                            <div class="radioB">
+                            <div class="radio-button">
                                 <div class="radio-container">
-                                    <input type="radio" id="male" name="gender" value="male">
+                                    <input type="radio" id="male" name="gender" value="male" data-store="Gender">
                                     <label for="male">Male</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" id="female" name="gender" value="female">
+                                    <input type="radio" id="female" name="gender" value="female" data-store="Gender">
                                     <label for="female">Female</label>
 
                                 </div>
@@ -99,20 +98,21 @@
                     </div>
 
                     <!-- <h3>Verification:</h3> -->
-                    <div class="containerAG containerP extraNew">
+                    <div class=" container-AG container-permanent-address extra-new">
                         <div>
                             <label for="phone">Contact No:</label>
-                            <input type="numbers" name="phone" id="phone" placeholder="Please Enter 10 Digits" required>
+                            <input type="numbers" name="phone" id="phone" placeholder="Please Enter 10 Digits"
+                                data-store="Phone">
                         </div>
                         <div>
                             <label for="aadhar">Aadhar No:</label>
                             <input type="numbers" name="aadhar" id="aadhar" placeholder="Please Enter 12 Digits"
-                                required>
+                                data-store="Aadhar">
 
                         </div>
                         <div>
                             <label for="pan">Pan No:</label>
-                            <input type="numbers" name="pan" id="pan" placeholder="Pan Card">
+                            <input type="numbers" name="pan" id="pan" placeholder="Pan Card" data-store="Pan">
 
                         </div>
                     </div>
@@ -120,10 +120,10 @@
                 </fieldset>
             </div>
 
-            <div class="extraSpace"></div>
+            <div class="extra-space"></div>
 
             <!-- ADDRESS -->
-             <div>
+            <div>
                 <fieldset>
 
                     <legend>
@@ -132,21 +132,21 @@
 
 
                     <h3>Current Address:</h3>
-                    <div class="containerAG">
+                    <div class=" container-AG">
                         <div>
 
                             <label for="country">Country:</label>
-                            <select id="ccountry" name="country" required>
+                            <select id="cCountry" name="country" data-store="CurrentCountry">
                                 <option value="" disabled selected>Select Country</option>
-                                <option value="ind">India</option>
+                                <option value="india">India</option>
                                 <option value="canada">Canada</option>
-                                <option value="uk">United Kingdom</option>
+                                <option value="unitedKingdom">United Kingdom</option>
                                 <option value="australia">Australia</option>
                             </select>
                         </div>
                         <div>
                             <label for="state">State:</label>
-                            <select id="cstate" name="state" required>
+                            <select id="cState" name="state" data-store="CurrentState">
                                 <option value="" disabled selected>Select State</option>
                                 <optgroup label="India">
                                     <option value="dl">Delhi</option>
@@ -176,24 +176,26 @@
                         </div>
                         <div>
                             <label for="c1address"> Address Line 1:</label>
-                            <input type="text" id="c1address" name="address" required placeholder="Address Line 1">
+                            <input type="text" id="c1Address" name="address" placeholder="Address Line 1"
+                                data-store="CurrentAddressLine1">
                         </div>
                         <div>
-                            Address Line 2: <input type="text" id="c2address" name="address"
-                                placeholder="Address Line 2">
+                            Address Line 2: <input type="text" id="c2Address" name="address"
+                                placeholder="Address Line 2" data-store="CurrentAddressLine2">
                         </div>
                         <div>
                             <label for="pinCode">Pincode:</label>
-                            <input type="numbers" id="cpinCode" name="pinCode" required placeholder="Pincode">
+                            <input type="numbers" id="cPinCode" name="pinCode" placeholder="Pincode"
+                                data-store="CurrentPinCode">
                         </div>
                     </div>
 
-                    <div class="containerAdd">
+                    <div class="container-Add">
                         <h3>Permanent Address:</h3>
-                        <div class="containerAG">
+                        <div class=" container-AG">
                             <div>
                                 <label for="country">Country:</label>
-                                <select id="pcountry" name="country" required>
+                                <select id="pCountry" name="country" data-store="PermanentCountry">
                                     <option value="" disabled selected>Select Country</option>
                                     <option value="ind">India</option>
                                     <option value="canada">Canada</option>
@@ -203,7 +205,7 @@
                             </div>
                             <div>
                                 <label for="state">State:</label>
-                                <select id="pstate" name="state" required>
+                                <select id="pState" name="state" data-store="PermanentState">
                                     <option value="" disabled selected>Select State</option>
                                     <optgroup label="India">
                                         <option value="dl">Delhi</option>
@@ -232,32 +234,33 @@
                                 </select>
                             </div>
                             <div>
-                                Address Line 1: <input type="text" id="p1address" name="p1address" required
-                                    placeholder="Address Line 1">
+                                Address Line 1: <input type="text" id="p1Address" name="p1address"
+                                    placeholder="Address Line 1" data-store="PermanentAddressLine1">
                             </div>
                             <div>
-                                Address Line 2: <input type="text" id="p2address" name="p2address"
-                                    placeholder="Address Line 2">
+                                Address Line 2: <input type="text" id="p2Address" name="p2address"
+                                    placeholder="Address Line 2" data-store="PermanentAddressLine2">
                             </div>
                             <div>
                                 <label for="pinCode">Pincode:</label>
-                                <input type="numbers" id="ppinCode" name="ppinCode" required placeholder="PinCode">
+                                <input type="numbers" id="pPinCode" name="pPinCode" placeholder="PinCode"
+                                    data-store="PercentagePinCode">
                             </div>
 
                         </div>
-                        <div class="sameCurr">
+                        <div class="same-curr">
                             <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent">
                             <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
                         </div>
                     </div>
 
                 </fieldset>
-            </div> 
+            </div>
 
-            <div class="extraSpace"></div>
+            <div class="extra-space"></div>
 
             <!-- EDUCATION -->
-             <div>
+            <div>
                 <fieldset>
 
                     <legend>
@@ -267,15 +270,16 @@
 
                     <h3>MATRICULATION(10)</h3>
 
-                    <div class="containerAG">
+                    <div class=" container-AG">
                         <div>
 
                             <label for="instname">Institute Name:</label>
-                            <input type="text" id="instname10" name="instname" placeholder="Institute Name">
+                            <input type="text" id="instName10" name="instname" placeholder="Institute Name"
+                                data-store="InstituteName10">
                         </div>
                         <div>
                             <label for="board">Board:</label>
-                            <select id="board10" name="board" required>
+                            <select id="board10" name="board" data-store="Board10">
                                 <option value="" disabled selected>Select Board</option>
                                 <option value="icse">ICSE</option>
                                 <option value="cbse">CBSE</option>
@@ -284,12 +288,13 @@
                         </div>
                         <div>
                             <label>Marks:</label>
-                            <div class="radioB">
+                            <div class="radio-button">
                                 <div class="radio-container">
-                                    <input type="radio" id="cgpa10" name="marks" value="cgpa">
+                                    <input type="radio" id="cgpa10" name="marks" value="cgpa" data-store="Marks10">
                                     <label for="cgpa">CGPA</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" id="percentage" name="marks" value="percentage">
+                                    <input type="radio" id="percentage" name="marks" value="percentage"
+                                        data-store="Marks10">
                                     <label for="percentage">Percentage</label>
                                 </div>
 
@@ -297,25 +302,26 @@
                         </div>
                         <div>
                             <label> Enter Aggregate:</label>
-                            <input type="text" id="grade10Value" name="grade10Value" required
-                                placeholder="Enter Aggregate">
+                            <input type="text" id="grade10Value" name="grade10Value" placeholder="Enter Aggregate"
+                                data-store="Aggregate10">
                         </div>
                         <div>
                             <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yop10" name="yop10" placeholder="YOP">
+                            <input type="text" id="yop10" name="yop10" placeholder="YOP" data-store="YOP10">
                         </div>
                     </div>
 
                     <h3>Intermediate(12)</h3>
 
-                    <div class="containerAG">
+                    <div class=" container-AG">
                         <div>
                             <label for="instname">Institute Name:</label>
-                            <input type="text" id="instname12" name="instname" placeholder="Institute Name">
+                            <input type="text" id="instName12" name="instname" placeholder="Institute Name"
+                                data-store="InstituteName12">
                         </div>
                         <div>
                             <label for="board">Board:</label>
-                            <select id="board12" name="board" required>
+                            <select id="board12" name="board" data-store="Board12">
                                 <option value="" disabled selected>Select Board</option>
                                 <option value="icse">ICSE</option>
                                 <option value="cbse">CBSE</option>
@@ -324,12 +330,13 @@
                         </div>
                         <div>
                             <label>Marks:</label>
-                            <div class="radioB">
+                            <div class="radio-button">
                                 <div class="radio-container">
-                                    <input type="radio" id="cgpa12" name="marks12" value="cgpa">
+                                    <input type="radio" id="cgpa12" name="marks12" value="cgpa" data-store="Marks12">
                                     <label for="cgpa">CGPA</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" id="percentage12" name="marks12" value="percentage">
+                                    <input type="radio" id="percentage12" name="marks12" value="percentage"
+                                        data-store="Marks12">
                                     <label for="percentage">Percentage</label>
                                 </div>
 
@@ -337,25 +344,26 @@
                         </div>
                         <div>
                             <label> Enter Aggregate:</label>
-                            <input type="text" id="grade12Value" name="grade12Value" required
-                                placeholder="Enter Aggregate">
+                            <input type="text" id="grade12Value" name="grade12Value" placeholder="Enter Aggregate"
+                                data-store="Aggregate12">
                         </div>
                         <div>
                             <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yop12" name="yop12" placeholder="YOP">
+                            <input type="text" id="yop12" name="yop12" placeholder="YOP" data-store="YOP12">
                         </div>
                     </div>
 
                     <h3>Graduate:</h3>
-                    <div class="containerAG">
+                    <div class=" container-AG">
                         <div>
                             <label for="instname">Institute Name:</label>
 
-                            <input type="text" id="instnameg" name="instname" placeholder="Institute Name">
+                            <input type="text" id="instNameG" name="instname" placeholder="Institute Name"
+                                data-store="InstituteNameG">
                         </div>
                         <div>
                             <label for="board">Board:</label>
-                            <select id="boardg" name="board" required>
+                            <select id="boardG" name="board" data-store="BoardG">
                                 <option value="" disabled selected>Select Board</option>
                                 <option value="icse">ICSE</option>
                                 <option value="cbse">CBSE</option>
@@ -365,12 +373,13 @@
                         </div>
                         <div>
                             <label>Marks:</label>
-                            <div class="radioB">
+                            <div class="radio-button">
                                 <div class="radio-container">
-                                    <input type="radio" id="cgpag" name="marksg" value="cgpa">
+                                    <input type="radio" id="cgpaG" name="marksg" value="cgpa" data-store="MarksG">
                                     <label for="cgpa">CGPA</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" id="percentageg" name="marksg" value="percentage">
+                                    <input type="radio" id="percentageG" name="marksg" value="percentage"
+                                        data-store="marksg">
                                     <label for="percentage">Percentage</label>
                                 </div>
 
@@ -378,18 +387,18 @@
                         </div>
                         <div>
                             <label> Enter Aggregate:</label>
-                            <input type="text" id="gradegValue" name="gradegValue" required
-                                placeholder="Enter Aggregate">
+                            <input type="text" id="gradeGValue" name="gradegValue" placeholder="Enter Aggregate"
+                                data-store="AggregateG">
                         </div>
                         <div>
                             <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yopg" name="yopg" placeholder="YOP">
+                            <input type="text" id="yopG" name="yopg" placeholder="YOP" data-store="YOPG">
                         </div>
                     </div>
                 </fieldset>
-            </div> -->
+            </div>
 
-            <div class="extraSpace"></div>
+            <div class="extra-space"></div>
 
             <!-- HOBBY -->
             <div>
@@ -457,11 +466,12 @@
                             <h3>Message and Feedback:</h3>
                             <label for="message">Message:</label>
                             <textarea id="message" name="message" rows="3" cols="30"
-                                placeholder="Enter message you want to provide."></textarea>
+                                placeholder="Enter message you want to provide." data-store="Message"></textarea>
 
                             <label for="feedback">Feedback:</label>
                             <textarea id="feedback" name="feedback" rows="4" cols="40"
-                                placeholder="Please feel free to give any feedback to us."></textarea>
+                                placeholder="Please feel free to give any feedback to us."
+                                data-store="Feedback"></textarea>
                         </div>
                     </div>
 
@@ -470,8 +480,11 @@
 
             <!-- BUTTONS -->
             <div class="footer-buttons">
-                <input type="submit" value="Submit" onclick="validateAndStore()">
-                <input type="reset" value="Reset" onclick="resetForm()">
+                 <input type="submit" value="Submit" onclick="validateAndStore()"> 
+                <input type="reset" value="Reset" onclick="resetForm()"> 
+
+                <!-- <button type="button" onclick="validateAndStore()">Submit</button>
+                <button type="button" onclick="resetForm()">Reset</button> -->
             </div>
             <!-- <button type="button" onclick="validateAndStore()">Submit</button> -->
 
