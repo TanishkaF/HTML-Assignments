@@ -37,6 +37,17 @@ h3 {
     text-decoration-thickness: bold;
 }
 
+#starSign{
+    color:red;
+    text-decoration-thickness: bold;
+}
+
+.error-message{
+    color: red;
+    text-decoration-thickness: bold;
+}
+
+
 .box-main-main{
     border: 2px solid black; 
     padding: 25px;color:blacksmoke;
@@ -209,18 +220,18 @@ input[type="radio"] {
     margin-left: 84%;
 }
 
-input[type="submit"],
-input[type="reset"] {
+input[type="button"],
+input[type="button"] {
     height: 30px;
     width: 80px;
     margin-left: 1px;
 }
 
-input[type="submit"]{
-    color: darkgreen;
+.SubmitButton{
+    color: green;
 }
 
-input[type="reset"]{
+.ResetButton{
     color: red;
 }
 
@@ -290,3 +301,9 @@ input[type="reset"]{
     width: calc(25% - 10px);
     margin-bottom: 10px;
   }
+
+.error-display-box{
+    /* border: 1px solid black; */
+    position: absolute;
+    display: none;
+}
