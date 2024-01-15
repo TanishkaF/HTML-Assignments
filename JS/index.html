@@ -40,33 +40,56 @@
 
                     <div class=" container-AG container-permanent-address extra-new">
                         <div>
-                            <label for="fname">First Name:</label>
-                            <input type="text" id="firstName" name="name" placeholder="First Name" data-store="Name">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="fname">First Name:</label>
+                                <input type="text" id="firstName" name="name" placeholder="First Name"  data-store="FirstName">
+                            </div>
+                            <div class="error-display-box" id="errorMessageFirstNameDiv"></div>
                         </div>
                         <div>
                             <label for="mname">Middle Name:</label>
-                            <input type="text" id="middleName" name="name" placeholder="Middle Name" data-store="Name">
+                            <input type="text" id="middleName" name="name" placeholder="Middle Name"
+                                data-store="SecondName">
                         </div>
                         <div>
                             <label for="lname">Last Name:</label>
-                            <input type="text" id="lastName" name="name" placeholder="Last Name" data-store="Name">
+                            <input type="text" id="lastName" name="name" placeholder="Last Name" data-store="LastName">
                         </div>
                     </div>
 
                     <div class=" container-AG container-permanent-address extra-new">
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="text" id="email" name="email" placeholder="Email" data-store="Email">
+                        <div class="mandotory">
+                            <div>
+                                <!-- <span id="errorMessageDisplayBox"> -->
+                                <span id="starSign">*</span>
+                                <label for="email">Email:</label>
+                                <input type="text" id="email" name="email" placeholder="Email" data-store="Email">
+                                <!-- </span> -->
+                            </div>
+                            <div id="errorMessageDisplayBox" class="error-display-box"></div>
                         </div>
-                        <div>
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" placeholder="Password"
-                                data-store="Password">
+                        <div class="mandotory">
+                            <div>
+                                <!-- <span id="errorMessagePasswordDiv"> -->
+                                <span id="starSign">*</span>
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" placeholder="Password"
+                                    data-store="Password">
+                                <!-- </span> -->
+                            </div>
+                            <div id="errorMessagePasswordDiv" class="error-display-box"></div>
                         </div>
-                        <div>
-                            <label for="password">Confirm Password:</label>
-                            <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password"
-                                data-store="ConfirmPassword">
+                        <div class="mandotory">
+                            <div>
+                                <!-- <span id="errorMessageConfirmPasswordDiv"> -->
+                                <span id="starSign">*</span>
+                                <label for="password">Confirm Password:</label>
+                                <input type="password" id="cpassword" name="cpassword" placeholder="Confirm Password"
+                                    data-store="ConfirmPassword">
+                                <!-- </span> -->
+                            </div>
+                            <div id="errorMessageConfirmPasswordDiv" class="error-display-box"></div>
                         </div>
                     </div>
 
@@ -78,11 +101,14 @@
                             <input type="date" id="birthday" name="birthday" data-store="Birthday">
                         </div>
                         <div>
-                            <label for="age">Age:</label>
-                            <input type="numbers" id="age" name="age" data-store="Age">
+                            <div>
+                                <label for="age">Age:</label>
+                                <input type="numbers" id="age" name="age" data-store="Age">
+                            </div>
+                            <div id="errorMessageAgeDiv" class="error-display-box"></div>
                         </div>
                         <div>
-                            <label>Gender:</label>
+                            <label for="gender">Gender:</label>
                             <div class="radio-button">
                                 <div class="radio-container">
                                     <input type="radio" id="male" name="gender" value="male" data-store="Gender">
@@ -99,16 +125,23 @@
 
                     <!-- <h3>Verification:</h3> -->
                     <div class=" container-AG container-permanent-address extra-new">
-                        <div>
-                            <label for="phone">Contact No:</label>
-                            <input type="numbers" name="phone" id="phone" placeholder="Please Enter 10 Digits"
-                                data-store="Phone">
+                        <div class="mandotory">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="phone">Contact No:</label>
+                                <input type="numbers" name="phone" id="phone" placeholder="Please Enter 10 Digits"
+                                    data-store="Phone">
+                            </div>
+                            <div id="errorMessageContactDiv" class="error-display-box"></div>
                         </div>
-                        <div>
-                            <label for="aadhar">Aadhar No:</label>
-                            <input type="numbers" name="aadhar" id="aadhar" placeholder="Please Enter 12 Digits"
-                                data-store="Aadhar">
-
+                        <div class="mandotory">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="aadhar">Aadhar No:</label>
+                                <input type="numbers" name="aadhar" id="aadhar" placeholder="Please Enter 12 Digits"
+                                    data-store="Aadhar">
+                            </div>
+                            <div id="errorMessageAadharDiv" class="error-display-box"></div>
                         </div>
                         <div>
                             <label for="pan">Pan No:</label>
@@ -136,7 +169,7 @@
                         <div>
 
                             <label for="country">Country:</label>
-                            <select id="cCountry" name="country" data-store="CurrentCountry">
+                            <select id="cCountry" name="country" data-store="CurrentCountry"  onchange="updateStates('cCountry', 'cState')">
                                 <option value="" disabled selected>Select Country</option>
                                 <option value="india">India</option>
                                 <option value="canada">Canada</option>
@@ -184,10 +217,19 @@
                                 placeholder="Address Line 2" data-store="CurrentAddressLine2">
                         </div>
                         <div>
-                            <label for="pinCode">Pincode:</label>
-                            <input type="numbers" id="cPinCode" name="pinCode" placeholder="Pincode"
-                                data-store="CurrentPinCode">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="pinCode">Pincode:</label>
+                                <input type="numbers" id="cPinCode" name="pinCode" placeholder="Pincode"
+                                    data-store="CurrentPinCode">
+                            </div>
+                            <div id="errorMessageCurrentPinCodeDiv" class="error-display-box"></div>
                         </div>
+                    </div>
+
+                    <div class="same-curr">
+                        <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent" onclick="copyCurrentToPermanent()">
+                        <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
                     </div>
 
                     <div class="container-Add">
@@ -195,11 +237,11 @@
                         <div class=" container-AG">
                             <div>
                                 <label for="country">Country:</label>
-                                <select id="pCountry" name="country" data-store="PermanentCountry">
+                                <select id="pCountry" name="country" data-store="PermanentCountry"  onchange="updateStates('pCountry', 'pState')">
                                     <option value="" disabled selected>Select Country</option>
-                                    <option value="ind">India</option>
+                                    <option value="india">India</option>
                                     <option value="canada">Canada</option>
-                                    <option value="uk">United Kingdom</option>
+                                    <option value="unitedKingdom">United Kingdom</option>
                                     <option value="australia">Australia</option>
                                 </select>
                             </div>
@@ -242,16 +284,17 @@
                                     placeholder="Address Line 2" data-store="PermanentAddressLine2">
                             </div>
                             <div>
-                                <label for="pinCode">Pincode:</label>
-                                <input type="numbers" id="pPinCode" name="pPinCode" placeholder="PinCode"
-                                    data-store="PercentagePinCode">
+                                <div>
+                                    <span id="starSign">*</span>
+                                    <label for="pinCode">Pincode:</label>
+                                    <input type="numbers" id="pPinCode" name="pPinCode" placeholder="PinCode"
+                                        data-store="PermanentPinCode">
+                                </div>
+                                <div id="errorMessagePermanentPinCodeDiv" class="error-display-box"></div>
                             </div>
 
                         </div>
-                        <div class="same-curr">
-                            <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent">
-                            <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
-                        </div>
+
                     </div>
 
                 </fieldset>
@@ -272,10 +315,13 @@
 
                     <div class=" container-AG">
                         <div>
-
+                            <div>
+                            <span id="starSign">*</span>
                             <label for="instname">Institute Name:</label>
                             <input type="text" id="instName10" name="instname" placeholder="Institute Name"
                                 data-store="InstituteName10">
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstitute10Div"></div>
                         </div>
                         <div>
                             <label for="board">Board:</label>
@@ -301,13 +347,21 @@
                             </div>
                         </div>
                         <div>
-                            <label> Enter Aggregate:</label>
-                            <input type="text" id="grade10Value" name="grade10Value" placeholder="Enter Aggregate"
-                                data-store="Aggregate10">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label> Enter Aggregate:</label>
+                                <input type="text" id="grade10Value" name="grade10Value" placeholder="Enter Aggregate"
+                                    data-store="Aggregate10">
+                            </div>
+                            <div id='errorMessageAggregate10Div' class="error-display-box"></div>
                         </div>
                         <div>
-                            <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yop10" name="yop10" placeholder="YOP" data-store="YOP10">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="yop">Year of Passing:</label>
+                                <input type="text" id="yop10" name="yop10" placeholder="YOP" data-store="YOP10">
+                            </div>
+                            <div id="errorMessageYOP10Div" class="error-display-box"></div>
                         </div>
                     </div>
 
@@ -315,9 +369,13 @@
 
                     <div class=" container-AG">
                         <div>
+                            <div>
+                            <span id="starSign">*</span>
                             <label for="instname">Institute Name:</label>
                             <input type="text" id="instName12" name="instname" placeholder="Institute Name"
                                 data-store="InstituteName12">
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstitute12Div"></div>
                         </div>
                         <div>
                             <label for="board">Board:</label>
@@ -336,30 +394,41 @@
                                     <label for="cgpa">CGPA</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" id="percentage12" name="marks12" value="percentage"
-                                        data-store="Marks12">
+                                        data-store="marks12">
                                     <label for="percentage">Percentage</label>
                                 </div>
 
                             </div>
                         </div>
                         <div>
-                            <label> Enter Aggregate:</label>
-                            <input type="text" id="grade12Value" name="grade12Value" placeholder="Enter Aggregate"
-                                data-store="Aggregate12">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label> Enter Aggregate:</label>
+                                <input type="text" id="grade12Value" name="grade12Value" placeholder="Enter Aggregate"
+                                    data-store="Aggregate12">
+                            </div>
+                            <div id='errorMessageAggregate12Div' class="error-display-box"></div>
                         </div>
                         <div>
-                            <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yop12" name="yop12" placeholder="YOP" data-store="YOP12">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="yop">Year of Passing:</label>
+                                <input type="text" id="yop12" name="yop12" placeholder="YOP" data-store="YOP12">
+                            </div>
+                            <div id="errorMessageYOP12Div" class="error-display-box"></div>
                         </div>
                     </div>
 
                     <h3>Graduate:</h3>
                     <div class=" container-AG">
                         <div>
+                            <div>
+                            <span id="starSign">*</span>
                             <label for="instname">Institute Name:</label>
-
                             <input type="text" id="instNameG" name="instname" placeholder="Institute Name"
                                 data-store="InstituteNameG">
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstituteDiv"></div>
                         </div>
                         <div>
                             <label for="board">Board:</label>
@@ -379,20 +448,28 @@
                                     <label for="cgpa">CGPA</label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" id="percentageG" name="marksg" value="percentage"
-                                        data-store="marksg">
+                                        data-store="marksG">
                                     <label for="percentage">Percentage</label>
                                 </div>
 
                             </div>
                         </div>
                         <div>
-                            <label> Enter Aggregate:</label>
-                            <input type="text" id="gradeGValue" name="gradegValue" placeholder="Enter Aggregate"
-                                data-store="AggregateG">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label> Enter Aggregate:</label>
+                                <input type="text" id="gradeGValue" name="gradegValue" placeholder="Enter Aggregate"
+                                    data-store="AggregateG">
+                            </div>
+                            <div id='errorMessageAggregateGDiv' class="error-display-box"></div>
                         </div>
                         <div>
-                            <label for="yop">Year of Passing:</label>
-                            <input type="text" id="yopG" name="yopg" placeholder="YOP" data-store="YOPG">
+                            <div>
+                                <span id="starSign">*</span>
+                                <label for="yop">Year of Passing:</label>
+                                <input type="text" id="yopG" name="yopg" placeholder="YOP" data-store="YOPG">
+                            </div>
+                            <div id="errorMessageYOPGDiv" class="error-display-box"></div>
                         </div>
                     </div>
                 </fieldset>
@@ -480,22 +557,14 @@
 
             <!-- BUTTONS -->
             <div class="footer-buttons">
-                 <input type="submit" value="Submit" onclick="validateAndStore()"> 
-                <input type="reset" value="Reset" onclick="resetForm()"> 
-
-                <!-- <button type="button" onclick="validateAndStore()">Submit</button>
-                <button type="button" onclick="resetForm()">Reset</button> -->
+                <input type="button" value="Submit" class="SubmitButton" onclick="validateAndStore()">
+                <input type="button" value="Reset" class="ResetButton" onclick="resetForm()">
             </div>
-            <!-- <button type="button" onclick="validateAndStore()">Submit</button> -->
-
 
         </form>
 
     </div>
 
     <script src="index.js"></script>
-
-
 </body>
-
 </html>
