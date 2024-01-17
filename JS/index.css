@@ -110,7 +110,7 @@ input[type="radio"] {
 .container-AG {
     display: flex;
     flex-wrap: wrap;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 .container-Add {
@@ -303,7 +303,10 @@ input[type="button"] {
   }
 
 .error-display-box{
-    /* border: 1px solid black; */
+    border: 1px solid  	#ff0000;
     position: absolute;
     display: none;
+    background-color: #ff5252;
+    padding: auto;
+    color: white;
 }
