@@ -40,23 +40,18 @@ $(document).ready(function () {
                 }
             });
         }
-    });
+    }); 
 
-    // $('#sameAsCurrent').on('change', function () {
-    //     if ($(this).prop('checked')) {
-    //         // Copy current address fields to permanent address fields
-    //         copyAddressFields('c', 'p');
-    //     } else {
-    //         // Clear permanent address fields
-    //         clearAddressFields('p');
-    //     }
-    // });
-    
-
-    // Attach event listener for country dropdown change
+   
     $('[name="country"]').on('change', function () {
         var countryDropdownId = $(this).attr('id');
-        var stateDropdownId = countryDropdownId.replace('c', 'p'); // Assuming IDs follow the same pattern
+       var stateDropdownId;
+        // if (countryDropdownId === '#cCountry') {
+        //     stateDropdownId = $('#cState');
+        // } else {
+        //     stateDropdownId = $('#pState');
+        // }
+        var stateDropdownId = $('#cState'); 
         updateStates(countryDropdownId, stateDropdownId);
     });
 
@@ -76,10 +71,10 @@ function displayUserData() {
         if (value) {
             tableHTML += `<td style="padding: 5px;">${element.data('store').charAt(0).toUpperCase() + element.data('store').slice(1)}: ${value}</td>`;
 
-            // Check if this is the last element or the third element in a row
+            
             if (index === formData.length - 1 || (index + 1) % 3 === 0) {
                 tableHTML += '</tr>';
-                // Start a new row if there are more elements
+              
                 if (index !== formData.length - 1) {
                     tableHTML += '<tr>';
                 }
@@ -90,7 +85,7 @@ function displayUserData() {
     tableHTML += '</tr></table>';
     displayDiv.html(tableHTML);
 
-    // Show the custom alert
+   
     $("#customAlert").css('display', 'block');
 }
 
@@ -385,7 +380,6 @@ function validateData() {
     //     alert("good data");
     //    return data;
     // } else {
-    //     // Handle the case when at least one flag is false (display error, etc.)
     //     console.log('Validation failed. Data not submitted.');
     //     alert("bad data");
     //     return null;
@@ -405,13 +399,13 @@ function removeErrorMessages() {
 }
 
 function updateStates(countryDropdownId, stateDropdownId) {
+
     var selectedCountry = $('#' + countryDropdownId).val();
     var stateDropdown = $('#' + stateDropdownId);
-
-    // Clear existing options in the state dropdown
+    
     stateDropdown.html('<option value="" disabled selected>Select State</option>');
 
-    // Define states based on the selected country
+  
     var states = {
         india: ['Delhi', 'Kolkata', 'Mumbai', 'Odisha'],
         canada: ['Ontario', 'British Columbia', 'Alberta', 'Quebec'],
@@ -419,7 +413,6 @@ function updateStates(countryDropdownId, stateDropdownId) {
         australia: ['New South Wales', 'Victoria', 'Queensland', 'Western Australia']
     };
 
-    // Populate the state dropdown with options based on the selected country
     if (selectedCountry in states) {
         $.each(states[selectedCountry], function (index, state) {
             var option = $('<option></option>').val(state.toLowerCase()).text(state);
@@ -427,6 +420,39 @@ function updateStates(countryDropdownId, stateDropdownId) {
         });
     }
 }
+
+function copyAddress() {
+
+    var sameAddressCheckbox = $('#sameAsCurrent');
+    var permanentAddress1 = $('#p1Address');
+    var permanentAddress2 = $('#p2Address');
+    var permanentPincode = $('#pPinCode');
+    var permanentCountry = $('#pCountry');
+    var permanentState = $('#pState');
+
+    if (sameAddressCheckbox.prop('checked')) {
+        var currentAddress1 = $('#c1address').val();
+        var currentAddress2 = $('#c2Address').val();
+        var currentPincode = $('#cPinCode').val();
+        var currentCountry = $('#cCountry').val();
+        var currentState = $('#cState').val();
+
+        permanentAddress1.val(currentAddress1).prop('readonly', true);
+        permanentAddress2.val(currentAddress2).prop('readonly', true);
+        permanentPincode.val(currentPincode).prop('readonly', true);
+        permanentCountry.val(currentCountry).prop('readonly', true);
+        updateStates(('cCountry'),('pState'));
+        permanentState.val(currentState).prop('readonly', true);
+    } else {
+        permanentAddress1.prop('readonly', false);
+        permanentAddress2.prop('readonly', false);
+        permanentPincode.prop('readonly', false);
+        permanentCountry.prop('readonly', false);
+        permanentState.prop('readonly', false);
+    }
+}
+
+
 
 function validateEmail(verifyEmail) {
     var mailPattern = /^[a-z]*[A-Z]*[@][a-z]*[.][a-x]{3}/;
@@ -457,20 +483,3 @@ function validateAggregate(parameter) {
     let verifyParameter = parameter;
     return compare.test(verifyParameter);
 }
-
-function copyAddressFields(sourcePrefix, destinationPrefix) {
-    $('.container-AG [data-store^="' + sourcePrefix + '"]').each(function () {
-        var currentField = $(this);
-        var permanentField = $('[data-store="' + destinationPrefix + currentField.data('store').substr(1) + '"]');
-
-        permanentField.val(currentField.val());
-    });
-}
-
-function clearAddressFields(prefix) {
-    $('.container-AG [data-store^="' + prefix + '"]').each(function () {
-        var permanentField = $('[data-store="' + this.dataset.store + '"]');
-        permanentField.val('');
-    });
-}
-
