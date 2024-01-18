@@ -20,9 +20,9 @@ function validateData() {
         var errorMessage = document.createElement('span');
         errorMessage.className = 'error-message';
         errorMessage.id = 'errorContainer';
-        
 
-       
+
+
         switch (element.getAttribute('data-store')) {
 
             case 'FirstName':
@@ -37,72 +37,72 @@ function validateData() {
                     document.getElementById('errorMessageFirstNameDiv').style.display = "";
                 }
                 break;
-            
-                case 'InstituteName10':
-                    if (element.value.length <= 0) {
-                        element.focus();
-                        const error = document.getElementById('errorMessageInstitute10Div');
-                        error.style.display = "block";
-                        error.innerText = "";
-                        errorMessage.innerText = "Please Enter Institute Name of Class 10";
-                        document.getElementById('errorMessageInstitute10Div').appendChild(errorMessage);
-                    } else {
-                        document.getElementById('errorMessageInstitute10Div').style.display = "";
-                    }
+
+            case 'InstituteName10':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstitute10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 10";
+                    document.getElementById('errorMessageInstitute10Div').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstitute10Div').style.display = "";
+                }
                 break;
 
-                case 'InstituteName12':
-                    if (element.value.length <= 0) {
-                        element.focus();
-                        const error = document.getElementById('errorMessageInstitute12Div');
-                        error.style.display = "block";
-                        error.innerText = "";
-                        errorMessage.innerText = "Please Enter Institute Name of Class 12";
-                        document.getElementById('errorMessageInstitute12Div').appendChild(errorMessage);
-                    } else {
-                        document.getElementById('errorMessageInstitute12Div').style.display = "";
-                    }
+            case 'InstituteName12':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstitute12Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 12";
+                    document.getElementById('errorMessageInstitute12Div').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstitute12Div').style.display = "";
+                }
                 break;
 
-                case 'InstituteNameG':
-                    if (element.value.length <= 0) {
-                        element.focus();
-                        const error = document.getElementById('errorMessageInstituteDiv');
-                        error.style.display = "block";
-                        error.innerText = "";
-                        errorMessage.innerText = "Please Enter Institute Name of Class 12";
-                        document.getElementById('errorMessageInstituteDiv').appendChild(errorMessage);
-                    } else {
-                        document.getElementById('errorMessageInstituteDiv').style.display = "";
-                    }
+            case 'InstituteNameG':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstituteDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 12";
+                    document.getElementById('errorMessageInstituteDiv').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstituteDiv').style.display = "";
+                }
                 break;
-            
-              case 'Email':
+
+            case 'Email':
                 if (!validateEmail(element)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageDisplayBox');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageDisplayBox');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Email Address.';
                     document.getElementById('errorMessageDisplayBox').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageDisplayBox').style.display="";
+                    document.getElementById('errorMessageDisplayBox').style.display = "";
                 }
                 break;
 
             case 'Password':
                 if (!validatePassword(element)) {
                     element.focus();
-                    const error=document.getElementById('errorMessagePasswordDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessagePasswordDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Password.';
                     document.getElementById('errorMessagePasswordDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessagePasswordDiv').style.display="";
+                    document.getElementById('errorMessagePasswordDiv').style.display = "";
 
                 }
                 break;
@@ -110,15 +110,15 @@ function validateData() {
             case 'ConfirmPassword':
                 if (!validatePassword(element)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageConfirmPasswordDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageConfirmPasswordDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid cPassword.';
                     document.getElementById('errorMessageConfirmPasswordDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessageConfirmPasswordDiv').style.display="";
+                    document.getElementById('errorMessageConfirmPasswordDiv').style.display = "";
                 }
                 break;
 
@@ -127,116 +127,116 @@ function validateData() {
                     console.log('Value:', value);
                     console.log('Length:', value.length);
                     element.focus();
-                    const error=document.getElementById('errorMessageAgeDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageAgeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Age of 2 digit';
                     document.getElementById('errorMessageAgeDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessageAgeDiv').style.display="";
+                    document.getElementById('errorMessageAgeDiv').style.display = "";
                 }
                 break;
 
             case 'Phone':
                 if (!validateNumbers(element) || (element.value.length !== 10)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageContactDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageContactDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Phone Number of 10 digits.';
                     document.getElementById('errorMessageContactDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessageContactDiv').style.display="";
+                    document.getElementById('errorMessageContactDiv').style.display = "";
                 }
                 break;
 
             case 'Aadhar':
                 if (!validateNumbers(element) || !(element.value.length == 12)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageAadharDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageAadharDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Aadhar Number of 12 digits.';
                     document.getElementById('errorMessageAadharDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessageAadharDiv').style.display="";
+                    document.getElementById('errorMessageAadharDiv').style.display = "";
                 }
                 break;
 
             case 'CurrentPinCode':
                 if (!validateNumbers(element) || !(element.value.length == 6)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageCurrentPinCodeDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageCurrentPinCodeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid PinCode of 6 digit';
                     document.getElementById('errorMessageCurrentPinCodeDiv').appendChild(errorMessage);
                 }
-                else{
+                else {
                     flag = true;
-                    document.getElementById('errorMessageCurrentPinCodeDiv').style.display="";
+                    document.getElementById('errorMessageCurrentPinCodeDiv').style.display = "";
                 }
                 break;
 
             case 'PermanentPinCode':
                 if (!validateNumbers(element) || !(element.value.length == 6)) {
                     element.focus();
-                    const error=document.getElementById('errorMessagePermanentPinCodeDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessagePermanentPinCodeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid PinCode of 6 digit';
-                    document.getElementById('errorMessagePermanentPinCodeDiv').appendChild(errorMessage);                 
-                }else{
+                    document.getElementById('errorMessagePermanentPinCodeDiv').appendChild(errorMessage);
+                } else {
                     flag = true;
-                    document.getElementById('errorMessagePermanentPinCodeDiv').style.display="";
+                    document.getElementById('errorMessagePermanentPinCodeDiv').style.display = "";
                 }
                 break;
 
             case 'YOP10':
                 if (!validateNumbers(element) && !(element.value.length == 4)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageYOP10Div');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageYOP10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
                     document.getElementById('errorMessageYOP10Div').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageYOP10Div').style.display="";
+                    document.getElementById('errorMessageYOP10Div').style.display = "";
                 }
                 break;
 
             case 'Aggregate10':
                 if (!validateAggregate(element)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageAggregate10Div');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageAggregate10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid Aggregrate';
                     document.getElementById('errorMessageAggregate10Div').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageAggregate10Div').style.display="";
+                    document.getElementById('errorMessageAggregate10Div').style.display = "";
                 }
                 break;
 
             case 'YOP12':
                 if (!validateNumbers(element) && !(element.value.length == 4)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageYOP12Div');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageYOP12Div');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
                     document.getElementById('errorMessageYOP12Div').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageYOP12Div').style.display="";
+                    document.getElementById('errorMessageYOP12Div').style.display = "";
                 }
                 break;
 
@@ -245,39 +245,39 @@ function validateData() {
                     element.focus();
                     errorMessage.innerText = 'Please enter a valid Aggregrate';
                     document.getElementById('errorMessageAggregate12Div').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageAggregate12Div').innerText="";
+                    document.getElementById('errorMessageAggregate12Div').innerText = "";
                 }
                 break;
 
             case 'AggregateG':
                 if (!validateAggregate(element)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageAggregateGDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageAggregateGDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a Aggregrate';
                     document.getElementById('errorMessageAggregateGDiv').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageAggregateGDiv').style.display="";
+                    document.getElementById('errorMessageAggregateGDiv').style.display = "";
                 }
-            break;
+                break;
 
             case 'YOPG':
                 if (!validateNumbers(element) && !(element.value.length == 4)) {
                     element.focus();
-                    const error=document.getElementById('errorMessageYOPGDiv');
-                    error.style.display="block";
-                    error.innerText="";
+                    const error = document.getElementById('errorMessageYOPGDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
                     errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
                     document.getElementById('errorMessageYOPGDiv').appendChild(errorMessage);
-                }else{
+                } else {
                     flag = true;
-                    document.getElementById('errorMessageYOPGDiv').style.display="";
+                    document.getElementById('errorMessageYOPGDiv').style.display = "";
                 }
-            break;
+                break;
 
             default:
                 break;
@@ -287,13 +287,13 @@ function validateData() {
     }
 
 
-  if(flag){
+    if (flag) {
         alert("Data is good");
         return data;
-  }else{
-    alert('data is bad');
-    return null;
-  }
+    } else {
+        alert('data is bad');
+        return null;
+    }
 
 }
 
@@ -338,7 +338,7 @@ function displayUserData() {
         var value = localStorage.getItem(element.getAttribute('data-store'));
         if (value) {
             tableHTML += `<td style="padding: 5px;">${element.getAttribute('data-store').charAt(0).toUpperCase() + element.getAttribute('data-store').slice(1)}: ${value}</td>`;
-    
+
             // Check if this is the last element or the third element in a row
             if (index === formData.length - 1 || (index + 1) % 3 === 0) {
                 tableHTML += '</tr>';
@@ -349,7 +349,7 @@ function displayUserData() {
             }
         }
     });
-    
+
 
     tableHTML += '</tr></table>';
     displayDiv.innerHTML = tableHTML;
@@ -455,33 +455,47 @@ function validateAggregate(parameter) {
     }
 }
 
-function copyCurrentToPermanent() {
-    var sameAsCurrentCheckbox = document.getElementById('sameAsCurrent');
-    var permanentAddressContainer = document.getElementById('permanentAddressContainer');
-    var currentAddressFields = document.querySelectorAll('.container-AG [data-store^="Current"]');
+function copyAddress() {
+    var sameAddressCheckbox = document.getElementById('sameAsCurrent');
+    var permanentAddress1 = document.getElementById('p1Address');
+    var permanentAddress2 = document.getElementById('p2Address');
+    var permanentPincode = document.getElementById('pPinCode');
+    var permanentCountry = document.getElementById('pCountry');
+    var permanentState = document.getElementById('pState');
 
-    sameAsCurrentCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-            // Copy current address fields to permanent address fields
-            currentAddressFields.forEach(function(currentField) {
-                var permanentField = document.querySelector('[data-store="Permanent' + currentField.dataset.store.substr(7) + '"]');
-                if (permanentField) {
-                    permanentField.value = currentField.value;
-                }
-            });
-        } else {
-            // Clear permanent address fields
-            currentAddressFields.forEach(function(currentField) {
-                var permanentField = document.querySelector('[data-store="Permanent' + currentField.dataset.store.substr(7) + '"]');
-                if (permanentField) {
-                    permanentField.value = '';
-                }
-            });
-        }
-    });
+    if (sameAddressCheckbox.checked) {
+        var currentAddress1 = document.getElementById('c1Address').value;
+        var currentAddress2 = document.getElementById('c2Address').value;
+        var currentPincode = document.getElementById('cPinCode').value;
+        var currentCountry = document.getElementById('cCountry').value;
+        var currentState = document.getElementById('cState').value;
+
+        permanentAddress1.value = currentAddress1;
+        permanentAddress2.value = currentAddress2;
+        permanentPincode.value = currentPincode;
+        permanentCountry.value = currentCountry;
+        updateStates('cCountry', 'pState');
+        permanentState.value = currentState;
+
+        // Set readonly attribute to true
+        permanentAddress1.readOnly = true;
+        permanentAddress2.readOnly = true;
+        permanentPincode.readOnly = true;
+        permanentCountry.readOnly = true;
+        permanentState.readOnly = true;
+    } else {
+        // Remove readonly attribute
+        permanentAddress1.readOnly = false;
+        permanentAddress2.readOnly = false;
+        permanentPincode.readOnly = false;
+        permanentCountry.readOnly = false;
+        permanentState.readOnly = false;
+    }
 }
 
+
 function updateStates(countryDropdownId, stateDropdownId) {
+
     var countryDropdown = document.getElementById(countryDropdownId);
     var stateDropdown = document.getElementById(stateDropdownId);
 
