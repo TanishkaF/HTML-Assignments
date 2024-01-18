@@ -19,6 +19,8 @@
         </div>
     </div>
 
+
+
     <div class="box-main-main">
 
         <h1><u>Admission Form</u></h1>
@@ -124,6 +126,20 @@
 
                             </div>
                         </div>
+                            <!-- <div class="extra-new-new">
+                                <label for="gender">Gender:</label>
+                                <div class="radio-button">
+                                    <div class="radio-container">
+                                        <input type="radio" id="male" name="gender" value="male" data-store="Gender">
+                                        <label for="male">Male</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" id="female" name="gender" value="female" data-store="Gender">
+                                        <label for="female">Female</label>
+                                    </div>
+                                </div>
+                            </div> -->
+                            
+                        
                     </div>
 
                     <!-- <h3>Verification:</h3> -->
@@ -172,7 +188,7 @@
                         <div class="extra-new-new">
                             <label for="country">Country:</label>
                             <select id="cCountry" name="country" data-store="CurrentCountry"
-                                onchange="updateStates('cCountry', 'cState')">
+                                onchange="updateStates('cCountry', 'cState')" >
                                 <option value="" disabled selected>Select Country</option>
                                 <option value="india">India</option>
                                 <option value="canada">Canada</option>
@@ -182,32 +198,8 @@
                         </div>
                         <div class="extra-new-new">
                             <label for="state">State:</label>
-                            <select id="cState" name="state" data-store="CurrentState">
+                            <select id="cState" name="state" data-store="CurrentState" >
                                 <option value="" disabled selected>Select State</option>
-                                <optgroup label="India">
-                                    <option value="dl">Delhi</option>
-                                    <option value="kl">Kolkata</option>
-                                    <option value="mb">Mumbai</option>
-                                    <option value="od">Odisha</option>
-                                </optgroup>
-                                <optgroup label="Canada">
-                                    <option value="on">Ontario</option>
-                                    <option value="bc">British Columbia</option>
-                                    <option value="ab">Alberta</option>
-                                    <option value="qc">Quebec</option>
-                                </optgroup>
-                                <optgroup label="United Kingdom">
-                                    <option value="eng">England</option>
-                                    <option value="sco">Scotland</option>
-                                    <option value="wal">Wales</option>
-                                    <option value="ni">Northern Ireland</option>
-                                </optgroup>
-                                <optgroup label="Australia">
-                                    <option value="nsw">New South Wales</option>
-                                    <option value="vic">Victoria</option>
-                                    <option value="qld">Queensland</option>
-                                    <option value="wa">Western Australia</option>
-                                </optgroup>
                             </select>
                         </div>
                         <div class="extra-new-new">
@@ -232,7 +224,7 @@
 
                     <div class="same-curr">
                         <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent"
-                            onclick="copyCurrentToPermanent()">
+                            onclick="copyAddress()">
                         <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
                     </div>
 
@@ -241,7 +233,8 @@
                         <div class=" container-AG">
                             <div class="extra-new-new">
                                 <label for="country">Country:</label>
-                                <select id="pCountry" name="country" data-store="PermanentCountry"  onchange="updateStates('pCountry', 'pState')">
+                                <select id="pCountry" name="country" data-store="PermanentCountry"  
+                                onchange="updateStates('pCountry', 'pState')" >
                                     <option value="" disabled selected>Select Country</option>
                                     <option value="india">India</option>
                                     <option value="canada">Canada</option>
@@ -251,32 +244,8 @@
                             </div>
                             <div class="extra-new-new">
                                 <label for="state">State:</label>
-                                <select id="pState" name="state" data-store="PermanentState"  onchange="updateStates('pCountry', 'pState')">
+                                <select id="pState" name="state" data-store="PermanentState" >
                                     <option value="" disabled selected>Select State</option>
-                                    <optgroup label="India">
-                                        <option value="dl">Delhi</option>
-                                        <option value="kl">Kolkata</option>
-                                        <option value="mb">Mumbai</option>
-                                        <option value="od">Odisha</option>
-                                    </optgroup>
-                                    <optgroup label="Canada">
-                                        <option value="on">Ontario</option>
-                                        <option value="bc">British Columbia</option>
-                                        <option value="ab">Alberta</option>
-                                        <option value="qc">Quebec</option>
-                                    </optgroup>
-                                    <optgroup label="United Kingdom">
-                                        <option value="eng">England</option>
-                                        <option value="sco">Scotland</option>
-                                        <option value="wal">Wales</option>
-                                        <option value="ni">Northern Ireland</option>
-                                    </optgroup>
-                                    <optgroup label="Australia">
-                                        <option value="nsw">New South Wales</option>
-                                        <option value="vic">Victoria</option>
-                                        <option value="qld">Queensland</option>
-                                        <option value="wa">Western Australia</option>
-                                    </optgroup>
                                 </select>
                             </div>
                             <div class="extra-new-new">
