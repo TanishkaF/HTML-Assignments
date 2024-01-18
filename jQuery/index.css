@@ -222,6 +222,10 @@ input[type="button"] {
     color: red;
 }
 
+input[type="button"]:hover{
+    cursor: pointer;
+}
+
 @media screen and (max-width: 600px) {
     .container-AG {
         grid-template-columns: repeat(1, 1fr);
@@ -241,7 +245,6 @@ input[type="button"] {
     }
 }
 
-
 #customAlert {
     display: none;
     position: fixed;
@@ -260,6 +263,7 @@ input[type="button"] {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+    background-color: #967259
 }
 
 .close {
@@ -321,3 +325,5 @@ input[type="button"] {
 .new-space{
     padding-top: 15px;
 }
+
+
