@@ -12,10 +12,7 @@ input {
     display: table;
 }
 
-.extra-space {
-    padding-top: 5px;
-    padding-bottom: 25px;
-}
+
 
 .legendClass{
     padding-bottom: 10px;
@@ -39,11 +36,6 @@ h3 {
 
 #starSign{
     color:red;
-    text-decoration-thickness: bold;
-}
-
-.error-message{
-    color: red;
     text-decoration-thickness: bold;
 }
 
@@ -80,11 +72,6 @@ h3 {
     border-radius: 4px;
 
 } */
-
-.extra-new{
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
 
 .radio-button
  {
@@ -126,7 +113,7 @@ input[type="radio"] {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     padding-left: 5px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .container-permanent-address{
@@ -134,7 +121,7 @@ input[type="radio"] {
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
     padding-left: 5px;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .container-AG select,
@@ -148,7 +135,7 @@ input[type="radio"] {
 }
 
 .same-curr {
-    padding-top: 10px;
+    padding-top: 13px;
     grid-column: span 2;
 }
 
@@ -302,11 +289,35 @@ input[type="button"] {
     margin-bottom: 10px;
   }
 
-.error-display-box{
-    border: 1px solid  	#ff0000;
+  .error-display-box{
+    /* border: 1px solid  	#ff0000; */
     position: absolute;
     display: none;
     background-color: #ff5252;
-    padding: auto;
+    /* padding: auto; */
     color: white;
+    /* margin-bottom: 10px; */
+}
+
+.error-message{
+    /* color: red; */
+    text-decoration-thickness: bold;
+}
+
+.extra-new-new{
+    padding-bottom: 10px;
+}
+
+.extra-space {
+    padding-top: 5px;
+    padding-bottom: 25px;
+}
+
+.extra-new{
+    padding-top: 10px;
+    /* padding-bottom: 10px; */
+}
+
+.new-space{
+    padding-top: 15px;
 }

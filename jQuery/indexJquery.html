@@ -40,8 +40,8 @@
                         <img src="path/to/your/prifile.jpg" alt="" id="previewImage">
                     </div>
 
-                    <div class=" container-AG container-permanent-address extra-new">
-                        <div >
+                    <div class=" container-AG container-permanent-address new-space">
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="fname">First Name:</label>
@@ -50,19 +50,19 @@
                             </div>
                             <div class="error-display-box" id="errorMessageFirstNameDiv"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="mname">Middle Name:</label>
                             <input type="text" id="middleName" name="name" placeholder="Middle Name"
                                 data-store="SecondName">
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="lname">Last Name:</label>
                             <input type="text" id="lastName" name="name" placeholder="Last Name" data-store="LastName">
                         </div>
                     </div>
 
                     <div class=" container-AG container-permanent-address extra-new">
-                        <div class="mandotory">
+                        <div class="extra-new-new">
                             <div>
                                 <!-- <span id="errorMessageDisplayBox"> -->
                                 <span id="starSign">*</span>
@@ -72,7 +72,7 @@
                             </div>
                             <div id="errorMessageDisplayBox" class="error-display-box"></div>
                         </div>
-                        <div class="mandotory">
+                        <div class="extra-new-new">
                             <div>
                                 <!-- <span id="errorMessagePasswordDiv"> -->
                                 <span id="starSign">*</span>
@@ -83,7 +83,7 @@
                             </div>
                             <div id="errorMessagePasswordDiv" class="error-display-box"></div>
                         </div>
-                        <div class="mandotory">
+                        <div class="extra-new-new">
                             <div>
                                 <!-- <span id="errorMessageConfirmPasswordDiv"> -->
                                 <span id="starSign">*</span>
@@ -99,18 +99,18 @@
 
                     <!-- <h3>Age:</h3> -->
                     <div class=" container-AG container-permanent-address extra-new">
-                        <div>
+                        <div class="extra-new-new">
                             <label for="birthday">Birthday:</label>
                             <input type="date" id="birthday" name="birthday" data-store="Birthday">
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <label for="age">Age:</label>
                                 <input type="numbers" id="age" name="age" data-store="Age">
                             </div>
                             <div id="errorMessageAgeDiv" class="error-display-box"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="gender">Gender:</label>
                             <div class="radio-button">
                                 <div class="radio-container">
@@ -128,7 +128,7 @@
 
                     <!-- <h3>Verification:</h3> -->
                     <div class=" container-AG container-permanent-address extra-new">
-                        <div class="mandotory">
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="phone">Contact No:</label>
@@ -137,7 +137,7 @@
                             </div>
                             <div id="errorMessageContactDiv" class="error-display-box"></div>
                         </div>
-                        <div class="mandotory">
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="aadhar">Aadhar No:</label>
@@ -146,7 +146,7 @@
                             </div>
                             <div id="errorMessageAadharDiv" class="error-display-box"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="pan">Pan No:</label>
                             <input type="numbers" name="pan" id="pan" placeholder="Pan Card" data-store="Pan">
 
@@ -158,8 +158,8 @@
 
             <div class="extra-space"></div>
 
-             <!-- ADDRESS -->
-             <div>
+            <!-- ADDRESS -->
+            <div>
                 <fieldset>
 
                     <legend>
@@ -169,11 +169,10 @@
 
                     <h3>Current Address:</h3>
                     <div class=" container-AG">
-                    
-                        <div>
-
+                        <div class="extra-new-new">
                             <label for="country">Country:</label>
-                            <select id="cCountry" name="country" data-store="CurrentCountry" onchange="updateStates('cCountry', 'cState')">
+                            <select id="cCountry" name="country" data-store="CurrentCountry"
+                                onchange="updateStates('cCountry', 'cState')">
                                 <option value="" disabled selected>Select Country</option>
                                 <option value="india">India</option>
                                 <option value="canada">Canada</option>
@@ -181,7 +180,7 @@
                                 <option value="australia">Australia</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="state">State:</label>
                             <select id="cState" name="state" data-store="CurrentState">
                                 <option value="" disabled selected>Select State</option>
@@ -211,17 +210,16 @@
                                 </optgroup>
                             </select>
                         </div>
-
-                        <div>
+                        <div class="extra-new-new">
                             <label for="c1address"> Address Line 1:</label>
                             <input type="text" id="c1Address" name="address" placeholder="Address Line 1"
                                 data-store="CurrentAddressLine1">
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             Address Line 2: <input type="text" id="c2Address" name="address"
                                 placeholder="Address Line 2" data-store="CurrentAddressLine2">
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="pinCode">Pincode:</label>
@@ -241,10 +239,9 @@
                     <div class="container-Add">
                         <h3>Permanent Address:</h3>
                         <div class=" container-AG">
-                            <div>
+                            <div class="extra-new-new">
                                 <label for="country">Country:</label>
-                                <select id="pCountry" name="country" data-store="PermanentCountry"
-                                    onchange="updateStates('pCountry', 'pState')">
+                                <select id="pCountry" name="country" data-store="PermanentCountry"  onchange="updateStates('pCountry', 'pState')">
                                     <option value="" disabled selected>Select Country</option>
                                     <option value="india">India</option>
                                     <option value="canada">Canada</option>
@@ -252,9 +249,9 @@
                                     <option value="australia">Australia</option>
                                 </select>
                             </div>
-                            <div>
+                            <div class="extra-new-new">
                                 <label for="state">State:</label>
-                                <select id="pState" name="state" data-store="PermanentState">
+                                <select id="pState" name="state" data-store="PermanentState"  onchange="updateStates('pCountry', 'pState')">
                                     <option value="" disabled selected>Select State</option>
                                     <optgroup label="India">
                                         <option value="dl">Delhi</option>
@@ -282,15 +279,15 @@
                                     </optgroup>
                                 </select>
                             </div>
-                            <div>
+                            <div class="extra-new-new">
                                 Address Line 1: <input type="text" id="p1Address" name="p1address"
                                     placeholder="Address Line 1" data-store="PermanentAddressLine1">
                             </div>
-                            <div>
+                            <div class="extra-new-new">
                                 Address Line 2: <input type="text" id="p2Address" name="p2address"
                                     placeholder="Address Line 2" data-store="PermanentAddressLine2">
                             </div>
-                            <div>
+                            <div class="extra-new-new">
                                 <div>
                                     <span id="starSign">*</span>
                                     <label for="pinCode">Pincode:</label>
@@ -321,7 +318,8 @@
                     <h3>MATRICULATION(10)</h3>
 
                     <div class=" container-AG">
-                        <div>
+
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="instname">Institute Name:</label>
@@ -330,7 +328,7 @@
                             </div>
                             <div class="mandotory error-display-box" id="errorMessageInstitute10Div"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="board">Board:</label>
                             <select id="board10" name="board" data-store="Board10">
                                 <option value="" disabled selected>Select Board</option>
@@ -339,7 +337,8 @@
                                 <option value="satetBoard">State Board</option>
                             </select>
                         </div>
-                        <div>
+
+                        <div class="extra-new-new">
                             <label>Marks:</label>
                             <div class="radio-button">
                                 <div class="radio-container">
@@ -350,10 +349,9 @@
                                         data-store="Marks10">
                                     <label for="percentage">Percentage</label>
                                 </div>
-
                             </div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label> Enter Aggregate:</label>
@@ -362,7 +360,8 @@
                             </div>
                             <div id='errorMessageAggregate10Div' class="error-display-box"></div>
                         </div>
-                        <div>
+
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="yop">Year of Passing:</label>
@@ -375,7 +374,7 @@
                     <h3>Intermediate(12)</h3>
 
                     <div class=" container-AG">
-                        <div>
+                        <div class="extra-new-new" >
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="instname">Institute Name:</label>
@@ -384,7 +383,7 @@
                             </div>
                             <div class="mandotory error-display-box" id="errorMessageInstitute12Div"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="board">Board:</label>
                             <select id="board12" name="board" data-store="Board12">
                                 <option value="" disabled selected>Select Board</option>
@@ -393,7 +392,7 @@
                                 <option value="satetBoard">State Board</option>
                             </select>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label>Marks:</label>
                             <div class="radio-button">
                                 <div class="radio-container">
@@ -407,7 +406,7 @@
 
                             </div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label> Enter Aggregate:</label>
@@ -416,7 +415,7 @@
                             </div>
                             <div id='errorMessageAggregate12Div' class="error-display-box"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="yop">Year of Passing:</label>
@@ -428,7 +427,7 @@
 
                     <h3>Graduate:</h3>
                     <div class=" container-AG">
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="instname">Institute Name:</label>
@@ -437,7 +436,7 @@
                             </div>
                             <div class="mandotory error-display-box" id="errorMessageInstituteDiv"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label for="board">Board:</label>
                             <select id="boardG" name="board" data-store="BoardG">
                                 <option value="" disabled selected>Select Board</option>
@@ -447,7 +446,7 @@
                             </select>
 
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <label>Marks:</label>
                             <div class="radio-button">
                                 <div class="radio-container">
@@ -461,7 +460,7 @@
 
                             </div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label> Enter Aggregate:</label>
@@ -470,7 +469,7 @@
                             </div>
                             <div id='errorMessageAggregateGDiv' class="error-display-box"></div>
                         </div>
-                        <div>
+                        <div class="extra-new-new">
                             <div>
                                 <span id="starSign">*</span>
                                 <label for="yop">Year of Passing:</label>

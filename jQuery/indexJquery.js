@@ -22,7 +22,6 @@ $(document).ready(function () {
         $("#displayData").html("");
     });
 
-    // Attach event listener for the checkbox
     $('#sameAsCurrent').on('change', function () {
         if ($(this).prop('checked')) {
             // Copy current address fields to permanent address fields
@@ -42,6 +41,17 @@ $(document).ready(function () {
             });
         }
     });
+
+    // $('#sameAsCurrent').on('change', function () {
+    //     if ($(this).prop('checked')) {
+    //         // Copy current address fields to permanent address fields
+    //         copyAddressFields('c', 'p');
+    //     } else {
+    //         // Clear permanent address fields
+    //         clearAddressFields('p');
+    //     }
+    // });
+    
 
     // Attach event listener for country dropdown change
     $('[name="country"]').on('change', function () {
@@ -89,6 +99,7 @@ function validateData() {
     var formData = $('#dataForm [data-store]');
     var data = {};
     let flag = false;
+    let allFlagsTrue = true;
 
     formData.each(function () {
         var element = $(this);
@@ -362,13 +373,21 @@ function validateData() {
                 break;
         }
         data[element.data('store')] = value;
+
+        if (!flag) {
+            allFlagsTrue = false;
+        }
+
+
     });
 
-    // if (flag) {
-    //     alert("Data is good");
-    //     return data;
+    // if (allFlagsTrue) {
+    //     alert("good data");
+    //    return data;
     // } else {
-    //     alert('data is bad');
+    //     // Handle the case when at least one flag is false (display error, etc.)
+    //     console.log('Validation failed. Data not submitted.');
+    //     alert("bad data");
     //     return null;
     // }
     return data;
@@ -438,3 +457,20 @@ function validateAggregate(parameter) {
     let verifyParameter = parameter;
     return compare.test(verifyParameter);
 }
+
+function copyAddressFields(sourcePrefix, destinationPrefix) {
+    $('.container-AG [data-store^="' + sourcePrefix + '"]').each(function () {
+        var currentField = $(this);
+        var permanentField = $('[data-store="' + destinationPrefix + currentField.data('store').substr(1) + '"]');
+
+        permanentField.val(currentField.val());
+    });
+}
+
+function clearAddressFields(prefix) {
+    $('.container-AG [data-store^="' + prefix + '"]').each(function () {
+        var permanentField = $('[data-store="' + this.dataset.store + '"]');
+        permanentField.val('');
+    });
+}
+
