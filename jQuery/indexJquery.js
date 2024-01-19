@@ -65,14 +65,22 @@ function displayUserData() {
     var formData = $('#dataForm [data-store]');
     var tableHTML = '<div style="overflow-y: auto; max-height: 400px; margin-bottom: 10px; white-space: nowrap;">'; // Container for responsiveness with vertical scrollbar
     tableHTML += '<table border="1" style="border-collapse: collapse; width: 100%;">';
+    tableHTML += '<tr>';
 
     formData.each(function (index) {
         var element = $(this);
         var value = localStorage.getItem(element.data('store'));
         if (value) {
-            tableHTML += '<tr>';
-            tableHTML += `<td style="padding: 5px; white-space: normal; word-wrap: break-word;">${element.data('store').charAt(0).toUpperCase() + element.data('store').slice(1)}: ${value}</td>`;
-            tableHTML += '</tr>';
+            tableHTML += `<td style="padding: 5px; white-space: normal;">${element.data('store').charAt(0).toUpperCase() + element.data('store').slice(1)}: ${value}</td>`;
+
+            // Check if this is the last element or the third element in a row
+            if (index === formData.length - 1 || (index + 1) % 3 === 0) {
+                tableHTML += '</tr>';
+                // Start a new row if there are more elements
+                if (index !== formData.length - 1) {
+                    tableHTML += '<tr>';
+                }
+            }
         }
     });
 
@@ -80,6 +88,7 @@ function displayUserData() {
     tableHTML += '</div>'; // Close the container
     displayDiv.html(tableHTML);
 
+    // Show the custom alert
     $("#customAlert").css('display', 'block');
 }
 
