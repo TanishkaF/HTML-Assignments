@@ -336,12 +336,14 @@ function displayUserData() {
     displayDiv.innerHTML = "";
 
     var formData = document.querySelectorAll('#dataForm [data-store]');
-    var tableHTML = '<table border="1" style="border-collapse: collapse; margin-bottom: 10px;"><tr>';
+    var tableHTML = '<div style="overflow-y: auto; max-height: 400px; margin-bottom: 10px; white-space: nowrap;">'; // Container for responsiveness with vertical scrollbar
+    tableHTML += '<table border="1" style="border-collapse: collapse; width: 100%;">';
+    tableHTML += '<tr>';
 
     formData.forEach(function (element, index) {
         var value = localStorage.getItem(element.getAttribute('data-store'));
         if (value) {
-            tableHTML += `<td style="padding: 5px;">${element.getAttribute('data-store').charAt(0).toUpperCase() + element.getAttribute('data-store').slice(1)}: ${value}</td>`;
+            tableHTML += `<td style="padding: 5px; white-space: normal;">${element.getAttribute('data-store').charAt(0).toUpperCase() + element.getAttribute('data-store').slice(1)}: ${value}</td>`;
 
             // Check if this is the last element or the third element in a row
             if (index === formData.length - 1 || (index + 1) % 3 === 0) {
@@ -354,13 +356,14 @@ function displayUserData() {
         }
     });
 
-
-    tableHTML += '</tr></table>';
+    tableHTML += '</table>';
+    tableHTML += '</div>'; // Close the container
     displayDiv.innerHTML = tableHTML;
 
     // Show the custom alert
     document.getElementById("customAlert").style.display = "block";
 }
+
 
 function closeAlert() {
     document.getElementById("customAlert").style.display = "none";
