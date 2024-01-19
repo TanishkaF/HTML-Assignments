@@ -323,6 +323,10 @@ function getErrorMessageContainerId(element) {
 
 function storeData(data) {
     Object.keys(data).forEach(function (key) {
+        if(data[key] === ""){
+            localStorage.setItem(key, "NA");
+        }
+        else
         localStorage.setItem(key, data[key]);
     });
 }
@@ -484,7 +488,13 @@ function copyAddress() {
         permanentCountry.readOnly = true;
         permanentState.readOnly = true;
     } else {
-        // Remove readonly attribute
+        // Reset the values and remove readonly attribute
+        permanentAddress1.value = '';
+        permanentAddress2.value = '';
+        permanentPincode.value = '';
+        permanentCountry.value = '';
+        permanentState.value = '';
+
         permanentAddress1.readOnly = false;
         permanentAddress2.readOnly = false;
         permanentPincode.readOnly = false;
@@ -492,6 +502,7 @@ function copyAddress() {
         permanentState.readOnly = false;
     }
 }
+
 
 
 function updateStates(countryDropdownId, stateDropdownId) {
