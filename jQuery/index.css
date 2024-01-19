@@ -259,12 +259,25 @@ input[type="button"]:hover{
 
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
+    margin: 1% auto;
+    padding: 10px;
     border: 1px solid #888;
-    width: 80%;
-    background-color: #967259
+    width: 60%;
+    max-height: 620px;
+    background-color: #967259;
 }
+
+#displayData {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    /* border: 1px solid #ccc; */
+    padding: 10px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
 
 .close {
     color: #aaa;
@@ -279,14 +292,7 @@ input[type="button"]:hover{
     text-decoration: none;
     cursor: pointer;
 }
-#displayData {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px;
-  }
+
 
   .column {
     width: calc(25% - 10px);

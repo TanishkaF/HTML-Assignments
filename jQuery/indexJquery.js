@@ -390,7 +390,11 @@ function validateData() {
 
 function storeData(data) {
     $.each(data, function (key, value) {
-        localStorage.setItem(key, value);
+        if(data[key] === ""){
+            localStorage.setItem(key, "NA");
+        }
+        else
+        localStorage.setItem(key, data[key]);
     });
 }
 
