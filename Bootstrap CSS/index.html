@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+2<!DOCTYPE html>
 <html>
 
 <head>
@@ -6,6 +6,7 @@
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="indexBootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body onload="displayUserData()">
@@ -13,9 +14,9 @@
     <div id="customAlert" class="modal">
 
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close"  onclick="closeAlert()">&times;</span>
             <!-- Add this button inside your popup div -->
-            <button id="clearButton">Clear Form</button>
+            <button id="clearButton"  onclick="clearForm()">Clear Form</button>
             <div id="displayData"></div>
         </div>
     </div>
@@ -389,6 +390,7 @@
                         </div>
                     </div>
 
+                   
                     <div class="same-curr">
                         <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="sameAsCurrent"
                             onclick="copyAddress()">
@@ -989,8 +991,8 @@
 
             <!-- BUTTONS -->
             <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
-                <button type="button" class="btn btn-success SubmitButton" >Submit</button>
-                <button type="button" class="btn btn-danger ResetButton ml-2" >Reset</button>
+                <button type="button" class="btn btn-success SubmitButton" onclick="validateAndStore()" >Submit</button>
+                <button type="button" class="btn btn-danger ResetButton ml-2" onclick="resetForm()">Reset</button>
             </div>
 
         </form>

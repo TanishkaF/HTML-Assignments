@@ -1,77 +1,349 @@
-$(document).ready(function () {
+function validateAndStore() {
+    var data = validateData();
+    if (data) {
+        storeData(data);
+        displayUserData();
+    }
+}
 
-    $(".SubmitButton").on("click", function () {
-        console.log("submit button was clicked");
-        var data = validateData();
-        if (data) {
-            storeData(data);
-            displayUserData();
-        }
-    });
+function validateData() {
 
-    $(".ResetButton").on("click", function () {
-        $("#dataForm")[0].reset();
-        removeErrorMessages();
-    });
+    var formData = document.querySelectorAll('#dataForm [data-store]');
+    var data = {};
+    let flag = false;
 
-    $(".close").on("click", function () {
-        $("#customAlert").hide();
-    });
+    for (var i = 0; i < formData.length; i++) {
 
-    $("#clearButton").on("click", function () {
-        $("#displayData").html("");
-    });
+        var element = formData[i];
+        var value = element.value.trim();
 
-    $('#sameAsCurrent').on('change', function () {
-        if ($(this).prop('checked')) {
-            // Copy current address fields to permanent address fields
-            $('.container-AG [data-store^="Current"]').each(function () {
-                var permanentField = $('[data-store="Permanent' + this.dataset.store.substr(7) + '"]');
-                if (permanentField.length) {
-                    permanentField.val($(this).val());
+        var errorMessage = document.createElement('span');
+        errorMessage.className = 'error-message';
+        errorMessage.id = 'errorContainer';
+
+
+
+        switch (element.getAttribute('data-store')) {
+
+            case 'FirstName':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageFirstNameDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter First Name";
+                    document.getElementById('errorMessageFirstNameDiv').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageFirstNameDiv').style.display = "";
                 }
-            });
-        } else {
-            // Clear permanent address fields
-            $('.container-AG [data-store^="Current"]').each(function () {
-                var permanentField = $('[data-store="Permanent' + this.dataset.store.substr(7) + '"]');
-                if (permanentField.length) {
-                    permanentField.val('');
+                break;
+
+            case 'InstituteName10':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstitute10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 10";
+                    document.getElementById('errorMessageInstitute10Div').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstitute10Div').style.display = "";
                 }
-            });
+                break;
+
+            case 'InstituteName12':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstitute12Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 12";
+                    document.getElementById('errorMessageInstitute12Div').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstitute12Div').style.display = "";
+                }
+                break;
+
+            case 'InstituteNameG':
+                if (element.value.length <= 0) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageInstituteDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = "Please Enter Institute Name of Class 12";
+                    document.getElementById('errorMessageInstituteDiv').appendChild(errorMessage);
+                } else {
+                    document.getElementById('errorMessageInstituteDiv').style.display = "";
+                }
+                break;
+
+            case 'Email':
+                if (!validateEmail(element)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageDisplayBox');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Email Address.';
+                    document.getElementById('errorMessageDisplayBox').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageDisplayBox').style.display = "";
+                }
+                break;
+
+            case 'Password':
+                if (!validatePassword(element)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessagePasswordDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Password.';
+                    document.getElementById('errorMessagePasswordDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessagePasswordDiv').style.display = "";
+
+                }
+                break;
+
+            case 'ConfirmPassword':
+                if (!validatePassword(element)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageConfirmPasswordDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid cPassword.';
+                    document.getElementById('errorMessageConfirmPasswordDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessageConfirmPasswordDiv').style.display = "";
+                }
+                break;
+
+            case 'Age':
+                if (!validateNumbers(element) || (element.value.length !== 2)) {
+                    console.log('Value:', value);
+                    console.log('Length:', value.length);
+                    element.focus();
+                    const error = document.getElementById('errorMessageAgeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Age of 2 digit';
+                    document.getElementById('errorMessageAgeDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessageAgeDiv').style.display = "";
+                }
+                break;
+
+            case 'Phone':
+                if (!validateNumbers(element) || (element.value.length !== 10)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageContactDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Phone Number of 10 digits.';
+                    document.getElementById('errorMessageContactDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessageContactDiv').style.display = "";
+                }
+                break;
+
+            case 'Aadhar':
+                if (!validateNumbers(element) || !(element.value.length == 12)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageAadharDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Aadhar Number of 12 digits.';
+                    document.getElementById('errorMessageAadharDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessageAadharDiv').style.display = "";
+                }
+                break;
+
+            case 'CurrentPinCode':
+                if (!validateNumbers(element) || !(element.value.length == 6)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageCurrentPinCodeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid PinCode of 6 digit';
+                    document.getElementById('errorMessageCurrentPinCodeDiv').appendChild(errorMessage);
+                }
+                else {
+                    flag = true;
+                    document.getElementById('errorMessageCurrentPinCodeDiv').style.display = "";
+                }
+                break;
+
+            case 'PermanentPinCode':
+                if (!validateNumbers(element) || !(element.value.length == 6)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessagePermanentPinCodeDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid PinCode of 6 digit';
+                    document.getElementById('errorMessagePermanentPinCodeDiv').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessagePermanentPinCodeDiv').style.display = "";
+                }
+                break;
+
+            case 'YOP10':
+                if (!validateNumbers(element) && !(element.value.length == 4)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageYOP10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
+                    document.getElementById('errorMessageYOP10Div').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageYOP10Div').style.display = "";
+                }
+                break;
+
+            case 'Aggregate10':
+                if (!validateAggregate(element)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageAggregate10Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid Aggregrate';
+                    document.getElementById('errorMessageAggregate10Div').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageAggregate10Div').style.display = "";
+                }
+                break;
+
+            case 'YOP12':
+                if (!validateNumbers(element) && !(element.value.length == 4)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageYOP12Div');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
+                    document.getElementById('errorMessageYOP12Div').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageYOP12Div').style.display = "";
+                }
+                break;
+
+            case 'Aggregate12':
+                if (!validateAggregate(element)) {
+                    element.focus();
+                    errorMessage.innerText = 'Please enter a valid Aggregrate';
+                    document.getElementById('errorMessageAggregate12Div').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageAggregate12Div').innerText = "";
+                }
+                break;
+
+            case 'AggregateG':
+                if (!validateAggregate(element)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageAggregateGDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a Aggregrate';
+                    document.getElementById('errorMessageAggregateGDiv').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageAggregateGDiv').style.display = "";
+                }
+                break;
+
+            case 'YOPG':
+                if (!validateNumbers(element) && !(element.value.length == 4)) {
+                    element.focus();
+                    const error = document.getElementById('errorMessageYOPGDiv');
+                    error.style.display = "block";
+                    error.innerText = "";
+                    errorMessage.innerText = 'Please enter a valid YOP of 4 digit';
+                    document.getElementById('errorMessageYOPGDiv').appendChild(errorMessage);
+                } else {
+                    flag = true;
+                    document.getElementById('errorMessageYOPGDiv').style.display = "";
+                }
+                break;
+
+            default:
+                break;
         }
-    }); 
 
-   
-    $('[name="country"]').on('change', function () {
-        var countryDropdownId = $(this).attr('id');
-       var stateDropdownId;
-        // if (countryDropdownId === '#cCountry') {
-        //     stateDropdownId = $('#cState');
-        // } else {
-        //     stateDropdownId = $('#pState');
-        // }
-        var stateDropdownId = $('#cState'); 
-        updateStates(countryDropdownId, stateDropdownId);
+        data[element.getAttribute('data-store')] = value;
+    }
+
+
+    if (flag) {
+        alert("Data is good");
+        return data;
+    } else {
+        alert('data is bad');
+        return null;
+    }
+
+}
+
+
+function clearErrorMessage(containerId) {
+    // Clear error message by removing elements with class 'error-message'
+    var errorContainer = document.getElementById(containerId);
+    var errorMessages = errorContainer.getElementsByClassName('error-message');
+    while (errorMessages.length > 0) {
+        errorMessages[0].parentNode.removeChild(errorMessages[0]);
+    }
+}
+
+function getErrorMessageContainerId(element) {
+    // Provide the appropriate error message container id based on the data-store attribute
+    switch (element.getAttribute('data-store')) {
+        case 'Email':
+            return 'errorMessageDisplayBox';
+        case 'Password':
+            return 'errorMessagePasswordDiv';
+        // Add cases for other fields...
+        default:
+            return 'errorMessageDisplayBox'; // Default to a common container if not specified
+    }
+}
+
+
+function storeData(data) {
+    Object.keys(data).forEach(function (key) {
+        if(data[key] === ""){
+            localStorage.setItem(key, "NA");
+        }
+        else
+        localStorage.setItem(key, data[key]);
     });
-
-
-});
+}
 
 function displayUserData() {
-    var displayDiv = $("#displayData");
-    displayDiv.html("");
+    var displayDiv = document.getElementById("displayData");
+    displayDiv.innerHTML = "";
 
-    var formData = $('#dataForm [data-store]');
+    var formData = document.querySelectorAll('#dataForm [data-store]');
     var tableHTML = '<div style="overflow-y: auto; max-height: 400px; margin-bottom: 10px; white-space: nowrap;">'; // Container for responsiveness with vertical scrollbar
     tableHTML += '<table border="1" style="border-collapse: collapse; width: 100%;">';
     tableHTML += '<tr>';
 
-    formData.each(function (index) {
-        var element = $(this);
-        var value = localStorage.getItem(element.data('store'));
+    formData.forEach(function (element, index) {
+        var value = localStorage.getItem(element.getAttribute('data-store'));
         if (value) {
-            tableHTML += `<td style="padding: 5px; white-space: normal;">${element.data('store').charAt(0).toUpperCase() + element.data('store').slice(1)}: ${value}</td>`;
+            tableHTML += `<td style="padding: 5px; white-space: normal;">${element.getAttribute('data-store').charAt(0).toUpperCase() + element.getAttribute('data-store').slice(1)}: ${value}</td>`;
 
             // Check if this is the last element or the third element in a row
             if (index === formData.length - 1 || (index + 1) % 3 === 0) {
@@ -86,334 +358,168 @@ function displayUserData() {
 
     tableHTML += '</table>';
     tableHTML += '</div>'; // Close the container
-    displayDiv.html(tableHTML);
+    displayDiv.innerHTML = tableHTML;
 
     // Show the custom alert
-    $("#customAlert").css('display', 'block');
+    document.getElementById("customAlert").style.display = "block";
 }
 
 
-
-function validateData() {
-    var formData = $('#dataForm [data-store]');
-    var data = {};
-    let flag = false;
-    let allFlagsTrue = true;
-
-    formData.each(function () {
-        var element = $(this);
-        var value = $.trim($(element).val());
-        // if(value == null){
-        //     value = "";
-        // }
-        var errorMessage = $('<span>').addClass('error-message').attr('id', 'errorContainer');
-
-        switch (element.data('store')) {
-
-            case 'FirstName':
-                if (value.length <= 0) {
-                    element.focus();
-                    const error = $('#errorMessageFirstNameDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text("Please Enter First Name");
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageFirstNameDiv').css('display', '');
-                }
-                break;
-
-            case 'Email':
-                if (!validateEmail(value)) {
-                    element.focus();
-                    const error = $('#errorMessageDisplayBox');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid Email Address.');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageDisplayBox').css('display', '');
-                }
-                break;
-
-            case 'InstituteName10':
-                if (value.length <= 0) {
-                    element.focus();
-                    const error = $('#errorMessageInstitute10Div');
-                    error.css('display', 'block').text('');          
-                    errorMessage.text("Please Enter Institute Name of Class 10");
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageFirstNameDiv').css('display', '');
-                }
-                break;
-
-            case 'InstituteName12':
-                if (value.length <= 0) {
-                    element.focus();
-                    const error = $('#errorMessageInstitute12Div');
-                    error.css('display', 'block').text('');
-                    errorMessage.text("Please Enter Institute Name of Class 12");
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageFirstNameDiv').css('display', '');
-                }
-                break;
-
-            case 'InstituteNameG':
-                if (value.length <= 0) {
-                    element.focus();
-                    const error = $('#errorMessageInstituteDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text("Please Enter Institute Name of Class 12");
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageFirstNameDiv').css('display', '');
-                }
-                break;
-
-            case 'Email':
-                if (!validateEmail(value)) {
-                    element.focus();
-                    const error = $('#errorMessageDisplayBox');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid Email Address.');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageDisplayBox').css('display', '');
-                }
-                break;
-
-            case 'Password':
-                if (!validatePassword(value)) {
-                    element.focus();
-                    const error = $('#errorMessagePasswordDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid Password.');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessagePasswordDiv').css('display', '');
-                }
-                break;
-
-            case 'ConfirmPassword':
-                if (!validatePassword(value)) {
-                    element.focus();
-                    const error = $('#errorMessageConfirmPasswordDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid cPassword.');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessageConfirmPasswordDiv').css('display', '');
-                }
-                break;
-
-            case 'Age':
-                if (!validateNumbers(value) || (value.length !== 2)) {
-                    console.log('Value:', value);
-                    console.log('Length:', value.length);
-                    element.focus();
-                    const error = $('#errorMessageAgeDiv');
-                    error.css('display', 'block').text('');
-
-                    errorMessage.text('Please enter a valid Age of 2 digit');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessageAgeDiv').css('display', '');
-                }
-                break;
-
-            case 'Phone':
-                if (!validateNumbers(value) || (value.length !== 10)) {
-                    element.focus();
-                    const error = $('#errorMessageContactDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid Phone Number of 10 digits.');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessageContactDiv').css('display', '');
-                }
-                break;
-
-            case 'Aadhar':
-                if (!validateNumbers(value) || !(value.length == 12)) {
-                    element.focus();
-                    const error = $('#errorMessageAadharDiv');
-                    error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid Aadhar Number of 12 digits.');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessageAadharDiv').css('display', '');
-                }
-                break;
-
-            case 'CurrentPinCode':
-                if (!validateNumbers(value) || !(value.length == 6)) {
-                    element.focus();
-                    const error = $('#errorMessageCurrentPinCodeDiv');
-                   error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid PinCode of 6 digit');
-                    error.append(errorMessage);
-                }
-                else {
-                    flag = true;
-                    $('#errorMessageCurrentPinCodeDiv').css('display', '');
-                }
-                break;
-
-            case 'PermanentPinCode':
-                if (!validateNumbers(value) || !(value.length == 6)) {
-                    element.focus();
-                    const error = $('#errorMessagePermanentPinCodeDiv');
-                   error.css('display', 'block').text('');
-
-                    errorMessage.text('Please enter a valid PinCode of 6 digit');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessagePermanentPinCodeDiv').css('display', '');
-                }
-                break;
-
-            case 'YOP10':
-                if (!validateNumbers(value) && !(value.length == 4)) {
-                    element.focus();
-                    const error = $('#errorMessageYOP10Div');
-                   error.css('display', 'block').text('');
-
-                    errorMessage.text('Please enter a valid YOP of 4 digit');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageYOP10Div').css('display', '');
-                }
-                break;
-
-            case 'Aggregate10':
-                if (!validateAggregate(value)) {
-                    element.focus();
-                    const error = $('#errorMessageAggregate10Div');
-                   error.css('display', 'block').text('');
-
-                    errorMessage.text('Please enter a valid Aggregrate');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageAggregate10Div').css('display', '');
-                }
-                break;
-
-            case 'YOP12':
-                if (!validateNumbers(value) && !(value.length == 4)) {
-                    element.focus();
-                    const error = $('#errorMessageYOP12Div');
-                   error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid YOP of 4 digit');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageYOP12Div').css('display', '');
-                }
-                break;
-
-            case 'Aggregate12':
-                if (!validateAggregate(value)) {
-                    element.focus();
-                    const error = $('#errorMessageAggregate12Div');
-                    errorMessage.text('Please enter a valid Aggregrate');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageAggregate12Div').css('display', '');
-                }
-                break;
-
-            case 'AggregateG':
-                if (!validateAggregate(value)) {
-                    element.focus();
-                    const error = $('#errorMessageAggregateGDiv');
-                   error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a Aggregrate');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageAggregateGDiv').css('display', '');
-                }
-                break;
-
-            case 'YOPG':
-                if (!validateNumbers(value) && !(value.length == 4)) {
-                    element.focus();
-                    const error = $('#errorMessageYOPGDiv');
-                   error.css('display', 'block').text('');
-                    errorMessage.text('Please enter a valid YOP of 4 digit');
-                    error.append(errorMessage);
-                } else {
-                    flag = true;
-                    $('#errorMessageYOPGDiv').css('display', '');
-                }
-                break;
-
-            default:
-                break;
-        }
-        data[element.data('store')] = value;
-
-        if (!flag) {
-            allFlagsTrue = false;
-        }
-
-
-    });
-
-    // if (allFlagsTrue) {
-    //     alert("good data");
-    //    return data;
-    // } else {
-    //     console.log('Validation failed. Data not submitted.');
-    //     alert("bad data");
-    //     return null;
-    // }
-    return data;
+function closeAlert() {
+    document.getElementById("customAlert").style.display = "none";
 }
 
+function clearForm() {
+    document.getElementById("displayData").innerHTML = "";
+}
 
-function storeData(data) {
-    $.each(data, function (key, value) {
-        if(data[key] === ""){
-            localStorage.setItem(key, "NA");
-        }
-        else
-        localStorage.setItem(key, data[key]);
-    });
+function resetForm() {
+    document.getElementById("dataForm").reset();
+    removeErrorMessages();
 }
 
 function removeErrorMessages() {
-    $('.error-message').remove();
+    var errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(function (errorMessage) {
+        errorMessage.parentNode.removeChild(errorMessage);
+    });
 }
+
+
+function validateEmail(verifyEmail) {
+
+    var mail = /^[a-z]*[A-Z]*[@][a-z]*[.][a-x]{3}/;
+
+    if (verifyEmail.value.match(mail)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function validatePassword(parameter) {
+
+    let verifyPassword = parameter;
+
+    var vpass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%])[A-Za-z\d@#$%]{8,15}$/;
+
+    if (verifyPassword.value.match(vpass) && verifyPassword.value.length >= 8 && verifyPassword.value.length <= 15) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateNumbers(parameter) {
+
+    let verifyParameter = parameter;
+
+    var numbers = /^[0-9]+$/;
+
+    if (verifyParameter.value.match(numbers)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validateAlphaNumeric(paramater) {
+
+    var letters = /^[0-9a-zA-Z]+$/;
+    let verifyParameter = paramater;
+
+    if (verifyParameter.value.match(letters)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function validateAggregate(parameter) {
+
+    var compare = /[0-9]+[.]*[0-9]*/;
+    let verifyPara = parameter;
+
+    if (verifyPara.value.match(compare)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+function validateAggregate(parameter) {
+
+    var compare = /[0-9]+[.]*[0-9]*/;
+    let verifyParameter = parameter;
+
+    if (verifyParameter.value.match(compare)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function copyAddress() {
+    var sameAddressCheckbox = document.getElementById('sameAsCurrent');
+    var permanentAddress1 = document.getElementById('p1Address');
+    var permanentAddress2 = document.getElementById('p2Address');
+    var permanentPincode = document.getElementById('pPinCode');
+    var permanentCountry = document.getElementById('pCountry');
+    var permanentState = document.getElementById('pState');
+
+    if (sameAddressCheckbox.checked) {
+        var currentAddress1 = document.getElementById('c1Address').value;
+        var currentAddress2 = document.getElementById('c2Address').value;
+        var currentPincode = document.getElementById('cPinCode').value;
+        var currentCountry = document.getElementById('cCountry').value;
+        var currentState = document.getElementById('cState').value;
+
+        permanentAddress1.value = currentAddress1;
+        permanentAddress2.value = currentAddress2;
+        permanentPincode.value = currentPincode;
+        permanentCountry.value = currentCountry;
+        updateStates('cCountry', 'pState');
+        permanentState.value = currentState;
+
+        // Set readonly attribute to true
+        permanentAddress1.readOnly = true;
+        permanentAddress2.readOnly = true;
+        permanentPincode.readOnly = true;
+        permanentCountry.readOnly = true;
+        permanentState.readOnly = true;
+    } else {
+        // Reset the values and remove readonly attribute
+        permanentAddress1.value = '';
+        permanentAddress2.value = '';
+        permanentPincode.value = '';
+        permanentCountry.value = '';
+        permanentState.value = '';
+
+        permanentAddress1.readOnly = false;
+        permanentAddress2.readOnly = false;
+        permanentPincode.readOnly = false;
+        permanentCountry.readOnly = false;
+        permanentState.readOnly = false;
+    }
+}
+
+
 
 function updateStates(countryDropdownId, stateDropdownId) {
 
-    var selectedCountry = $('#' + countryDropdownId).val();
-    var stateDropdown = $('#' + stateDropdownId);
-    
-    stateDropdown.html('<option value="" disabled selected>Select State</option>');
+    var countryDropdown = document.getElementById(countryDropdownId);
+    var stateDropdown = document.getElementById(stateDropdownId);
 
-  
+    // Get the selected country value
+    var selectedCountry = countryDropdown.value;
+
+    // Clear existing options in the state dropdown
+    stateDropdown.innerHTML = '<option value="" disabled selected>Select State</option>';
+
+    // Define states based on the selected country
     var states = {
         india: ['Delhi', 'Kolkata', 'Mumbai', 'Odisha'],
         canada: ['Ontario', 'British Columbia', 'Alberta', 'Quebec'],
@@ -421,73 +527,13 @@ function updateStates(countryDropdownId, stateDropdownId) {
         australia: ['New South Wales', 'Victoria', 'Queensland', 'Western Australia']
     };
 
+    // Populate the state dropdown with options based on the selected country
     if (selectedCountry in states) {
-        $.each(states[selectedCountry], function (index, state) {
-            var option = $('<option></option>').val(state.toLowerCase()).text(state);
-            stateDropdown.append(option);
+        states[selectedCountry].forEach(function (state) {
+            var option = document.createElement('option');
+            option.value = state.toLowerCase();
+            option.textContent = state;
+            stateDropdown.appendChild(option);
         });
     }
-}
-
-function copyAddress() {
-
-    var sameAddressCheckbox = $('#sameAsCurrent');
-    var permanentAddress1 = $('#p1Address');
-    var permanentAddress2 = $('#p2Address');
-    var permanentPincode = $('#pPinCode');
-    var permanentCountry = $('#pCountry');
-    var permanentState = $('#pState');
-
-    if (sameAddressCheckbox.prop('checked')) {
-        var currentAddress1 = $('#c1address').val();
-        var currentAddress2 = $('#c2Address').val();
-        var currentPincode = $('#cPinCode').val();
-        var currentCountry = $('#cCountry').val();
-        var currentState = $('#cState').val();
-
-        permanentAddress1.val(currentAddress1).prop('readonly', true);
-        permanentAddress2.val(currentAddress2).prop('readonly', true);
-        permanentPincode.val(currentPincode).prop('readonly', true);
-        permanentCountry.val(currentCountry).prop('readonly', true);
-        updateStates(('cCountry'),('pState'));
-        permanentState.val(currentState).prop('readonly', true);
-    } else {
-        permanentAddress1.prop('readonly', false);
-        permanentAddress2.prop('readonly', false);
-        permanentPincode.prop('readonly', false);
-        permanentCountry.prop('readonly', false);
-        permanentState.prop('readonly', false);
-    }
-}
-
-
-
-function validateEmail(verifyEmail) {
-    var mailPattern = /^[a-z]*[A-Z]*[@][a-z]*[.][a-x]{3}/;
-
-    return mailPattern.test(verifyEmail) ? true : false;
-}
-
-function validatePassword(parameter) {
-    let verifyPassword = parameter;
-    var vpass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%])[A-Za-z\d@#$%]{8,15}$/;
-    return vpass.test(verifyPassword) && verifyPassword.val() >= 8 && verifyPassword.val() <= 15;
-}
-
-function validateNumbers(parameter) {
-    let verifyParameter = parameter;
-    var numbers = /^[0-9]+$/;
-    return numbers.test(verifyParameter);
-}
-
-function validateAlphaNumeric(parameter) {
-    var letters = /^[0-9a-zA-Z]+$/;
-    let verifyParameter = parameter;
-    return letters.test(verifyParameter);
-}
-
-function validateAggregate(parameter) {
-    var compare = /[0-9]+[.]*[0-9]*/;
-    let verifyParameter = parameter;
-    return compare.test(verifyParameter);
 }
