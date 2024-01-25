@@ -1,0 +1,7 @@
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\bin\Debug\EmailTesting.exe.config
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\bin\Debug\EmailTesting.exe
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\bin\Debug\EmailTesting.pdb
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\obj\Debug\EmailTesting.csproj.AssemblyReference.cache
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\obj\Debug\EmailTesting.csproj.CoreCompileInputs.cache
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\obj\Debug\EmailTesting.exe
+C:\Users\tanishkaf\Desktop\dotnetprac\EmailTesting\EmailTesting\obj\Debug\EmailTesting.pdb
