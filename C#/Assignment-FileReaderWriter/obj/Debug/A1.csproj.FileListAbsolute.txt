@@ -1,7 +1,0 @@
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\bin\Debug\A1.exe.config
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\bin\Debug\A1.exe
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\bin\Debug\A1.pdb
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\obj\Debug\A1.csproj.AssemblyReference.cache
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\obj\Debug\A1.csproj.CoreCompileInputs.cache
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\obj\Debug\A1.exe
-C:\Users\tanishkaf\Desktop\dotnetprac\A1\obj\Debug\A1.pdb
