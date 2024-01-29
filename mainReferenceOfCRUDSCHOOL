@@ -1,0 +1,621 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SCHOOL
+{
+    internal class Program
+    {
+        public enum MenuOption
+        {
+            CreateStudent = 1,
+            CreateClass,
+            CreateCourse,
+            UpdateStudent,
+            UpdateClass,
+            UpdateCourse,
+            DeleteStudent,
+            DeleteClass,
+            DeleteCourse,
+            DisplayStudent,
+            DisplayClass,
+            DisplayCourse,
+            Exit
+        }
+
+        static void Main(string[] args)
+        {
+            using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+            {
+                while (true)
+                {
+                    Console.WriteLine("Menu:");
+                    Console.WriteLine($"{(int)MenuOption.CreateStudent}. Create Student");
+                    Console.WriteLine($"{(int)MenuOption.CreateClass}. Create Class");
+                    Console.WriteLine($"{(int)MenuOption.CreateCourse}. Create Course");
+                    Console.WriteLine($"{(int)MenuOption.UpdateStudent}. Update Student By ID");
+                    Console.WriteLine($"{(int)MenuOption.UpdateClass}. Update Class By ID");
+                    Console.WriteLine($"{(int)MenuOption.UpdateCourse}. Update Course By ID");
+                    Console.WriteLine($"{(int)MenuOption.DeleteStudent}. Delete Student By ID");
+                    Console.WriteLine($"{(int)MenuOption.DeleteClass}. Delete Class By ID");
+                    Console.WriteLine($"{(int)MenuOption.DeleteCourse}. Delete Course By ID");
+                    Console.WriteLine($"{(int)MenuOption.DisplayStudent}. Display Student");
+                    Console.WriteLine($"{(int)MenuOption.DisplayClass}. Display Class");
+                    Console.WriteLine($"{(int)MenuOption.DisplayCourse}. Display Course");
+                    Console.WriteLine($"{(int)MenuOption.Exit}. Exit");
+
+                    Console.Write("Enter your choice: ");
+                    var msg = "";
+                   
+
+                    if (Enum.TryParse(Console.ReadLine(), out MenuOption choice))
+                    {
+                        switch (choice)
+                        {
+                            case MenuOption.CreateStudent:
+                                Console.Write($"Enter the first name of student: ");
+                                string firstName = Console.ReadLine();
+
+                                Console.Write($"Enter the last name of student: ");
+                                string lastName = Console.ReadLine();
+
+                                Console.Write($"Enter the age of student: ");
+                                int age = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write($"Enter the GPA of student: ");
+                                double gpa = Convert.ToDouble(Console.ReadLine());
+
+                                 msg = CreateNewStudent(firstName, lastName, age, gpa);                                
+                                break;
+
+                            case MenuOption.CreateClass:
+                                Console.Write($"Enter the name of class: ");
+                                string className = Console.ReadLine();
+
+                                Console.Write($"Enter the instructor for class: ");
+                                string instructor = Console.ReadLine();
+
+                                Console.Write($"Enter the CourseID for class: ");
+                                int courseIDCourse = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write($"Enter the StudentID for class: ");
+                                int studentIDCourse = Convert.ToInt32(Console.ReadLine());
+
+                                msg = CreateNewClass(className, instructor, courseIDCourse, studentIDCourse);
+                                break;
+
+                            case MenuOption.CreateCourse:
+                                Console.Write($"Enter the CourseName for course: ");
+                                string courseName = Console.ReadLine();
+
+                                Console.Write($"Enter the Credits for the course: ");
+                                int credits = Convert.ToInt32(Console.ReadLine());
+
+                                msg =  CreateNewCourse(courseName,credits);                                
+                                break;
+
+                            case MenuOption.UpdateStudent:
+                                Console.Write("Enter the StudentID to update: ");
+                                int studentIDUpdate = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write("Enter the updated first name for the student: ");
+                                string updateFirstName = Console.ReadLine();
+
+                                Console.Write("Enter the updated last name for the student: ");
+                                string updateLastName = Console.ReadLine();
+
+                                Console.Write("Enter the updated age for the student: ");
+                                int updateAge = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write("Enter the updated GPA for the student: double");
+                                int updateGPA = Convert.ToInt32(Console.ReadLine());
+
+                                msg =  UpdateStudentByID(studentIDUpdate,updateFirstName,updateLastName,updateAge,updateGPA);
+                                
+                                break;
+                            
+                            case MenuOption.UpdateClass:
+                                Console.Write("Enter the ClassID to update: ");
+                                int classIDUpdate = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write("Enter the updated name for the class: ");
+                                string updateClassName = Console.ReadLine();
+
+                                Console.Write("Enter the updated instructor for the class: ");
+                                string updateInstructor = Console.ReadLine();
+
+                                Console.Write("Enter the updated CourseID for the class: ");
+                                int updateCourseId = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write("Enter the updated StudentID for the class: ");
+                                int updateStudentId = Convert.ToInt32(Console.ReadLine());
+
+                                msg = UpdateClassByID(classIDUpdate,updateClassName,updateInstructor,updateCourseId,updateStudentId);
+                                
+                                break;
+
+                            case MenuOption.UpdateCourse:
+                                Console.Write("Enter the CourseID to update: ");
+                                int courseIDUpdate = Convert.ToInt32(Console.ReadLine());
+
+                                Console.Write("Enter the updated name for the course: ");
+                                string updateCourseName = Console.ReadLine();
+
+                                Console.Write("Enter the updated number of credits for the course: ");
+                                int updateCredits = Convert.ToInt32(Console.ReadLine());
+
+                                msg = UpdateCourseByID(courseIDUpdate, updateCourseName, updateCredits);
+                                
+                                break;
+
+                            case MenuOption.DeleteStudent:
+                                Console.Write("Enter the StudentID to delete: ");
+                                int studentID = Convert.ToInt32(Console.ReadLine());
+                                msg = DeleteStudentByID(studentID);
+                                
+                                break;
+
+                            case MenuOption.DeleteClass:
+                                Console.Write("Enter the ClassID to delete: ");
+                                int classID = Convert.ToInt32(Console.ReadLine());
+                                msg = DeleteClassByID(classID);
+                                
+                                break;
+
+                            case MenuOption.DeleteCourse:
+                                Console.Write("Enter the CourseID to delete: ");
+                                int courseID = Convert.ToInt32(Console.ReadLine());
+                                msg = DeleteCourseByID(courseID);
+                                
+                                break;
+                               
+                            case MenuOption.DisplayStudent:
+                                msg = ReadStudent();
+                                 
+                                break;
+
+                            case MenuOption.DisplayClass:
+                                msg = ReadClass();
+                                
+                                break;
+
+                            case MenuOption.DisplayCourse:
+                                msg = ReadCourse();
+                                
+                                break;
+                           
+                            case MenuOption.Exit:
+                                return;
+                            default:
+                                Console.WriteLine("Invalid choice. Please enter a valid option.");
+                                break;
+                        }   
+                                
+                                Console.WriteLine(msg);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter a valid number.");
+                    }
+                    
+                }
+            }
+        }
+
+        static string CreateNewStudent(string firstName, string lastName, int age, double gpa)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    int currentMaxStudentID = DBEntities.Students.Max(s => (int?)s.StudentID) ?? 0;
+
+                    Student newStudent = new Student
+                    {
+                        StudentID = currentMaxStudentID + 1,
+                        FirstName = firstName,
+                        LastName = lastName,
+                        Age = age,
+                        GPA = gpa
+                    };
+
+                    DBEntities.Students.Add(newStudent);
+                    DBEntities.SaveChanges();
+                    return $"New student created. StudentID: {newStudent.StudentID}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error creating new student: {ex.Message}";
+            }
+        }
+
+        static string CreateNewClass(string className, string instructor, int courseID, int studentID)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    int currentMaxClassID = DBEntities.Classes.Max(c => (int?)c.ClassID) ?? 0;
+
+                    // Check if the specified CourseID exists in the Course table
+                    var existingCourse = DBEntities.Courses.Find(courseID);
+
+                    if (existingCourse != null)
+                    {
+
+                        Class newClass = new Class
+                        {
+                            ClassID = currentMaxClassID + 1,
+                            ClassName = className,
+                            Instructor = instructor,
+                            CourseID = courseID,
+                            StudentID = studentID
+                        };
+
+                        DBEntities.Classes.Add(newClass);
+                        DBEntities.SaveChanges();
+                        return $"New class created. ClassID: {newClass.ClassID}";
+                    }
+                    else
+                    {
+                        return $"Error creating new the class.";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error creating new student: {ex.Message}";
+            }
+
+        }
+
+        static string CreateNewCourse(string courseName, int credits)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                   int currentMaxCourseID = DBEntities.Courses.Max(c => (int?)c.CourseID) ?? 0;
+
+                Course newCourse = new Course
+                {
+                    CourseID = currentMaxCourseID + 1,
+                    CourseName = courseName,
+                    Credits = credits
+                };
+
+                DBEntities.Courses.Add(newCourse);
+                DBEntities.SaveChanges();
+                return $"New course created. CourseID: {newCourse.CourseID}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error creating new course: {ex.Message}";
+            }
+        }
+
+         static string ReadStudent()
+        {
+            //DataTable dt = new DataTable("Student");
+            //dt.Columns.Add("StudentID", typeof(int));
+            //dt.Columns.Add("FirstName", typeof(string));
+            //dt.Columns.Add("LastName", typeof(string));
+            //dt.Columns.Add("Age", typeof(int));
+            //dt.Columns.Add("GPA", typeof(double));
+
+            //var studentz = DBEntities.Students.ToList();
+
+            //foreach (Student s in studentz)
+            //{
+            //    dt.Rows.Add(s.StudentID, s.FirstName, s.LastName, s.Age, s.GPA);
+            //}
+
+            //List<Student> convertedListStudent = dt.ConvertDataTableToList<Student>();
+
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    List<Student> convertedListStudent = DBEntities.Students.ToList();
+                    if (convertedListStudent.Count > 0)
+                    {
+                        foreach (Student s in convertedListStudent)
+                        {
+                            Console.WriteLine($"StudentID: {s.StudentID}, FirstName: {s.FirstName}, LastName: {s.LastName}, Age: {s.Age}, GPA: {s.GPA}");
+                        }
+                        return $"Successfully displayed students";
+                    }
+                    else
+                    {
+                        return $"No students found";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error reading students: {ex.Message}";
+            }
+        }
+
+        static string ReadClass()
+        {
+
+            //DataTable dt = new DataTable("Class");
+            // dt.Columns.Add("ClassID", typeof(int));
+            // dt.Columns.Add("ClassName", typeof (string));
+            // dt.Columns.Add("Instructor", typeof(string));
+            // dt.Columns.Add("CourseID", typeof(int));
+            // dt.Columns.Add("StudentID", typeof(int));
+
+            // var classz = DBEntities.Classes.ToList();
+
+            // foreach (Class c in classz){
+            //     dt.Rows.Add(c.ClassID , c.ClassName, c.Instructor, c.CourseID, c.StudentID);
+            // }
+
+            // List<Class> convertedListClass = dt.ConvertDataTableToList<Class>();
+
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    List<Class> convertedListClass = DBEntities.Classes.ToList();
+                    Console.WriteLine("Printing classes");
+
+                    if (convertedListClass.Count > 0)
+                    {
+                        foreach (Class c in convertedListClass)
+                        {
+                            //Console.WriteLine(c);
+                            Console.WriteLine($"ClassID: {c.ClassID}, ClassName: {c.ClassName}, Instructor: {c.Instructor}, " +
+                                $"CourseID: {c.CourseID}, StudentID: {c.StudentID}");
+                        }
+                        return $"Successfully displayed classses";
+                    }
+                    else
+                    {
+                        return $"no class found.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error reading the class: {ex.Message}";
+            }
+
+        }
+
+        static string ReadCourse()
+        {
+            //DataTable dt = new DataTable("Course");
+            //dt.Columns.Add("CourseID", typeof(int));
+            //dt.Columns.Add("CourseName", typeof(string));
+            //dt.Columns.Add("Credits", typeof(int));
+
+            //var coursez = DBEntities.Courses.ToList();
+
+            //foreach (Course c in coursez)
+            //{
+            //    dt.Rows.Add(c.CourseID, c.CourseName, c.Credits);
+            //}
+
+            //List<Course> convertedListCourse = dt.ConvertDataTableToList<Course>();
+
+            //Console.WriteLine("Printing Courses");
+
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    List<Course> convertedListCourse = DBEntities.Courses.ToList();
+                    foreach (Course c in convertedListCourse)
+                    {
+                        // Console.WriteLine(c);
+                        Console.WriteLine($"CourseID: {c.CourseID}, CourseName: {c.CourseName}, Credits: {c.Credits}");
+
+                    }
+                    return $"Successfully displayed classses";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error reading the course: {ex.Message}";
+            }
+
+        }
+
+        static string DeleteStudentByID(int studentIdToDelete)
+        {
+            try
+            {          
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var studentToDelete = DBEntities.Students.Find(studentIdToDelete);
+
+                    if (studentToDelete != null)
+                    {
+                        DBEntities.Students.Remove(studentToDelete);
+                        DBEntities.SaveChanges();
+                       return $"Student with StudentID {studentIdToDelete} deleted.";
+                    }
+                    else
+                    {
+                       return $"Student with StudentID {studentIdToDelete} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error deleting the student: {ex.Message}";
+            }
+        }
+
+        static string DeleteCourseByID(int courseIdToDelete)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var courseToDelete = DBEntities.Courses.Find(courseIdToDelete);
+
+                    if (courseToDelete != null)
+                    {
+                        // Now, delete the course
+                        DBEntities.Courses.Remove(courseToDelete);
+                        DBEntities.SaveChanges();
+                       return $"Course with CourseID {courseIdToDelete} deleted.";
+                    }
+                    else
+                    {
+                        return $"Course with CourseID {courseIdToDelete} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error deleting the course: {ex.Message}";
+            }
+        }
+
+        static string DeleteClassByID(int classIdToDelete)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var classToDelete = DBEntities.Classes.Find(classIdToDelete);
+
+                    if (classToDelete != null)
+                    {
+                        // Now, delete the class
+                        DBEntities.Classes.Remove(classToDelete);
+                        DBEntities.SaveChanges();
+                        return $"Class with ClassID {classIdToDelete} deleted.";
+                    }
+                    else
+                    {
+                        return $"Class with ClassID {classIdToDelete} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error deleting the class: {ex.Message}";
+            }
+        }
+
+        static string UpdateCourseByID(int courseIdToUpdate, string updatedCourseName, int updatedCredits)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var courseToUpdate = DBEntities.Courses.Find(courseIdToUpdate);
+
+                    if (courseToUpdate != null)
+                    {                  
+                     courseToUpdate.CourseName = updatedCourseName;
+                     courseToUpdate.Credits = updatedCredits;
+
+                      DBEntities.SaveChanges();
+                      return $"Course with CourseID {courseIdToUpdate} updated.";
+                     }
+                       
+                    else
+                    {
+                        return $"Course with CourseID {courseIdToUpdate} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error updating course: {ex.Message}";
+            }
+
+        }
+           
+        static string UpdateClassByID(int classIdToUpdate,string updatedClassName,string updatedInstructor,
+                int updatedCourseId, int updatedStudentId)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var classToUpdate = DBEntities.Classes.Find(classIdToUpdate);
+
+                    if (classToUpdate != null)
+                    {
+                        classToUpdate.ClassName = updatedClassName;
+                        classToUpdate.Instructor = updatedInstructor;
+                        classToUpdate.CourseID = updatedCourseId;
+                        classToUpdate.StudentID = updatedStudentId;
+
+                        DBEntities.SaveChanges();
+                        return $"Class with ClassID {classIdToUpdate} updated.";
+                    }
+                    else
+                    {
+                        return $"Invalid ClassID. Unable to update the class.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error updating the class: {ex.Message}";
+            }
+
+        }
+
+        static string UpdateStudentByID(int studentIdToUpdate,string updatedFirstName,string updatedLastName,int updatedAge,double updatedGPA)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var studentToUpdate = DBEntities.Students.Find(studentIdToUpdate);
+
+                    if (studentToUpdate != null)
+                    {
+                        studentToUpdate.FirstName = updatedFirstName;
+                        studentToUpdate.LastName = updatedLastName;
+                        studentToUpdate.Age = updatedAge;
+                        studentToUpdate.GPA = updatedGPA;
+
+                        DBEntities.SaveChanges();
+                        return $"Student with StudentID {studentIdToUpdate} updated.";
+                    }
+                    else
+                    {
+                        return $"Student with StudentID {studentIdToUpdate} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                return $"Error in updating student: {ex.Message}";
+            }
+        }
+
+    }
+}
+
+  
