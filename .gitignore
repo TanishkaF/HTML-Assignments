@@ -3,4 +3,7 @@ packages/
 bin/
 obj/
 Properties/
+LogFileFolder/
+ExcelDetails/
+CSVDetails/
 AdventureWorks2022.bak/
