@@ -40,11 +40,11 @@ namespace SchoolCRUD
             Console.WriteLine($"{(int)Enum.MenuOption.SearchTeacherByID}. Search Teacher By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.GetStudentsWithClassesAndCourses}. Display Students with their respective classes and courses.");
             Console.WriteLine($"{(int)Enum.MenuOption.ExpoterDecider}. Where You want to write data?.");
-            Console.WriteLine($"{(int)Enum.MenuOption.ALLJOINHELPER}. ALL JOIN DATA DISPLAY.");
+            Console.WriteLine($"{(int)Enum.MenuOption.DisplayAllData}. ALL JOIN DATA DISPLAY.");
             Console.WriteLine($"{(int)Enum.MenuOption.Exit}. Exit");
         }
 
-        public static void ALLJOINHELPER()
+        public static void DisplayAllData()
         {
             List<ClassTeacherCourseStudent> classT = Business.GetClassTeacherCourseStudents();
             string enrollmentExcelFolderPath1 = ConfigurationManager.AppSettings["EnrollmentExcelFolderPath"];            

@@ -126,8 +126,8 @@ namespace SchoolCRUD
                             Helper.ExpoterDecider();
                             break;
                         
-                        case Enum.MenuOption.ALLJOINHELPER:
-                            Helper.ALLJOINHELPER();
+                        case Enum.MenuOption.DisplayAllData:
+                            Helper.DisplayAllData();
                             break;
 
 
