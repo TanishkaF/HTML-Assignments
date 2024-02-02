@@ -22,7 +22,6 @@ namespace SchoolCRUD.DataAccessLayer
     
         public int ClassID { get; set; }
         public string ClassName { get; set; }
-        public string Instructor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Teacher> Teachers { get; set; }

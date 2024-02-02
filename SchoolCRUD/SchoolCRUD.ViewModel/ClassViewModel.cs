@@ -9,10 +9,7 @@ namespace SchoolCRUD.ViewModel
         public int ClassID { get; set; }
 
         [Exportable(true)]
-        public string ClassName { get; set; }
-
-        [Exportable(true)]
-        public string Instructor { get; set; }        
+        public string ClassName { get; set; }      
         
     }
 }

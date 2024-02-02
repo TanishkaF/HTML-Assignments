@@ -15,6 +15,8 @@ namespace SchoolCRUD.ViewModel
         [Exportable(true)]
         public int TeacherID { get; set; }
 
+        public string TeacherName { get; set; }
+
         [Exportable(true)]
         public int TeacherCourseID { get; set; }
 

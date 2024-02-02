@@ -52,6 +52,7 @@ namespace SchoolCRUD.DataAccessLayer
                                  ClassID = c.ClassID,
                                  ClassName = c.ClassName,
                                  TeacherID = t.TeacherID,
+                                 TeacherName = t.TeacherName,
                                  TeacherCourseID = (int) t.CourseID,
                                  CourseID = co.CourseID,
                                  CourseName = co.CourseName,
@@ -60,7 +61,7 @@ namespace SchoolCRUD.DataAccessLayer
                                  FirstName = s.FirstName,
                                  LastName = s.LastName,
                                  Age = (int)s.Age,
-                                 GPA = (int)s.GPA
+                                 GPA = (double)s.GPA
                              }).Distinct().ToString();
 
                 

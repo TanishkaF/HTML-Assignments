@@ -16,29 +16,33 @@ namespace SchoolCRUD
             Console.WriteLine($"{(int)Enum.MenuOption.CreateStudent}. Create Student");
             Console.WriteLine($"{(int)Enum.MenuOption.CreateClass}. Create Class");
             Console.WriteLine($"{(int)Enum.MenuOption.CreateCourse}. Create Course");
-            Console.WriteLine($"{(int)Enum.MenuOption.CreateEnrollment}. Assign Class to Course");
+            Console.WriteLine($"{(int)Enum.MenuOption.CreateEnrollment}. Create Enrollment");
+            Console.WriteLine($"{(int)Enum.MenuOption.CreateTeacher}. Create Teacher");
             Console.WriteLine($"{(int)Enum.MenuOption.UpdateStudent}. Update Student By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.UpdateClass}. Update Class By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.UpdateCourse}. Update Course By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.UpdateEnrollment}. Update Enrollment By ID");
+            Console.WriteLine($"{(int)Enum.MenuOption.UpdateTeacher}. Update Teacher By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.DeleteStudent}. Delete Student By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.DeleteClass}. Delete Class By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.DeleteCourse}. Delete Course By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.DeleteEnrollment}. Delete Enrollment By ID");
+            Console.WriteLine($"{(int)Enum.MenuOption.DeleteTeacher}. Delete Teacher By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.DisplayStudent}. Display Student");
             Console.WriteLine($"{(int)Enum.MenuOption.DisplayClass}. Display Class");
             Console.WriteLine($"{(int)Enum.MenuOption.DisplayCourse}. Display Course");
             Console.WriteLine($"{(int)Enum.MenuOption.DisplayEnrollment}. Display Enrollment");
+            Console.WriteLine($"{(int)Enum.MenuOption.DisplayTeacher}. Display Teacher");
             Console.WriteLine($"{(int)Enum.MenuOption.SearchStudentByID}. Search Student By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.SearchClassByID}. Search Class By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.SearchCourseByID}. Search Course By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.SearchEnrollmentByID}. Search Enrollment By ID");
+            Console.WriteLine($"{(int)Enum.MenuOption.SearchTeacherByID}. Search Teacher By ID");
             Console.WriteLine($"{(int)Enum.MenuOption.GetStudentsWithClassesAndCourses}. Display Students with their respective classes and courses.");
             Console.WriteLine($"{(int)Enum.MenuOption.ExpoterDecider}. Where You want to write data?.");
             Console.WriteLine($"{(int)Enum.MenuOption.ALLJOINHELPER}. ALL JOIN DATA DISPLAY.");
             Console.WriteLine($"{(int)Enum.MenuOption.Exit}. Exit");
         }
-
 
         public static void ALLJOINHELPER()
         {
@@ -101,16 +105,10 @@ namespace SchoolCRUD
             Console.Write($"Enter the name of class: ");
             string className = Console.ReadLine();
 
-            Console.Write($"Enter the instructor for class: ");
-            string instructor = Console.ReadLine();
-                      
-
             return new ClassViewModel
             {
-             //   ClassID = classID,
-                ClassName = className,
-                Instructor = instructor,
-               
+               // ClassID = classID,
+                ClassName = className             
             };
         }
 
@@ -132,10 +130,10 @@ namespace SchoolCRUD
         public static EnrollmentViewModel GetEnrollmentInformation()
         {
             Console.Write("Enter Course ID: ");
-            int courseId = Convert.ToInt32(Console.ReadLine());
+            int courseId = ValidateData.GetValidIntegerInput("CourseID");
 
             Console.Write("Enter Student ID: ");
-            int studentId = Convert.ToInt32(Console.ReadLine());
+            int studentId = ValidateData.GetValidIntegerInput("studentID");
 
             return new EnrollmentViewModel
             {
@@ -143,6 +141,25 @@ namespace SchoolCRUD
                 StudentID = studentId
             };
 
+        }
+
+        public static TeacherViewModel GetTeacher()
+        {
+            Console.WriteLine("Enter Teacher Name");
+            string teacherName = Console.ReadLine();
+
+            Console.WriteLine("Enter Class ID");
+            int classID = ValidateData.GetValidIntegerInput("classID");
+
+            Console.WriteLine("Enter Course ID");
+            int courseId = ValidateData.GetValidIntegerInput("courseID");
+
+            return new TeacherViewModel
+            {
+                TeacherName = teacherName,
+                CourseID = courseId,
+                ClassID = classID
+            };
         }
 
         public static void CreateStudent()
@@ -196,6 +213,19 @@ namespace SchoolCRUD
                 Console.WriteLine(msg);
             }
             catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+            }
+        }
+
+        public static void CreateTeacher()
+        {
+            try
+            {
+                TeacherViewModel teacherViewModel = GetTeacher();
+                string msg = Business.CreateNewTeacher(teacherViewModel);
+                Console.WriteLine(msg);
+            }catch(Exception ex)
             {
                 LogManager.DecideLogInput(ex);
             }
@@ -258,6 +288,25 @@ namespace SchoolCRUD
             }
         }
        
+        public static void UpdateTeacher()
+        {
+            try
+            {
+                Console.Write("Enter the TeacherID to update: ");
+                int teacherIDUpdate = ValidateData.GetValidIntegerInput("TeacherID");
+
+                TeacherViewModel enrollmentInfoUpdate = Helper.GetTeacher();
+                enrollmentInfoUpdate.TeacherID = teacherIDUpdate;
+
+                string msg = Business.UpdateTeacherByID(enrollmentInfoUpdate);
+                Console.WriteLine(msg);
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+            }
+        }
+        
         public static void UpdateEnrollment()
         {
             try
@@ -340,6 +389,22 @@ namespace SchoolCRUD
                 LogManager.DecideLogInput(ex);
             }
         }
+        
+        public static void DeleteTeacher()
+        {
+            try
+            {
+                Console.Write("Enter the TeacherID to delete: ");
+                int teacherID = ValidateData.GetValidIntegerInput("teacherID");
+
+                string msg = Business.DeleteTeacherByID(teacherID);
+                Console.WriteLine(msg);
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+            }
+        }
 
         public static void DisplayStudent()
         {
@@ -395,7 +460,7 @@ namespace SchoolCRUD
                         Console.WriteLine("Classes:");
                         foreach (var classObj in classes)
                         {
-                            Console.WriteLine($"ClassID: {classObj.ClassID}, ClassName: {classObj.ClassName},Instructor: {classObj.Instructor}");
+                            Console.WriteLine($"ClassID: {classObj.ClassID}, ClassName: {classObj.ClassName}");
                             // Add other properties as needed
                         }
                     }
@@ -482,6 +547,43 @@ namespace SchoolCRUD
                 {
                     Console.WriteLine($"Error: {enrollmentsResult["Error"]}");
                     // Log or handle the error message
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+            }
+        }
+        
+        public static void DisplayTeachers()
+        {
+            try
+            {
+                Console.WriteLine("Displaying teacher");
+
+                Dictionary<string, List<TeacherViewModel>> teacherResult = Business.ReadTeacher();
+
+                if (teacherResult.ContainsKey("Success"))
+                {
+                    List<TeacherViewModel> teachers = teacherResult["Success"];
+
+                    if (teachers.Count > 0)
+                    {
+                        Console.WriteLine("Enrollments:");
+                        foreach (var teacher in teachers)
+                        {
+                            Console.WriteLine($"TeacherID: {teacher.TeacherID}, TeacherName: {teacher.TeacherName}, ClassID: {teacher.ClassID}, CourseID: {teacher.CourseID}");
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("No enrollments found.");
+                    }
+                }
+                else if (teacherResult.ContainsKey("Error"))
+                {
+                    Console.WriteLine($"Error: {teacherResult["Error"]}");
                 }
             }
             catch (Exception ex)
@@ -594,6 +696,35 @@ namespace SchoolCRUD
                     Console.WriteLine("Successfully found the ID. Enrollment Details:");
                     Console.WriteLine($"EnrollmentID: {searchEnrollmentID}");
                     Console.WriteLine($"StudentID: {successAttributes[0]}");
+                    Console.WriteLine($"CourseID: {successAttributes[1]}");
+                }
+                else
+                {
+                    Console.WriteLine("Not able to find the ID.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+            }
+        }
+       
+        public static void SearchTeacherByID()
+        {
+            try
+            {
+                Console.WriteLine("Enter the TeacherID to Search");
+
+                int searchTeacherID = ValidateData.GetValidIntegerInput("searchTeacherID");
+
+                Dictionary<string, List<string>> stringMapTeacher = Business.GetEnrollmentByID(searchTeacherID);
+
+                if (stringMapTeacher.TryGetValue("Success", out var successAttributes))
+                {
+                    Console.WriteLine("Successfully found the ID. Teacher Details:");
+                    Console.WriteLine($"TeacherID: {searchTeacherID}");
+                    Console.WriteLine($"TeacherName: {successAttributes[0]}");
+                    Console.WriteLine($"ClassID: {successAttributes[1]}");
                     Console.WriteLine($"CourseID: {successAttributes[1]}");
                 }
                 else

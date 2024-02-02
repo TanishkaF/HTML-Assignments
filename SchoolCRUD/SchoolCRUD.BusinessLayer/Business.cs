@@ -21,6 +21,11 @@ namespace SchoolCRUD.BusinessLayer
             return DataAccessLayer.DataAccessLayer.CreateNewCourse(courseInfo);
         }
 
+        public static string CreateNewTeacher(TeacherViewModel teacherInfo)
+        {
+            return DataAccessLayer.DataAccessLayer.CreateNewTeacher(teacherInfo);
+        }
+
         public static string CreateNewEnrollment(EnrollmentViewModel enrollmentInfo)
         {
             return DataAccessLayer.DataAccessLayer.CreateNewEnrollment(enrollmentInfo);
@@ -45,6 +50,10 @@ namespace SchoolCRUD.BusinessLayer
         {
             return DataAccessLayer.DataAccessLayer.UpdateEnrollmentByID(enrollmentViewModel);
         }
+        public static string UpdateTeacherByID(TeacherViewModel teacherViewModel)
+        {
+            return DataAccessLayer.DataAccessLayer.UpdateTeacherByID(teacherViewModel);
+        }
 
         public static string DeleteStudentByID(int id)
         {
@@ -64,6 +73,11 @@ namespace SchoolCRUD.BusinessLayer
         public static string DeleteEnrollmentByID(int id)
         {
             return DataAccessLayer.DataAccessLayer.DeleteEnrollmentByID(id);
+        } 
+        
+        public static string DeleteTeacherByID(int id)
+        {
+            return DataAccessLayer.DataAccessLayer.DeleteTeacherByID(id);
         }
 
         public static Dictionary<string, List<string>> GetStudentByID(int studentId)
@@ -84,6 +98,11 @@ namespace SchoolCRUD.BusinessLayer
         public static Dictionary<string, List<string>> GetEnrollmentByID(int enrollmentID)
         {
             return DataAccessLayer.DataAccessLayer.GetEnrollmentByID(enrollmentID);
+        } 
+        
+        public static Dictionary<string, List<string>> GetTeacherByID(int teacherID)
+        {
+            return DataAccessLayer.DataAccessLayer.GetTeacherByID(teacherID);
         }
 
         public static Dictionary<string, List<StudentViewModel>> ReadStudent()
@@ -104,6 +123,11 @@ namespace SchoolCRUD.BusinessLayer
         public static Dictionary<string, List<EnrollmentViewModel>> ReadEnrollment()
         {
             return DataAccessLayer.DataAccessLayer.ReadEnrollment();
+        }
+        
+        public static Dictionary<string, List<TeacherViewModel>> ReadTeacher()
+        {
+            return DataAccessLayer.DataAccessLayer.ReadTeacher();
         }
 
         public static Dictionary<string, List<StudentViewModel>> GetStudentsWithCourses()

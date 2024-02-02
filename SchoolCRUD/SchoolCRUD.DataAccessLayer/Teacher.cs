@@ -15,6 +15,7 @@ namespace SchoolCRUD.DataAccessLayer
     public partial class Teacher
     {
         public int TeacherID { get; set; }
+        public string TeacherName { get; set; }
         public Nullable<int> ClassID { get; set; }
         public Nullable<int> CourseID { get; set; }
     

@@ -37,6 +37,10 @@ namespace SchoolCRUD
                         case Enum.MenuOption.CreateEnrollment:
                             Helper.CreateEnrollment();
                             break;
+                        
+                        case Enum.MenuOption.CreateTeacher:
+                            Helper.CreateTeacher();
+                            break;
 
                         case Enum.MenuOption.UpdateStudent:
                             Helper.UpdateStudent();
@@ -52,6 +56,10 @@ namespace SchoolCRUD
                         
                         case Enum.MenuOption.UpdateEnrollment:
                             Helper.UpdateEnrollment();
+                            break;
+                        
+                        case Enum.MenuOption.UpdateTeacher:
+                            Helper.UpdateTeacher();
                             break;
 
                         case Enum.MenuOption.DeleteStudent:
@@ -86,6 +94,10 @@ namespace SchoolCRUD
                             Helper.DisplayEnrollments();
                             break;
 
+                        case Enum.MenuOption.DisplayTeacher:
+                            Helper.DisplayTeachers();
+                            break;
+
                         case Enum.MenuOption.SearchStudentByID:
                             Helper.SearchStudentByID();
                             break;
@@ -100,6 +112,10 @@ namespace SchoolCRUD
                         
                         case Enum.MenuOption.SearchEnrollmentByID:
                             Helper.SearchEnrollmentByID();
+                            break;
+                        
+                        case Enum.MenuOption.SearchTeacherByID:
+                            Helper.SearchTeacherByID();
                             break;
 
                         case Enum.MenuOption.GetStudentsWithClassesAndCourses:

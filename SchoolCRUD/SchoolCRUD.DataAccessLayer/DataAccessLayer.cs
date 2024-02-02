@@ -53,8 +53,7 @@ namespace SchoolCRUD.DataAccessLayer
                     Class newClass = new Class
                     {
                         ClassID = currentMaxClassID + 1,
-                        ClassName = classInfo.ClassName,
-                        Instructor = classInfo.Instructor
+                        ClassName = classInfo.ClassName                        
                     };
 
                     DBEntities.Classes.Add(newClass);
@@ -120,6 +119,33 @@ namespace SchoolCRUD.DataAccessLayer
             }
         }
 
+        public static string CreateNewTeacher(TeacherViewModel teacherInfo)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    int currentMaxTeacherID = DBEntities.Teachers.Max(t => (int?)t.TeacherID) ?? 0;
+
+                    Teacher newTeacher = new Teacher
+                    {
+                        TeacherID = currentMaxTeacherID + 1,
+                        ClassID = teacherInfo.ClassID,
+                        CourseID = teacherInfo.CourseID
+                    };
+
+                    DBEntities.Teachers.Add(newTeacher);
+                    DBEntities.SaveChanges();
+                    return $"New teacher created. TeacherID: {newTeacher.TeacherID}";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+                return $"Error creating new teacher: {ex.Message}";
+            }
+        }
+
         public static string UpdateStudentByID(StudentViewModel studentInfoUpdate)
         {
             try
@@ -163,7 +189,7 @@ namespace SchoolCRUD.DataAccessLayer
                     if (classToUpdate != null)
                     {
                         classToUpdate.ClassName = classInfoUpdate.ClassName;
-                        classToUpdate.Instructor = classInfoUpdate.Instructor;                     
+                                        
 
                         DBEntities.SaveChanges();
                         return $"Class with ClassID {classInfoUpdate.ClassID} updated.";
@@ -242,6 +268,36 @@ namespace SchoolCRUD.DataAccessLayer
             }
         }
 
+        public static string UpdateTeacherByID(TeacherViewModel teacherInfoUpdate)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var teacherToUpdate = DBEntities.Teachers.Find(teacherInfoUpdate.TeacherID);
+
+                    if (teacherToUpdate != null)
+                    {
+                        teacherToUpdate.TeacherName = teacherInfoUpdate.TeacherName;
+                        teacherToUpdate.ClassID = teacherInfoUpdate.ClassID;
+                        teacherToUpdate.CourseID = teacherInfoUpdate.CourseID;
+
+                        DBEntities.SaveChanges();
+                        return $"Teacher with TeacherID {teacherInfoUpdate.TeacherID} updated.";
+                    }
+                    else
+                    {
+                        return $"Teacher with TeacherID {teacherInfoUpdate.TeacherID} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+                return $"Error updating teacher: {ex.Message}";
+            }
+        }
+        
         public static string DeleteStudentByID(int studentIdToDelete)
         {
             try
@@ -353,6 +409,35 @@ namespace SchoolCRUD.DataAccessLayer
             }
         }
 
+        public static string DeleteTeacherByID(int teacherIDToDelete)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    var teacherToDelete = DBEntities.Teachers.Find(teacherIDToDelete);
+
+                    if (teacherToDelete != null)
+                    {
+                        // Now, delete the teacher
+                        DBEntities.Teachers.Remove(teacherToDelete);
+                        DBEntities.SaveChanges();
+                        return $"Teacher with TeacherID {teacherIDToDelete} deleted.";
+                    }
+                    else
+                    {
+                        return $"Teacher with TeacherID {teacherIDToDelete} does not exist.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+                return $"Error deleting the teacher: {ex.Message}";
+            }
+        }
+
+
         public static Dictionary<string, List<string>> GetStudentByID(int studentId)
         {
             try
@@ -406,7 +491,7 @@ namespace SchoolCRUD.DataAccessLayer
                     if (foundClass != null)
                     {
                         classAttributes.Add(foundClass.ClassName);
-                        classAttributes.Add(foundClass.Instructor);
+                       
                         
                         stringMap["Success"] = classAttributes;
                         return stringMap;
@@ -499,6 +584,40 @@ namespace SchoolCRUD.DataAccessLayer
                 // return $"Error reading the enrollment: {ex.Message}";
             }
         }
+        
+        public static Dictionary<string, List<string>> GetTeacherByID(int teacherID)
+        {
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    Dictionary<string, List<string>> stringMap = new Dictionary<string, List<string>>();
+                    List<string> teacherAttributes = new List<string>();
+                    var foundTeacher = DBEntities.Teachers.FirstOrDefault(t => t.TeacherID == teacherID);
+
+                    if (foundTeacher != null)
+                    {
+                        teacherAttributes.Add(foundTeacher.ClassID.ToString());
+                        teacherAttributes.Add(foundTeacher.CourseID.ToString());
+
+                        stringMap["Success"] = teacherAttributes;
+                        return stringMap;
+                    }
+                    else
+                    {
+                        stringMap["Error"] = null;
+                        return stringMap;
+                        // return $"Not able to find the ID";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+                return default;
+                // return $"Error reading the teacher: {ex.Message}";
+            }
+        }
 
         public static Dictionary<string, List<StudentViewModel>> ReadStudent()
         {
@@ -555,8 +674,7 @@ namespace SchoolCRUD.DataAccessLayer
                         ClassViewModel classViewModel = new ClassViewModel
                         {
                             ClassID = c.ClassID,
-                            ClassName = c.ClassName,
-                            Instructor = c.Instructor                           
+                            ClassName = c.ClassName                                    
                         };
 
                         classes.Add(classViewModel);
@@ -641,6 +759,35 @@ namespace SchoolCRUD.DataAccessLayer
             {
                 LogManager.DecideLogInput(ex);
                 result.Add("Error", new List<EnrollmentViewModel>());
+            }
+
+            return result;
+        }
+
+        public static Dictionary<string, List<TeacherViewModel>> ReadTeacher()
+        {
+            Dictionary<string, List<TeacherViewModel>> result = new Dictionary<string, List<TeacherViewModel>>();
+
+            try
+            {
+                using (SCHOOLEntities DBEntities = new SCHOOLEntities())
+                {
+                    List<Teacher> convertedListTeacher = DBEntities.Teachers.ToList();
+
+                    List<TeacherViewModel> teachers = convertedListTeacher.Select(t => new TeacherViewModel
+                    {
+                        TeacherID = t.TeacherID,
+                        ClassID = (int)t.ClassID,
+                        CourseID = (int)t.CourseID
+                    }).ToList();
+
+                    result.Add("Success", teachers);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.DecideLogInput(ex);
+                result.Add("Error", new List<TeacherViewModel>());
             }
 
             return result;
