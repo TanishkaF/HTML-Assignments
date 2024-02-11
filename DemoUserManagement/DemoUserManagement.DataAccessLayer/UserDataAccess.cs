@@ -1,13 +1,10 @@
 ﻿using DemoUserManagement.ViewModel;
 using System.Data.SqlClient;
 using System.Configuration;
-
 using System;
-using System.Net.NetworkInformation;
-using System.Net;
-using System.Data;
 using System.Collections.Generic;
 using DemoUserManagement.UtilityLayer;
+
 
 namespace DemoUserManagement.DataAccessLayer
 {
