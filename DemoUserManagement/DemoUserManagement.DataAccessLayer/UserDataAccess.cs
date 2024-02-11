@@ -7,6 +7,7 @@ using System.Net.NetworkInformation;
 using System.Net;
 using System.Data;
 using System.Collections.Generic;
+using DemoUserManagement.UtilityLayer;
 
 namespace DemoUserManagement.DataAccessLayer
 {
@@ -205,7 +206,7 @@ namespace DemoUserManagement.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception
+                    Logger.AddData(ex);
                 }
             }
         }
@@ -285,7 +286,7 @@ namespace DemoUserManagement.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception
+                    Logger.AddData(ex);
                 }
             }
 
@@ -321,8 +322,8 @@ namespace DemoUserManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        // Handle the exception
-                    }
+                    Logger.AddData(ex);
+                }
                 }
 
                 return studentDetails;
@@ -354,7 +355,7 @@ namespace DemoUserManagement.DataAccessLayer
                 }
                 catch (Exception ex)
                 {
-                    // Handle the exception
+                    Logger.AddData(ex);
                 }
             }
 
@@ -390,8 +391,8 @@ namespace DemoUserManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        // Handle the exception
-                    }
+                    Logger.AddData(ex);
+                }
                 }
 
                 return educationDetails;

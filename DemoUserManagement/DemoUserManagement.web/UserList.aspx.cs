@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DemoUserManagement.UtilityLayer;
 
 namespace DemoUserManagement.web
 {
@@ -79,7 +80,7 @@ namespace DemoUserManagement.web
                     catch (Exception ex)
                     {
 
-                      //  Logger.AddData(ex);
+                        Logger.AddData(ex);
                     }
                 }
             }
@@ -139,7 +140,7 @@ namespace DemoUserManagement.web
                     }
                     catch (Exception ex)
                     {
-                        //Logger.AddData(ex);
+                        Logger.AddData(ex);
                     }
                 }
             }
@@ -165,7 +166,7 @@ namespace DemoUserManagement.web
                     }
                     catch (Exception ex)
                     {
-                        //Logger.AddData(ex);
+                        Logger.AddData(ex);
                     }
                 }
             }
