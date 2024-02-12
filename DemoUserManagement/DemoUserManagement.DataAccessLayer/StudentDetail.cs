@@ -19,6 +19,7 @@ namespace DemoUserManagement.DataAccessLayer
         {
             this.AddressDetails = new HashSet<AddressDetail>();
             this.EducationDetails = new HashSet<EducationDetail>();
+            this.Hobbies = new HashSet<Hobby>();
         }
     
         public int StudentID { get; set; }
@@ -35,5 +36,7 @@ namespace DemoUserManagement.DataAccessLayer
         public virtual ICollection<AddressDetail> AddressDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EducationDetail> EducationDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Hobby> Hobbies { get; set; }
     }
 }

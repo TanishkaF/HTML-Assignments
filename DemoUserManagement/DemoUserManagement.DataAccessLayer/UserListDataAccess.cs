@@ -53,10 +53,61 @@ namespace DemoUserManagement.DataAccessLayer
             return dt;
         }
 
+        //public static DataTable GetFilteredUsersData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize, int userID)
+        //{
+        //    DataTable dt = new DataTable();
+        //    int totalCount = GetTotalFilteredCount(); // Retrieve total count of filtered users
+
+        //    // Construct the SQL query
+        //    string query = $@"SELECT 
+        //         StudentDetails.StudentID,
+        //         StudentDetails.FirstName,
+        //         StudentDetails.LastName,
+        //         StudentDetails.Phone,
+        //         StudentDetails.AadharNumber,
+        //         AddressDetails.Country
+        //     FROM 
+        //         StudentDetails 
+        //     INNER JOIN 
+        //         AddressDetails ON StudentDetails.StudentID = AddressDetails.UserID
+        //     WHERE 
+        //         AddressDetails.AddressType = 1";
+
+        //    // Add condition to filter by userID
+        //    query += $" AND StudentDetails.StudentID = {userID}";
+
+        //    // Add ORDER BY, OFFSET, and FETCH NEXT clauses
+        //    query += $@" ORDER BY {sortExpression} {sortDirection}
+        // OFFSET (@StartRowIndex) ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+        //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand(query, con))
+        //        {
+        //            int startRowIndex = currentPageIndex * pageSize;
+        //            cmd.Parameters.AddWithValue("@StartRowIndex", startRowIndex);
+        //            cmd.Parameters.AddWithValue("@PageSize", pageSize);
+
+        //            try
+        //            {
+        //                con.Open();
+        //                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //                adapter.Fill(dt);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                Logger.AddData(ex);
+        //            }
+        //        }
+        //    }
+
+        //    return dt;
+        //}
+
         public static DataTable GetFilteredUsersData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize)
         {
             DataTable dt = new DataTable();
-            int totalCount = GetTotalFilteredCount(); // Retrieve total count of filtered users
+            int totalCount = GetTotalFilteredCount(); 
 
             string query = $@"SELECT 
                         StudentDetails.StudentID,
@@ -106,7 +157,9 @@ namespace DemoUserManagement.DataAccessLayer
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                string query = "SELECT COUNT(*) FROM StudentDetails";
+                string query = "SELECT COUNT(*) FROM StudentDetails " +
+                               "INNER JOIN AddressDetails ON StudentDetails.StudentID = AddressDetails.UserID " +
+                               "WHERE AddressDetails.AddressType = 1";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -152,5 +205,47 @@ namespace DemoUserManagement.DataAccessLayer
             return totalCount;
         }
 
+        public static DataTable GetStudentRecord(int studentID)
+        {
+            DataTable dt = new DataTable();
+
+            string query = $@"SELECT 
+                 StudentDetails.StudentID,
+                 StudentDetails.FirstName,
+                 StudentDetails.LastName,
+                 StudentDetails.Phone,
+                 StudentDetails.AadharNumber,
+                 AddressDetails.Country
+             FROM 
+                 StudentDetails 
+             INNER JOIN 
+                 AddressDetails ON StudentDetails.StudentID = AddressDetails.UserID
+             WHERE 
+                 AddressDetails.AddressType = 1
+                 AND StudentDetails.StudentID = @StudentID"; // Parameterized query
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@StudentID", studentID); // Add parameter for StudentID
+
+                    try
+                    {
+                        con.Open();
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        adapter.Fill(dt);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.AddData(ex);
+                    }
+                }
+            }
+
+            return dt;
+        }
+
+       
     }
 }

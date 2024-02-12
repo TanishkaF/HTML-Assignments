@@ -34,7 +34,6 @@ h3 {
     margin: 20px; /* Add margin to create space between the border and surrounding elements */
 }
 
-
 fieldset,
 legend {
     all: revert;
@@ -45,17 +44,6 @@ legend {
     padding-bottom: 25px;
 }
 
-.col-sm-4 {
-    padding-left: 0px;
-    padding-right: 0px;
-    /* margin-left: -12px; */
-}
-
-.col-sm-6 {
-    padding-left: 0px;
-    padding-right: 0px;
-    /* margin-left: -12px; */
-}
 
 .right-side {
     margin-right: -50px;
@@ -94,32 +82,21 @@ legend {
 }
 
 .error-display-box {
+    /* border: 1px solid  	#ff0000; */
     position: absolute;
+    display: none;
     background-color: #ff5252;
+    /* padding: auto; */
     color: white;
+    /* margin-bottom: 10px; */
 }
-
 
 .error-message {
     /* color: red; */
     text-decoration-thickness: bold;
 }
 
-table {
-    border: none;
-}
 
-#customAlert {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-}
 
 .modal-content {
     background-color: #fefefe;
@@ -170,15 +147,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding: auto;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 28px; /* Adjust font size as needed */
-    cursor: pointer;
-    margin-top: 10px; /* Adjust the margin-top value to match the Clear Form button */
-}
+
 
 .form-check-input {
     margin-right: 50px;
+}
+
+.centered-textbox {
+    text-align: center;
+}
+
+.larger-textbox {
+    width: 300px; /* Adjust width as needed */
+    height: 40px; /* Adjust height as needed */
+    font-size: 16px; /* Adjust font size as needed */
 }

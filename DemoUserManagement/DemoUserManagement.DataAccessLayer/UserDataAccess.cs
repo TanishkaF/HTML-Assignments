@@ -29,59 +29,56 @@ namespace DemoUserManagement.DataAccessLayer
             return userID;
         }
 
-            public static List<CountryViewModel> GetCountries()
+        public static List<CountryViewModel> GetCountries()
+        {
+            List<CountryViewModel> countries = new List<CountryViewModel>();
+            string query = "SELECT CountryID, CountryName FROM Countries";
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                List<CountryViewModel> countries = new List<CountryViewModel>();
-                string query = "SELECT CountryID, CountryName FROM Countries";
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
 
-                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+                while (reader.Read())
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    CountryViewModel country = new CountryViewModel
                     {
-                        CountryViewModel country = new CountryViewModel
-                        {
-                            CountryID = Convert.ToInt32(reader["CountryID"]),
-                            CountryName = reader["CountryName"].ToString()
-                        };
-                        countries.Add(country);
-                    }
-                    reader.Close();
+                        CountryID = Convert.ToInt32(reader["CountryID"]),
+                        CountryName = reader["CountryName"].ToString()
+                    };
+                    countries.Add(country);
                 }
-                return countries;
+                reader.Close();
             }
+            return countries;
+        }
 
-            public static List<StateViewModel> GetStates(int countryID)
+        public static List<StateViewModel> GetStates(int countryID)
+        {
+            List<StateViewModel> states = new List<StateViewModel>();
+            string query = "SELECT StateID, StateName FROM States WHERE CountryID = @CountryID";
+
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                List<StateViewModel> states = new List<StateViewModel>();
-                string query = "SELECT StateID, StateName FROM States WHERE CountryID = @CountryID";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@CountryID", countryID);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
 
-                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+                while (reader.Read())
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@CountryID", countryID);
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
                     StateViewModel state = new StateViewModel
                     {
-                            StateID = Convert.ToInt32(reader["StateID"]),
-                            StateName = reader["StateName"].ToString()
-                        };
-                        states.Add(state);
-                    }
-                    reader.Close();
+                        StateID = Convert.ToInt32(reader["StateID"]),
+                        StateName = reader["StateName"].ToString()
+                    };
+                    states.Add(state);
                 }
-                return states;
+                reader.Close();
             }
-        
-
-
+            return states;
+        }
 
         public static void InsertStudentDetails(StudentDetailViewModel studentDetails)
         {
@@ -126,7 +123,6 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-
         public static void InsertEducationDetails(EducationDetailViewModel educationDetails)
         {
             string query = @"INSERT INTO EducationDetails (StudentID, EducationType, InstituteName, Board, Marks, Aggregate, YearOfCompletion) 
@@ -147,7 +143,6 @@ namespace DemoUserManagement.DataAccessLayer
                 command.ExecuteNonQuery();
             }
         }
-
 
         public static void UpdateStudentDetails(int studentID, StudentDetailViewModel studentDetails)
         {
@@ -234,7 +229,6 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-
         public static string ValidateAndTrimInput(string input)
         {
             return input?.Trim() ?? string.Empty;
@@ -291,40 +285,40 @@ namespace DemoUserManagement.DataAccessLayer
         }
 
         public static StudentDetailViewModel GetStudentDetails(int studentID)
-            {
-                StudentDetailViewModel studentDetails = new StudentDetailViewModel();
+        {
+            StudentDetailViewModel studentDetails = new StudentDetailViewModel();
 
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                    string studentQuery = "SELECT * FROM StudentDetails WHERE StudentID = @StudentID";
-                    SqlCommand command = new SqlCommand(studentQuery, connection);
-                    command.Parameters.AddWithValue("@StudentID", studentID);
+                string studentQuery = "SELECT * FROM StudentDetails WHERE StudentID = @StudentID";
+                SqlCommand command = new SqlCommand(studentQuery, connection);
+                command.Parameters.AddWithValue("@StudentID", studentID);
 
-                    try
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
                     {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            studentDetails.FirstName = reader["FirstName"].ToString();
-                            studentDetails.MiddleName = reader["MiddleName"].ToString();
-                            studentDetails.LastName = reader["LastName"].ToString();
-                            studentDetails.Email = reader["Email"].ToString();
-                            studentDetails.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null;
-                            studentDetails.Phone = reader["Phone"].ToString();
-                            studentDetails.AadharNumber = reader["AadharNumber"].ToString();
-                            studentDetails.Gender = reader["Gender"].ToString();
-                        }
-                        reader.Close();
+                        studentDetails.FirstName = reader["FirstName"].ToString();
+                        studentDetails.MiddleName = reader["MiddleName"].ToString();
+                        studentDetails.LastName = reader["LastName"].ToString();
+                        studentDetails.Email = reader["Email"].ToString();
+                        studentDetails.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null;
+                        studentDetails.Phone = reader["Phone"].ToString();
+                        studentDetails.AadharNumber = reader["AadharNumber"].ToString();
+                        studentDetails.Gender = reader["Gender"].ToString();
                     }
-                    catch (Exception ex)
-                    {
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
                     Logger.AddData(ex);
                 }
-                }
-
-                return studentDetails;
             }
+
+            return studentDetails;
+        }
 
         public static AddressDetailViewModel GetPermanentAddress(int studentID)
         {
@@ -361,53 +355,72 @@ namespace DemoUserManagement.DataAccessLayer
 
         private static string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
 
-            public static EducationDetailViewModel GetEducationDetails(int studentID, int educationType)
+        public static EducationDetailViewModel GetEducationDetails(int studentID, int educationType)
+        {
+            EducationDetailViewModel educationDetails = new EducationDetailViewModel();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                EducationDetailViewModel educationDetails = new EducationDetailViewModel();
+                string educationQuery = "SELECT * FROM EducationDetails WHERE StudentID = @StudentID AND EducationType = @EducationType";
+                SqlCommand command = new SqlCommand(educationQuery, connection);
+                command.Parameters.AddWithValue("@StudentID", studentID);
+                command.Parameters.AddWithValue("@EducationType", educationType);
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                try
                 {
-                    string educationQuery = "SELECT * FROM EducationDetails WHERE StudentID = @StudentID AND EducationType = @EducationType";
-                    SqlCommand command = new SqlCommand(educationQuery, connection);
-                    command.Parameters.AddWithValue("@StudentID", studentID);
-                    command.Parameters.AddWithValue("@EducationType", educationType);
-
-                    try
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
                     {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
-                        if (reader.Read())
-                        {
-                            educationDetails.InstituteName = reader["InstituteName"].ToString();
-                            educationDetails.Board = reader["Board"].ToString();
-                            educationDetails.Marks = reader["Marks"].ToString();
-                            educationDetails.Aggregate = reader["Aggregate"] != DBNull.Value ? Convert.ToDecimal(reader["Aggregate"]) : (decimal?)null;
-                            educationDetails.YearOfCompletion = reader["YearOfCompletion"] != DBNull.Value ? Convert.ToInt32(reader["YearOfCompletion"]) : (int?)null;
-                        }
-                        reader.Close();
+                        educationDetails.InstituteName = reader["InstituteName"].ToString();
+                        educationDetails.Board = reader["Board"].ToString();
+                        educationDetails.Marks = reader["Marks"].ToString();
+                        educationDetails.Aggregate = reader["Aggregate"] != DBNull.Value ? Convert.ToDecimal(reader["Aggregate"]) : (decimal?)null;
+                        educationDetails.YearOfCompletion = reader["YearOfCompletion"] != DBNull.Value ? Convert.ToInt32(reader["YearOfCompletion"]) : (int?)null;
                     }
-                    catch (Exception ex)
-                    {
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
                     Logger.AddData(ex);
                 }
+            }
+
+            return educationDetails;
+        }
+
+        public static EducationDetailViewModel GetEducation10(int studentID)
+        {
+            return GetEducationDetails(studentID, 1);
+        }
+
+        public static EducationDetailViewModel GetEducation12(int studentID)
+        {
+            return GetEducationDetails(studentID, 2);
+        }
+
+        public static EducationDetailViewModel GetEducationGraduate(int studentID)
+        {
+            return GetEducationDetails(studentID, 3);
+        }
+
+        public static void InsertHobbyDetails(int studentID, string hobbies, string message, string feedback)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            {
+                string query = "INSERT INTO Hobby (StudentID, hobbies, message, feedback) VALUES (@StudentID, @Hobbies, @Message, @Feedback)";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@StudentID", studentID);
+                    command.Parameters.AddWithValue("@Hobbies", hobbies);
+                    command.Parameters.AddWithValue("@Message", message);
+                    command.Parameters.AddWithValue("@Feedback", feedback);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
                 }
-
-                return educationDetails;
-            }
-
-            public static EducationDetailViewModel GetEducation10(int studentID)
-            {
-                return GetEducationDetails(studentID, 1);
-            }
-
-            public static EducationDetailViewModel GetEducation12(int studentID)
-            {
-                return GetEducationDetails(studentID, 2);
-            }
-
-            public static EducationDetailViewModel GetEducationGraduate(int studentID)
-            {
-                return GetEducationDetails(studentID, 3);
             }
         }
+
     }
+}

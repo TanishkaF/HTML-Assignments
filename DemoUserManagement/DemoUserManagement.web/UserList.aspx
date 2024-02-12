@@ -15,7 +15,7 @@
             AllowPaging="True"
             AllowSorting="True"
             AllowCustomPaging="True"
-            PageSize="3"
+            PageSize="5"
             OnPageIndexChanging="GridViewUsers_PageIndexChanging"
             OnSorting="GridViewUsers_Sorting"
             OnRowCommand="GridViewUsers_RowCommand"

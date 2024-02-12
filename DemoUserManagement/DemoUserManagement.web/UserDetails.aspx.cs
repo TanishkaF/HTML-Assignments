@@ -2,8 +2,9 @@
 using DemoUserManagement.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
+using System.EnterpriseServices.CompensatingResourceManager;
+using System.Text;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
@@ -12,7 +13,7 @@ namespace DemoUserManagement.web
     public partial class UserDetails : System.Web.UI.Page
     {
         protected void SubmitClick(object sender, EventArgs e)
-        {
+        {             
 
             if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
             {
@@ -29,21 +30,34 @@ namespace DemoUserManagement.web
                 UserBusiness.UpdateEducationDetails(userID,2, educationDetails12);  
                 EducationDetailViewModel educationDetailsGraduate = GetEducationDetails(userID,3);
                 UserBusiness.UpdateEducationDetails(userID,3, educationDetailsGraduate);
+                UpdateUserDetails(userID);
             }
             else
             {
                 StudentDetailViewModel studentDetails = GetStudentDetails();
                 UserBusiness.InsertStudentDetails(studentDetails);
-            
-                int userID = UserBusiness.GetLastInsertedUserID();                           
-               
+
+                int userID = UserBusiness.GetLastInsertedUserID();
+
                 AddressDetailViewModel addressDetails1 = GetAddressDetails(userID, 1);
+                addressDetails1.AddressType = 1;
                 UserBusiness.InsertAddressDetails(addressDetails1);
 
-                if (!sameAsCurrent.Checked)
+                // Insert second address if not same as current
+                if (sameAsCurrent.Checked)
                 {
+                   // CopyAddress(sender,e);
                     AddressDetailViewModel addressDetails2 = GetAddressDetails(userID, 2);
+                    addressDetails2.UserID = userID;
+                    addressDetails2.AddressType = 2;
+                    // Insert the second address
                     UserBusiness.InsertAddressDetails(addressDetails2);
+                }
+                else
+                {
+                    AddressDetailViewModel addressDetailsPermanent = GetAddressDetails(userID, 2);
+                    UserBusiness.InsertAddressDetails(addressDetailsPermanent);
+
                 }
 
 
@@ -54,37 +68,49 @@ namespace DemoUserManagement.web
                 EducationDetailViewModel educationDetailViewModelGraduate = GetEducationDetails(userID,3);
                 UserBusiness.InsertEducationDetails(educationDetailViewModelGraduate);
 
-            }
+                string hobbiesString = HobbySelected();
+                string messageText = message.Text;
+                string feedbackText = feedback.Text;
 
-            UpdateUserDetails();
+                UserBusiness.InsertHobbyDetails(userID,hobbiesString, messageText, feedbackText);
+                UpdateUserDetails(userID);
+            }          
+        }
+
+      
+
+
+        protected void ResetButton_Click(object sender, EventArgs e)
+        {
+            foreach (Control control in Page.Controls)
+            {
+                if (control is TextBox)
+                {
+                    ((TextBox)control).Text = string.Empty;
+                }
+                else if (control is DropDownList)
+                {
+                    ((DropDownList)control).ClearSelection();
+                }
+                // Add other control types as needed (e.g., CheckBox, RadioButton, etc.)
+            }
         }
 
         protected void CopyAddress(object sender, EventArgs e)
         {
             int userID = UserBusiness.GetLastInsertedUserID();
-            AddressDetailViewModel currentAddress = new AddressDetailViewModel();
-            AddressDetailViewModel permanentAddress = new AddressDetailViewModel();
-            
-
-            // Assuming currentAddress and permanentAddress are defined elsewhere in your code.
-            // Make sure to replace 'currentAddress' and 'permanentAddress' with the actual instances.
 
             if (sameAsCurrent.Checked)
             {
-                // Set the UserID for the current address
-                currentAddress.UserID = userID;
-
-                // Insert current address
-                UserBusiness.InsertAddressDetails(currentAddress);
-
                 ViewState["PrevPCountry"] = pCountry.SelectedValue;
                 ViewState["PrevPState"] = pState.SelectedValue;
                 ViewState["PrevP1Address"] = p1Address.Text;
                 ViewState["PrevP2Address"] = p2Address.Text;
                 ViewState["PrevPPinCode"] = pPinCode.Text;
 
-                pCountry.SelectedValue = cCountry.SelectedValue;
-                PopulateStates(Convert.ToInt32(cCountry.SelectedValue), pState);
+                pCountry.SelectedValue = cCountry.SelectedValue ?? "Choose Country";
+                PopulateStates(Convert.ToInt32(cCountry.SelectedValue ?? "Choose Sate"), pState);
+
 
                 pState.SelectedValue = cState.SelectedValue;
                 p1Address.Text = c1Address.Text;
@@ -93,12 +119,6 @@ namespace DemoUserManagement.web
             }
             else
             {
-                // Set the UserID for the permanent address
-                permanentAddress.UserID = userID;
-
-                // Insert permanent address
-                UserBusiness.InsertAddressDetails(permanentAddress);
-
                 pCountry.SelectedValue = (string)ViewState["PrevPCountry"];
                 string prevPState = (string)ViewState["PrevPState"];
 
@@ -120,14 +140,16 @@ namespace DemoUserManagement.web
             }
         }
 
-        protected void UpdateUserDetails()
+        protected void UpdateUserDetails(int userId)
         {
-            Response.Redirect("UserList.aspx?Refresh=1");
+            // Add userId along with other parameters to the URL
+            Response.Redirect($"UserList.aspx");
         }
-
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            resetButton.Click += ResetButton_Click;
+
             if (!IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
@@ -136,15 +158,17 @@ namespace DemoUserManagement.web
                     if (int.TryParse(Request.QueryString["StudentID"], out studentID))
                     {
                         PopulateStudentDetails(studentID);
+                        PopulateCountries(cCountry);
+                        PopulateCountries(pCountry);
                         PopulatedAddressDetails(studentID);
                         PopulatedEducationDetails(studentID);
+                       // PopulateHobbyDetails(studentID);
                     }
                 }
                 PopulateCountries(cCountry);
                 PopulateCountries(pCountry);
             }
         }
-
 
         protected void PopulateCountries(DropDownList countryDropDown)
         {
@@ -178,8 +202,6 @@ namespace DemoUserManagement.web
         {
             PopulateStates(Convert.ToInt32(pCountry.SelectedValue), pState);
         }
-
-
 
         private StudentDetailViewModel GetStudentDetails()
         {
@@ -310,9 +332,6 @@ namespace DemoUserManagement.web
             return educationDetails;
         }
 
-
-
-
         protected string GetValueFromTextBox(TextBox textBox)
         {
             return textBox?.Text?.Trim() ?? string.Empty;
@@ -355,15 +374,7 @@ namespace DemoUserManagement.web
             else if (gender == "Female")
             {
                 female.Checked = true;
-            }
-
-          
-
-            //// Populate education details
-            //EducationDetailViewModel education10 = EducationManager.GetEducationDetails(studentID, 1);
-            //instName10.Text = education10.InstituteName;
-            //board10.Text = education10.Board;
-            //// Populate other fields similarly for education 10th, 12th, and Graduate
+            }          
         }
 
         protected void PopulatedAddressDetails(int studentID)
@@ -448,6 +459,79 @@ namespace DemoUserManagement.web
             gradeGValue.Text = educationGraduate.Aggregate.ToString(); // Assuming this is a TextBox for displaying the grade
             yopG.Text = educationGraduate.YearOfCompletion.ToString(); // Assuming this is a TextBox for displaying the year of completion
 
+        }
+
+        //protected void PopulateHobbyDetails(int studentID)
+        //{
+        //   HobbyDetailViewModel hobbyDetails = UserBusiness.GetHobbyDetails(studentID);        
+
+        //    string hobbies = hobbyDetails.Hobbies;
+        //    string[] hobbyArray = hobbies.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+        //    foreach (string hobby in hobbyArray)
+        //    {
+        //        switch (hobby)
+        //        {
+        //            case "Dancing":
+        //                checkbox1.Checked = true;
+        //                break;
+        //            case "Singing":
+        //                checkbox2.Checked = true;
+        //                break;
+        //            case "Coding":
+        //                checkbox3.Checked = true;
+        //                break;
+        //                // Add cases for all hobbies...
+        //        }
+        //    }
+
+        //    // Populate message and feedback
+        //    message.Text = hobbyDetails.Message;
+        //    feedback.Text = hobbyDetails.Feedback;
+        //}
+
+        public string HobbySelected()
+        {
+            StringBuilder selectedHobbies = new StringBuilder();
+
+            if (checkbox1.Checked)
+            {
+                selectedHobbies.Append("Dancing, ");
+            }
+            if (checkbox2.Checked)
+            {
+                selectedHobbies.Append("Singing, ");
+            }
+            if (checkbox3.Checked)
+            {
+                selectedHobbies.Append("Coding, ");
+            }
+            if (checkbox4.Checked)
+            {
+                selectedHobbies.Append("Web Designing, ");
+            }
+            if (checkbox5.Checked)
+            {
+                selectedHobbies.Append("Board Games, ");
+            }
+            if (checkbox6.Checked)
+            {
+                selectedHobbies.Append("Camping, ");
+            }
+            if (checkbox7.Checked)
+            {
+                selectedHobbies.Append("Running, ");
+            }
+            if (checkbox8.Checked)
+            {
+                selectedHobbies.Append("Sleeping, ");
+            }
+            if (checkbox9.Checked)
+            {
+                selectedHobbies.Append("Reading, ");
+            }
+
+            return selectedHobbies.ToString();
         }
 
     }

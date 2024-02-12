@@ -22,59 +22,48 @@ namespace DemoUserManagement.BusinessLayer
             return UserDetailsDataAccess.GetStates(countryID);
         }
 
-       
-            public static void CopyAddress(int userID, bool sameAsCurrent)
-            {
-                // Get current address details
-                AddressDetailViewModel currentAddress = GetAddressDetails(userID, 1);
-            // Insert current address details
-                 UserDetailsDataAccess.InsertAddressDetails(currentAddress);
 
-                if (!sameAsCurrent)
-                {
-                    // Get permanent address details
-                    AddressDetailViewModel permanentAddress = GetAddressDetails(userID, 2);
+        public static void CopyAddress(int userID, bool sameAsCurrent)
+        {
+            // Get current address details
+            AddressDetailViewModel currentAddress = GetAddressDetails(userID, 1);
+            // Insert current address details
+            UserDetailsDataAccess.InsertAddressDetails(currentAddress);
+
+            if (!sameAsCurrent)
+            {
+                // Get permanent address details
+                AddressDetailViewModel permanentAddress = GetAddressDetails(userID, 2);
                 // Insert permanent address details
                 UserDetailsDataAccess.InsertAddressDetails(permanentAddress);
-                }
-                else
-                {
-                    // Insert current address details with AddressType 2 (permanent address)
-                    currentAddress.AddressType = 2;
-                    UserDetailsDataAccess.InsertAddressDetails(currentAddress);
-                }
             }
-
-            public static AddressDetailViewModel GetAddressDetails(int userID, int addressType)
+            else
             {
-                // Implement logic to fetch address details based on userID and addressType
-                AddressDetailViewModel addressDetails = new AddressDetailViewModel();
-                // Populate addressDetails with data from database
-                // Example:
-                // addressDetails = AddressDAL.GetAddressDetails(userID, addressType);
-                return addressDetails;
+                // Insert current address details with AddressType 2 (permanent address)
+                currentAddress.AddressType = 2;
+                UserDetailsDataAccess.InsertAddressDetails(currentAddress);
             }
+        }
 
-            public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
-            {
-            // Implement logic to insert address details into the database
+        public static AddressDetailViewModel GetAddressDetails(int userID, int addressType)
+        {
+            // Implement logic to fetch address details based on userID and addressType
+            AddressDetailViewModel addressDetails = new AddressDetailViewModel();
+            // Populate addressDetails with data from database
             // Example:
-            // AddressDAL.InsertAddressDetails(addressDetails);
+            // addressDetails = AddressDAL.GetAddressDetails(userID, addressType);
+            return addressDetails;
+        }
+
+        public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
+        {
             UserDetailsDataAccess.InsertAddressDetails(addressDetails);
-            }
-        
-
-
+        }
 
         public static void InsertStudentDetails(StudentDetailViewModel studentDetails)
         {
             UserDetailsDataAccess.InsertStudentDetails(studentDetails);
         }
-
-        //public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
-        //{
-        //    UserDetailsDataAccess.InsertAddressDetails(addressDetails);
-        //}
 
         public static void InsertEducationDetails(EducationDetailViewModel educationDetailViewModel)
         {
@@ -125,5 +114,11 @@ namespace DemoUserManagement.BusinessLayer
         {
             return UserDetailsDataAccess.GetEducationGraduate(userID);
         }
+
+        public static void InsertHobbyDetails(int studentID,string hobbies, string message, string feedback)
+        {
+            UserDetailsDataAccess.InsertHobbyDetails(studentID,hobbies, message,feedback);
+        }
+
     }
 }

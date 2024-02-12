@@ -45,6 +45,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="CountryViewModel.cs" />
     <Compile Include="EducationDetailViewModel.cs" />
+    <Compile Include="HobbyDetailViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateViewModel.cs" />
     <Compile Include="StudentDetailViewModel.cs" />

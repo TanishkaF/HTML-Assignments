@@ -20,5 +20,12 @@ namespace DemoUserManagement.BusinessLayer
             return UserListDataAccess.GetTotalCount();
         }
 
+        public static DataTable GetStudentRecord(int studentID)
+        {
+            return UserListDataAccess.GetStudentRecord(studentID);
+        }
+
+       
+
     }
 }

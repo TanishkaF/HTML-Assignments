@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StudentDetailsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StudentDetailsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AddressDetails">
           <Key>
             <PropertyRef Name="AddressID" />
@@ -37,6 +37,16 @@
           <Property Name="Marks" Type="nvarchar" MaxLength="100" />
           <Property Name="Aggregate" Type="decimal" Precision="5" Scale="2" />
           <Property Name="YearOfCompletion" Type="int" />
+        </EntityType>
+        <EntityType Name="Hobby">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentID" Type="int" />
+          <Property Name="Hobbies" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Feedback" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="States">
           <Key>
@@ -84,6 +94,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Hobby__StudentID__46E78A0C">
+          <End Role="StudentDetails" Type="Self.StudentDetails" Multiplicity="0..1" />
+          <End Role="Hobby" Type="Self.Hobby" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentDetails">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Hobby">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__States__CountryI__3E52440B">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="States" Type="Self.States" Multiplicity="*" />
@@ -100,6 +122,7 @@
           <EntitySet Name="AddressDetails" EntityType="Self.AddressDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EducationDetails" EntityType="Self.EducationDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hobby" EntityType="Self.Hobby" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentDetails" EntityType="Self.StudentDetails" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AddressDe__UserI__398D8EEE" Association="Self.FK__AddressDe__UserI__398D8EEE">
@@ -110,13 +133,16 @@
             <End Role="StudentDetails" EntitySet="StudentDetails" />
             <End Role="EducationDetails" EntitySet="EducationDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK__Hobby__StudentID__46E78A0C" Association="Self.FK__Hobby__StudentID__46E78A0C">
+            <End Role="StudentDetails" EntitySet="StudentDetails" />
+            <End Role="Hobby" EntitySet="Hobby" />
+          </AssociationSet>
           <AssociationSet Name="FK__States__CountryI__3E52440B" Association="Self.FK__States__CountryI__3E52440B">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="States" EntitySet="States" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StudentDetailsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -180,6 +206,7 @@
           <Property Name="AadharNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AddressDetails" Relationship="Self.FK__AddressDe__UserI__398D8EEE" FromRole="StudentDetails" ToRole="AddressDetails" />
           <NavigationProperty Name="EducationDetails" Relationship="Self.FK__Education__Stude__412EB0B6" FromRole="StudentDetails" ToRole="EducationDetails" />
+          <NavigationProperty Name="Hobbies" Relationship="StudentDetailsDBModel.FK__Hobby__StudentID__46E78A0C" FromRole="StudentDetail" ToRole="Hobby" />
         </EntityType>
         <Association Name="FK__AddressDe__UserI__398D8EEE">
           <End Role="StudentDetails" Type="Self.StudentDetail" Multiplicity="0..1" />
@@ -235,7 +262,35 @@
             <End Role="StudentDetails" EntitySet="StudentDetails" />
             <End Role="EducationDetails" EntitySet="EducationDetails" />
           </AssociationSet>
+          <EntitySet Name="Hobbies" EntityType="StudentDetailsDBModel.Hobby" />
+          <AssociationSet Name="FK__Hobby__StudentID__46E78A0C" Association="StudentDetailsDBModel.FK__Hobby__StudentID__46E78A0C">
+            <End Role="StudentDetail" EntitySet="StudentDetails" />
+            <End Role="Hobby" EntitySet="Hobbies" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Hobby">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentID" Type="Int32" />
+          <Property Name="Hobbies" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Feedback" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="StudentDetail" Relationship="StudentDetailsDBModel.FK__Hobby__StudentID__46E78A0C" FromRole="Hobby" ToRole="StudentDetail" />
+        </EntityType>
+        <Association Name="FK__Hobby__StudentID__46E78A0C">
+          <End Type="StudentDetailsDBModel.StudentDetail" Role="StudentDetail" Multiplicity="0..1" />
+          <End Type="StudentDetailsDBModel.Hobby" Role="Hobby" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StudentDetail">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="Hobby">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -299,6 +354,17 @@
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="AadharNumber" ColumnName="AadharNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hobbies">
+            <EntityTypeMapping TypeName="StudentDetailsDBModel.Hobby">
+              <MappingFragment StoreEntitySet="Hobby">
+                <ScalarProperty Name="Feedback" ColumnName="Feedback" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Hobbies" ColumnName="Hobbies" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="HobbyID" ColumnName="HobbyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

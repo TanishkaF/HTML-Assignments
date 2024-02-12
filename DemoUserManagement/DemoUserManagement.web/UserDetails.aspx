@@ -1,4 +1,7 @@
 ﻿﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserDetails.aspx.cs" Inherits="DemoUserManagement.web.UserDetails" %>
+<%@ Register Src="~/NoteUserControl.ascx" TagPrefix="uc" TagName="NoteUserControl" %>
+
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,6 +11,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="index.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="Scripts/DemoUserManagement.js"></script>   
 </head>
 
 <body onload="displayUserData()">
@@ -37,8 +41,8 @@
                                         </div>
                                         <asp:TextBox ID="firstName" runat="server" CssClass="form-control" Placeholder="First Name" ClientIDMode="Static" />
                                     </div>
+                                    <div id="errorMessageFirstNameDiv" class="error-display-box error-message"></div>
 
-                                    <div id="errorMessageFirstNameDiv" class="error-display-box"></div>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -793,7 +797,7 @@
                         <div class="row mb-3">
                             <!-- First Row -->
                             <div class="col">
-                                <div class="form-check">
+                                <div class="form-check hobby_check">
                                     <asp:CheckBox ID="checkbox1" runat="server" CssClass="form-check-input" Text="Dancing" ClientIDMode="Static" />
                                     <label class="form-check-label" for="checkbox1"></label>
                                 </div>
@@ -874,19 +878,16 @@
                 </fieldset>
             </div>
 
+                <uc:NoteUserControl ID="NoteUserControl" runat="server" />
             <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
-                <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClick="SubmitClick" ClientIDMode="Static" />
-                <asp:Button ID="resetButton" runat="server" CssClass="btn btn-danger ResetButton ml-2" Text="Reset" OnClientClick="resetForm()" ClientIDMode="Static" />
+<%--                    <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClientClick="return validateData();" OnClick="SubmitClick" ClientIDMode="Static" />--%>
+                <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit"  OnClick="SubmitClick" ClientIDMode="Static" />
+                <asp:Button ID="resetButton" runat="server" CssClass="btn btn-danger ResetButton ml-2" Text="Reset" onClientClick="return resetForm();" ClientIDMode="Static" />
             </div>
         </div>
 
-    </form>
-    <script>
-        function displayErrorMessage(message, divId) {
-            document.getElementById(divId).innerHTML = message;
-        }
-    </script>
-    <script src="indexJquery.js"></script>
+    </form>  
+
 </body>
 
 </html>
