@@ -76,7 +76,7 @@ namespace DemoUserManagement.DataAccessLayer
                     catch (Exception ex)
                     {
                         // Handle exception
-                        throw;
+                        Logger.AddData(ex); ;
                     }
                 }
             }
@@ -112,7 +112,7 @@ namespace DemoUserManagement.DataAccessLayer
                     catch (Exception ex)
                     {
                         // Handle exceptions (e.g., log error, throw exception)
-                        throw;
+                        Logger.AddData(ex); 
                     }
                 }
             }

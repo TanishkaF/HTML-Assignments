@@ -879,8 +879,8 @@
             </div>
 
                 <uc:NoteUserControl ID="NoteUserControl" runat="server" />
-            <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
-<%--                    <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClientClick="return validateData();" OnClick="SubmitClick" ClientIDMode="Static" />--%>
+<%--            <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">--%>
+                  <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClientClick="return validateData();" OnClick="SubmitClick" ClientIDMode="Static" />
                 <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit"  OnClick="SubmitClick" ClientIDMode="Static" />
                 <asp:Button ID="resetButton" runat="server" CssClass="btn btn-danger ResetButton ml-2" Text="Reset" onClientClick="return resetForm();" ClientIDMode="Static" />
             </div>
