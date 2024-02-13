@@ -1,8 +1,7 @@
 ﻿using DemoUserManagement.BusinessLayer;
+using DemoUserManagement.ViewModel;
 using System;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 
 namespace DemoUserManagement.web
@@ -42,9 +41,9 @@ namespace DemoUserManagement.web
             string studentIDString = Request.QueryString["StudentID"];
             int studentID = Convert.ToInt32(studentIDString);
 
-            GridViewNotes.VirtualItemCount = NoteUserControlBusiness.GetTotalCount(studentID); // Use Data Access Layer method
+            GridViewNotes.VirtualItemCount = NoteUserControlBusiness.GetTotalCount(studentID); 
 
-            DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, studentID); // Use Data Access Layer method
+            DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, studentID);
             GridViewNotes.DataSource = dt;
             GridViewNotes.DataBind();
         }
@@ -73,16 +72,23 @@ namespace DemoUserManagement.web
             ViewState["SortDirection"] = sortDirection;
 
             BindGridView();
-        }        
-
+        }
 
         protected void BtnAddNote_Click(object sender, EventArgs e)
         {
             string studentID = Request.QueryString["StudentID"];
             string noteData = txtNote.Text;
-           NoteUserControlBusiness .AddNote(studentID, noteData);
+
+            NoteViewModel note = new NoteViewModel
+            {
+                ObjectID = int.Parse(studentID),
+                NoteText = noteData
+            };
+
+            NoteUserControlBusiness.InsertNote(note);
             txtNote.Text = "";
             BindGridView();
         }
+
     }
 }

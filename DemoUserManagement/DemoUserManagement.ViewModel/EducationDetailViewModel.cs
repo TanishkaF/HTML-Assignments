@@ -8,6 +8,8 @@ namespace DemoUserManagement.ViewModel
 {
     public class EducationDetailViewModel
     {
+       
+
         public int EducationID { get; set; }
         public Nullable<int> StudentID { get; set; }
         public Nullable<int> EducationType { get; set; }

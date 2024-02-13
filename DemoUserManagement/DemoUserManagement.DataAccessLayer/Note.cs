@@ -12,18 +12,14 @@ namespace DemoUserManagement.DataAccessLayer
     using System;
     using System.Collections.Generic;
     
-    public partial class EducationDetail
+    public partial class Note
     {
-        public int EducationID { get; set; }
-        public Nullable<int> StudentID { get; set; }
-        public Nullable<int> EducationType { get; set; }
-        public string InstituteName { get; set; }
-        public string Board { get; set; }
-        public string Marks { get; set; }
-        public Nullable<decimal> Aggregate { get; set; }
-        public Nullable<int> YearOfCompletion { get; set; }
+        public int NoteID { get; set; }
+        public Nullable<int> ObjectID { get; set; }
+        public Nullable<int> ObjectType { get; set; }
+        public string NoteText { get; set; }
+        public Nullable<System.DateTime> TimeStamp { get; set; }
     
-        public virtual StudentDetail StudentDetail { get; set; }
         public virtual StudentDetailsTable StudentDetailsTable { get; set; }
     }
 }

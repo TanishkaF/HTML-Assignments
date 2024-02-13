@@ -18,6 +18,7 @@ namespace DemoUserManagement.DataAccessLayer
         public Country()
         {
             this.States = new HashSet<State>();
+            this.AddressDetails = new HashSet<AddressDetail>();
         }
     
         public int CountryID { get; set; }
@@ -25,5 +26,7 @@ namespace DemoUserManagement.DataAccessLayer
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<State> States { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddressDetail> AddressDetails { get; set; }
     }
 }

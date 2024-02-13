@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DemoUserManagement.DataAccessLayer;
+using DemoUserManagement.UtilityLayer;
 using DemoUserManagement.ViewModel;
 
 namespace DemoUserManagement.BusinessLayer
 {
     public class UserBusiness
     {
-        public static int GetLastInsertedUserID()
-        {
-            return UserDetailsDataAccess.GetLastInsertedUserID();
-        }
 
         public static List<CountryViewModel> GetCountries()
         {
@@ -22,18 +18,17 @@ namespace DemoUserManagement.BusinessLayer
             return UserDetailsDataAccess.GetStates(countryID);
         }
 
-
-        public static void CopyAddress(int userID, bool sameAsCurrent)
+        public static void CopyAddress(int studentID, bool sameAsCurrent)
         {
             // Get current address details
-            AddressDetailViewModel currentAddress = GetAddressDetails(userID, 1);
+            AddressDetailViewModel currentAddress = GetAddressDetails(studentID, AddressType.CurrentAddress);   
             // Insert current address details
             UserDetailsDataAccess.InsertAddressDetails(currentAddress);
 
             if (!sameAsCurrent)
             {
                 // Get permanent address details
-                AddressDetailViewModel permanentAddress = GetAddressDetails(userID, 2);
+                AddressDetailViewModel permanentAddress = GetAddressDetails(studentID, AddressType.PermanentAddress);
                 // Insert permanent address details
                 UserDetailsDataAccess.InsertAddressDetails(permanentAddress);
             }
@@ -44,81 +39,76 @@ namespace DemoUserManagement.BusinessLayer
                 UserDetailsDataAccess.InsertAddressDetails(currentAddress);
             }
         }
-
-        public static AddressDetailViewModel GetAddressDetails(int userID, int addressType)
+        
+        public static int GetLastInsertedUserID()
         {
-            // Implement logic to fetch address details based on userID and addressType
-            AddressDetailViewModel addressDetails = new AddressDetailViewModel();
-            // Populate addressDetails with data from database
-            // Example:
-            // addressDetails = AddressDAL.GetAddressDetails(userID, addressType);
-            return addressDetails;
+            return UserDetailsDataAccess.GetLastInsertedUserID();
+        }     
+
+        public static void InsertStudentTableDetails(StudentDetailsTableViewModel studentDetails)
+        {
+            UserDetailsDataAccess.InsertStudentTableDetails(studentDetails);
         }
 
         public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
         {
             UserDetailsDataAccess.InsertAddressDetails(addressDetails);
-        }
-
-        public static void InsertStudentDetails(StudentDetailViewModel studentDetails)
-        {
-            UserDetailsDataAccess.InsertStudentDetails(studentDetails);
-        }
+        }      
 
         public static void InsertEducationDetails(EducationDetailViewModel educationDetailViewModel)
         {
             UserDetailsDataAccess.InsertEducationDetails(educationDetailViewModel);
-        }
+        }       
 
-        public static void UpdateStudentDetails(int userID, StudentDetailViewModel studentDetails)
+        public static void UpdateStudentDetailsTable(int studentID, StudentDetailsTableViewModel studentDetails)
         {
-            UserDetailsDataAccess.UpdateStudentDetails(userID, studentDetails);
+            UserDetailsDataAccess.UpdateStudentDetailsTable(studentID, studentDetails);
         }
 
-        public static void UpdateAddressDetails(int userID, int addressType, AddressDetailViewModel addressDetails)
+        public static void UpdateAddressDetails(int studentID, int addressType, AddressDetailViewModel addressDetails)
         {
-            UserDetailsDataAccess.UpdateAddressDetails(userID, addressType, addressDetails);
+            UserDetailsDataAccess.UpdateAddressDetails(studentID, addressType, addressDetails);
         }
 
-        public static void UpdateEducationDetails(int userID, int educationType, EducationDetailViewModel educationDetails)
+        public static void UpdateEducationDetails(int studentID, int educationType, EducationDetailViewModel educationDetails)
         {
-            UserDetailsDataAccess.UpdateEducationDetails(userID, educationType, educationDetails);
+            UserDetailsDataAccess.UpdateEducationDetails(studentID, educationType, educationDetails);
         }
 
-        public static StudentDetailViewModel GetStudentDetails(int userID)
+        public static StudentDetailsTableViewModel GetStudentDetailsTable(int studentID)
         {
-            return UserDetailsDataAccess.GetStudentDetails(userID);
-        }
-
-        public static AddressDetailViewModel GetCurrentAddress(int userID)
+            return UserDetailsDataAccess.GetStudentDetailsTable(studentID);
+        }      
+        public static AddressDetailViewModel GetAddressDetails(int studentID, int addressType)
         {
-            return UserDetailsDataAccess.GetCurrentAddress(userID);
+            AddressDetailViewModel addressDetails = new AddressDetailViewModel();          
+            return addressDetails;
         }
 
-        public static AddressDetailViewModel GetPermanentAddress(int userID)
+        public static AddressDetailViewModel GetCurrentAddress(int studentID)
         {
-            return UserDetailsDataAccess.GetPermanentAddress(userID);
+            return UserDetailsDataAccess.GetCurrentAddress(studentID);
         }
 
-        public static EducationDetailViewModel GetEducation10(int userID)
+        public static AddressDetailViewModel GetPermanentAddress(int studentID)
         {
-            return UserDetailsDataAccess.GetEducation10(userID);
+            return UserDetailsDataAccess.GetPermanentAddress(studentID);
         }
 
-        public static EducationDetailViewModel GetEducation12(int userID)
+        public static EducationDetailViewModel GetEducation10(int studentID)
         {
-            return UserDetailsDataAccess.GetEducation12(userID);
+            return UserDetailsDataAccess.GetEducation10(studentID);
         }
 
-        public static EducationDetailViewModel GetEducationGraduate(int userID)
+        public static EducationDetailViewModel GetEducation12(int studentID)
         {
-            return UserDetailsDataAccess.GetEducationGraduate(userID);
+            return UserDetailsDataAccess.GetEducation12(studentID);
         }
 
-        public static void InsertHobbyDetails(int studentID,string hobbies, string message, string feedback)
+        public static EducationDetailViewModel GetEducationGraduate(int studentID)
         {
-            UserDetailsDataAccess.InsertHobbyDetails(studentID,hobbies, message,feedback);
-        }
-
+            return UserDetailsDataAccess.GetEducationGraduate(studentID);
+        }    
+       
     }
 }

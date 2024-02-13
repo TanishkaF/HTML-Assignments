@@ -14,10 +14,18 @@ namespace DemoUserManagement.DataAccessLayer
     
     public partial class State
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public State()
+        {
+            this.AddressDetails = new HashSet<AddressDetail>();
+        }
+    
         public int StateID { get; set; }
         public string StateName { get; set; }
         public Nullable<int> CountryID { get; set; }
     
         public virtual Country Country { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AddressDetail> AddressDetails { get; set; }
     }
 }

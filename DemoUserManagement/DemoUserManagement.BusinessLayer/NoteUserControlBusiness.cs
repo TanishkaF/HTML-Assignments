@@ -1,10 +1,7 @@
 ﻿using DemoUserManagement.DataAccessLayer;
-using System;
-using System.Collections.Generic;
+using DemoUserManagement.ViewModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DemoUserManagement.BusinessLayer
 {
@@ -20,10 +17,9 @@ namespace DemoUserManagement.BusinessLayer
             return NoteUserControlDataAcess.GetTotalNotesCount(studentID);
         }
 
-        public static void AddNote(string studentID, string noteData)
+        public static void InsertNote(NoteViewModel note)
         {
-            string noteType = "UserDetails";
-            NoteUserControlDataAcess.InsertNote(studentID, noteType, noteData);
+            NoteUserControlDataAcess.InsertNote(note);
         }
     }
 }

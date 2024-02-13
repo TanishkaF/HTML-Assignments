@@ -4,7 +4,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link href="Content/UserListGridViewStyleSheet.css" rel="stylesheet" />
     <title></title>
+
 </head>
 <body>
     <form id="form1" runat="server">
@@ -21,21 +23,23 @@
             OnRowCommand="GridViewUsers_RowCommand"
             DataKeyNames="StudentID">
             <Columns>
+                <asp:BoundField DataField="StudentID" HeaderText="Student ID" SortExpression="StudentID" />
                 <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
                 <asp:BoundField DataField="Phone" HeaderText="Phone" SortExpression="Phone" />
                 <asp:BoundField DataField="AadharNumber" HeaderText="Aadhar" SortExpression="AadharNumber" />
-                <asp:BoundField DataField="Country" HeaderText="Country of Current Address" SortExpression="Country" />
+                <asp:BoundField DataField="OriginalDocumentName" HeaderText="Document Name" SortExpression="OriginalDocumentName" />
+                
                 <asp:TemplateField HeaderText="Edit">
                     <ItemTemplate>
                         <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="EditUser" CommandArgument='<%# Eval("StudentID") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
+
         </asp:GridView>
 
         <asp:Button ID="btnAddStudent" runat="server" Text="Add More Student" OnClick="BtnAddStudent_Click" />
 
     </form>
 </body>
-</html>

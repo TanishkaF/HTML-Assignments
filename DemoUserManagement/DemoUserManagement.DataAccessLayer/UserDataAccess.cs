@@ -4,37 +4,21 @@ using System.Configuration;
 using System;
 using System.Collections.Generic;
 using DemoUserManagement.UtilityLayer;
+using System.Data;
 
 
 namespace DemoUserManagement.DataAccessLayer
 {
     public static class UserDetailsDataAccess
     {
-        public static int GetLastInsertedUserID()
-        {
-            int userID = 0;
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
-            {
-                string query = "SELECT IDENT_CURRENT('StudentDetails') AS LastUserID";
-                SqlCommand command = new SqlCommand(query, connection);
-
-                connection.Open();
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    userID = Convert.ToInt32(result);
-                }
-            }
-
-            return userID;
-        }
+        private static string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
 
         public static List<CountryViewModel> GetCountries()
         {
             List<CountryViewModel> countries = new List<CountryViewModel>();
             string query = "SELECT CountryID, CountryName FROM Countries";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
@@ -59,7 +43,7 @@ namespace DemoUserManagement.DataAccessLayer
             List<StateViewModel> states = new List<StateViewModel>();
             string query = "SELECT StateID, StateName FROM States WHERE CountryID = @CountryID";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@CountryID", countryID);
@@ -80,40 +64,89 @@ namespace DemoUserManagement.DataAccessLayer
             return states;
         }
 
-        public static void InsertStudentDetails(StudentDetailViewModel studentDetails)
+        public static string ValidateAndTrimInput(string input)
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
-            {
-                string query = @"INSERT INTO StudentDetails (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber) 
-                   VALUES (@FirstName, @MiddleName, @LastName, @Email, @DateOfBirth, @Gender, @Phone, @AadharNumber)";
+            return input?.Trim() ?? string.Empty;
+        }
 
+        public static DateTime? ParseDateTime(string dateTimeString)
+        {
+            if (!string.IsNullOrEmpty(dateTimeString))
+            {
+                if (DateTime.TryParse(dateTimeString, out DateTime parsedDate))
+                {
+                    return parsedDate;
+                }
+                else
+                {
+                    // Handle invalid date format
+                    throw new ArgumentException("Invalid Date of Birth format");
+                }
+            }
+            return null;
+        }
+
+        public static int GetLastInsertedUserID()
+        {
+            int userID = 0;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT IDENT_CURRENT('StudentDetailsTable') AS LastUserID";
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    userID = Convert.ToInt32(result);
+                }
+            }
+
+            return userID;
+        }
+        
+        public static void InsertStudentTableDetails(StudentDetailsTableViewModel studentDetails)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = @"INSERT INTO StudentDetailsTable (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber, Hobbies, DiskDocumentName, OriginalDocumentName) 
+                    VALUES (@FirstName, @MiddleName, @LastName, @Email, @DateOfBirth, @Gender, @Phone, @AadharNumber, @Hobbies, @DiskDocumentName, @OriginalDocumentName)";
+
+                SqlCommand sqlCommand = new SqlCommand(@query, connection);
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
                 command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
                 command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
                 command.Parameters.AddWithValue("@Email", studentDetails.Email);
-                command.Parameters.AddWithValue("@DateOfBirth", studentDetails.DateOfBirth.HasValue ? (object)studentDetails.DateOfBirth.Value : DBNull.Value);
+                DateTime? dateOfBirth = studentDetails.DateOfBirth;
+                SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
+                dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
+                command.Parameters.Add(dateOfBirthParameter);
                 command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
                 command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
                 command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
+                command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
+                command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
+                command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
 
                 connection.Open();
                 command.ExecuteNonQuery();
+
             }
         }
 
         public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
         {
-            string query = @"INSERT INTO AddressDetails (UserID, AddressType, Country, State, AddressLine1, AddressLine2, Pincode) 
-                     VALUES (@UserID, @AddressType, @Country, @State, @AddressLine1, @AddressLine2, @Pincode)";
+            string query = @"INSERT INTO AddressDetails (UserID, AddressType, CountryID, StateID, AddressLine1, AddressLine2, Pincode) 
+                    VALUES (@UserID, @AddressType, @CountryID, @StateID, @AddressLine1, @AddressLine2, @Pincode)";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@UserID", addressDetails.UserID);
                 command.Parameters.AddWithValue("@AddressType", addressDetails.AddressType);
-                command.Parameters.AddWithValue("@Country", string.IsNullOrEmpty(addressDetails.Country) ? (object)DBNull.Value : (object)addressDetails.Country);
-                command.Parameters.AddWithValue("@State", string.IsNullOrEmpty(addressDetails.State) ? (object)DBNull.Value : (object)addressDetails.State);
+                command.Parameters.AddWithValue("@CountryID", addressDetails.CountryID.HasValue ? (object)addressDetails.CountryID.Value : (object)DBNull.Value);
+                command.Parameters.AddWithValue("@StateID", addressDetails.StateID.HasValue ? (object)addressDetails.StateID.Value : (object)DBNull.Value);
                 command.Parameters.AddWithValue("@AddressLine1", string.IsNullOrEmpty(addressDetails.AddressLine1) ? (object)DBNull.Value : (object)addressDetails.AddressLine1);
                 command.Parameters.AddWithValue("@AddressLine2", string.IsNullOrEmpty(addressDetails.AddressLine2) ? (object)DBNull.Value : (object)addressDetails.AddressLine2);
                 command.Parameters.AddWithValue("@Pincode", string.IsNullOrEmpty(addressDetails.Pincode) ? (object)DBNull.Value : (object)addressDetails.Pincode);
@@ -128,7 +161,7 @@ namespace DemoUserManagement.DataAccessLayer
             string query = @"INSERT INTO EducationDetails (StudentID, EducationType, InstituteName, Board, Marks, Aggregate, YearOfCompletion) 
                              VALUES (@StudentID, @EducationType, @InstituteName, @Board, @Marks, @Aggregate, @YearOfCompletion)";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@StudentID", educationDetails.StudentID ?? (object)DBNull.Value);
@@ -144,49 +177,56 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-        public static void UpdateStudentDetails(int studentID, StudentDetailViewModel studentDetails)
+        public static void  UpdateStudentDetailsTable(int studentID,StudentDetailsTableViewModel studentDetails)
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string updateQuery = @"UPDATE StudentDetails 
+                string updateQuery = @"UPDATE StudentDetailsTable 
                                SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, 
                                    Email = @Email, DateOfBirth = @DateOfBirth, Phone = @Phone, AadharNumber = @AadharNumber,
-                                   Gender = @Gender
+                                   Gender = @Gender,Hobbies = @Hobbies,DiskDocumentName =@DiskDocumentName,OriginalDocumentName=@OriginalDocumentName
                                WHERE StudentID = @StudentID";
 
-                SqlCommand command = new SqlCommand(updateQuery, connection);
-                command.Parameters.AddWithValue("@StudentID", studentID);
-                command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
-                command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
-                command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
-                command.Parameters.AddWithValue("@Email", studentDetails.Email);
-                command.Parameters.AddWithValue("@DateOfBirth", studentDetails.DateOfBirth.HasValue ? (object)studentDetails.DateOfBirth.Value : DBNull.Value);
-                command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
-                command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
-                command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
+                            SqlCommand command = new SqlCommand(updateQuery, connection);
 
-                connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
+                            command.Parameters.AddWithValue("@StudentID", studentID);
+                            command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
+                            command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
+                            command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
+                            command.Parameters.AddWithValue("@Email", studentDetails.Email);
+                            DateTime? dateOfBirth = studentDetails.DateOfBirth;
+                            SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
+                            dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
+                            command.Parameters.Add(dateOfBirthParameter);
+                            command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
+                            command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
+                            command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
+                            command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
+                            command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
+                            command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
 
-                // Handle the update result as needed
+                            connection.Open();
+                             int rowsAffected = command.ExecuteNonQuery();
+                //    int rowsAffected = command.ExecuteNonQuery();
+                connection.Close();
             }
-        }
+        }     
 
         public static void UpdateAddressDetails(int userID, int addressType, AddressDetailViewModel addressDetails)
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 string updateAddressQuery = @"UPDATE AddressDetails 
-                             SET Country = @Country, State = @State, 
-                                 AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2, 
-                                 Pincode = @Pincode
-                             WHERE UserID = @UserID AND AddressType = @AddressType";
+                                      SET CountryID = @CountryID, StateID = @StateID, 
+                                          AddressLine1 = @AddressLine1, AddressLine2 = @AddressLine2, 
+                                          Pincode = @Pincode
+                                      WHERE UserID = @UserID AND AddressType = @AddressType";
 
                 SqlCommand command = new SqlCommand(updateAddressQuery, connection);
                 command.Parameters.AddWithValue("@UserID", userID);
                 command.Parameters.AddWithValue("@AddressType", addressType);
-                command.Parameters.AddWithValue("@Country", addressDetails.Country);
-                command.Parameters.AddWithValue("@State", addressDetails.State);
+                command.Parameters.AddWithValue("@CountryID", addressDetails.CountryID ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@StateID", addressDetails.StateID ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@AddressLine1", addressDetails.AddressLine1);
                 command.Parameters.AddWithValue("@AddressLine2", addressDetails.AddressLine2);
                 command.Parameters.AddWithValue("@Pincode", addressDetails.Pincode);
@@ -213,7 +253,7 @@ namespace DemoUserManagement.DataAccessLayer
                          YearOfCompletion = @YearOfCompletion
                      WHERE StudentID = @StudentID AND EducationType = @EducationType";
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@StudentID", studentID);
@@ -229,68 +269,13 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-        public static string ValidateAndTrimInput(string input)
+        public static StudentDetailsTableViewModel GetStudentDetailsTable(int studentID)
         {
-            return input?.Trim() ?? string.Empty;
-        }
+            StudentDetailsTableViewModel studentDetails = new StudentDetailsTableViewModel();
 
-        public static DateTime? ParseDateTime(string dateTimeString)
-        {
-            if (!string.IsNullOrEmpty(dateTimeString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                if (DateTime.TryParse(dateTimeString, out DateTime parsedDate))
-                {
-                    return parsedDate;
-                }
-                else
-                {
-                    // Handle invalid date format
-                    throw new ArgumentException("Invalid Date of Birth format");
-                }
-            }
-            return null;
-        }
-
-        public static AddressDetailViewModel GetCurrentAddress(int studentID)
-        {
-            AddressDetailViewModel currentAddress = new AddressDetailViewModel();
-
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
-            {
-                string currentAddressQuery = "SELECT * FROM AddressDetails WHERE UserID = @StudentID AND AddressType = 1";
-                SqlCommand command = new SqlCommand(currentAddressQuery, connection);
-                command.Parameters.AddWithValue("@StudentID", studentID);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.Read())
-                    {
-                        currentAddress.AddressLine1 = reader["AddressLine1"].ToString();
-                        currentAddress.AddressLine2 = reader["AddressLine2"].ToString();
-                        currentAddress.Pincode = reader["Pincode"].ToString();
-                        currentAddress.State = reader["State"].ToString();
-                        currentAddress.Country = reader["Country"].ToString();
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    Logger.AddData(ex);
-                }
-            }
-
-            return currentAddress;
-        }
-
-        public static StudentDetailViewModel GetStudentDetails(int studentID)
-        {
-            StudentDetailViewModel studentDetails = new StudentDetailViewModel();
-
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
-            {
-                string studentQuery = "SELECT * FROM StudentDetails WHERE StudentID = @StudentID";
+                string studentQuery = "SELECT * FROM StudentDetailsTable WHERE StudentID = @StudentID";
                 SqlCommand command = new SqlCommand(studentQuery, connection);
                 command.Parameters.AddWithValue("@StudentID", studentID);
 
@@ -304,10 +289,13 @@ namespace DemoUserManagement.DataAccessLayer
                         studentDetails.MiddleName = reader["MiddleName"].ToString();
                         studentDetails.LastName = reader["LastName"].ToString();
                         studentDetails.Email = reader["Email"].ToString();
-                        studentDetails.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null;
+                        studentDetails.DateOfBirth = (DateTime)(reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null);
                         studentDetails.Phone = reader["Phone"].ToString();
                         studentDetails.AadharNumber = reader["AadharNumber"].ToString();
                         studentDetails.Gender = reader["Gender"].ToString();
+                        studentDetails.Hobbies = reader["Hobbies"].ToString(); // Add this line for Hobbies field
+                        studentDetails.DiskDocumentName = reader["DiskDocumentName"].ToString(); // Add this line for DiskDocumentName field
+                        studentDetails.OriginalDocumentName = reader["OriginalDocumentName"].ToString(); // Add this line for OriginalDocumentName field
                     }
                     reader.Close();
                 }
@@ -319,16 +307,51 @@ namespace DemoUserManagement.DataAccessLayer
 
             return studentDetails;
         }
+             
+        public static AddressDetailViewModel GetCurrentAddress(int studentID)
+        {
+            AddressDetailViewModel currentAddress = new AddressDetailViewModel();
+            int addressType = AddressType.CurrentAddress;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string currentAddressQuery = "SELECT * FROM AddressDetails WHERE UserID = @StudentID AND AddressType = @AddressType";
+                SqlCommand command = new SqlCommand(currentAddressQuery, connection);
+                command.Parameters.AddWithValue("@StudentID", studentID);
+                command.Parameters.AddWithValue("@AddressType", addressType);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        currentAddress.AddressLine1 = reader["AddressLine1"].ToString();
+                        currentAddress.AddressLine2 = reader["AddressLine2"].ToString();
+                        currentAddress.Pincode = reader["Pincode"].ToString();
+                        currentAddress.StateID = reader["StateID"] != DBNull.Value ? Convert.ToInt32(reader["StateID"]) : (int?)null;
+                        currentAddress.CountryID = reader["CountryID"] != DBNull.Value ? Convert.ToInt32(reader["CountryID"]) : (int?)null;
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Logger.AddData(ex);
+                }
+            }
+
+            return currentAddress;
+        }
 
         public static AddressDetailViewModel GetPermanentAddress(int studentID)
         {
             AddressDetailViewModel permanentAddress = new AddressDetailViewModel();
 
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string permanentAddressQuery = "SELECT * FROM AddressDetails WHERE UserID = @StudentID AND AddressType = 2";
+                string permanentAddressQuery = "SELECT * FROM AddressDetails WHERE UserID = @StudentID AND AddressType = @AddressType";
                 SqlCommand command = new SqlCommand(permanentAddressQuery, connection);
                 command.Parameters.AddWithValue("@StudentID", studentID);
+                command.Parameters.AddWithValue("@AddressType", AddressType.PermanentAddress); // Use constant for AddressType
 
                 try
                 {
@@ -339,8 +362,8 @@ namespace DemoUserManagement.DataAccessLayer
                         permanentAddress.AddressLine1 = reader["AddressLine1"].ToString();
                         permanentAddress.AddressLine2 = reader["AddressLine2"].ToString();
                         permanentAddress.Pincode = reader["Pincode"].ToString();
-                        permanentAddress.State = reader["State"].ToString(); // Update State field
-                        permanentAddress.Country = reader["Country"].ToString(); // Update Country field
+                        permanentAddress.StateID = reader["StateID"] != DBNull.Value ? Convert.ToInt32(reader["StateID"]) : (int?)null;
+                        permanentAddress.CountryID = reader["CountryID"] != DBNull.Value ? Convert.ToInt32(reader["CountryID"]) : (int?)null;
                     }
                     reader.Close();
                 }
@@ -352,9 +375,7 @@ namespace DemoUserManagement.DataAccessLayer
 
             return permanentAddress;
         }
-
-        private static string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
-
+        
         public static EducationDetailViewModel GetEducationDetails(int studentID, int educationType)
         {
             EducationDetailViewModel educationDetails = new EducationDetailViewModel();
@@ -388,39 +409,22 @@ namespace DemoUserManagement.DataAccessLayer
 
             return educationDetails;
         }
-
+        
         public static EducationDetailViewModel GetEducation10(int studentID)
         {
-            return GetEducationDetails(studentID, 1);
+            return GetEducationDetails(studentID, EducationType.MatriculationEducation);
         }
 
         public static EducationDetailViewModel GetEducation12(int studentID)
         {
-            return GetEducationDetails(studentID, 2);
+            return GetEducationDetails(studentID, EducationType.IntermediateEducation);
         }
 
         public static EducationDetailViewModel GetEducationGraduate(int studentID)
         {
-            return GetEducationDetails(studentID, 3);
+            return GetEducationDetails(studentID, EducationType.MatriculationEducation);
         }
 
-        public static void InsertHobbyDetails(int studentID, string hobbies, string message, string feedback)
-        {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
-            {
-                string query = "INSERT INTO Hobby (StudentID, hobbies, message, feedback) VALUES (@StudentID, @Hobbies, @Message, @Feedback)";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@StudentID", studentID);
-                    command.Parameters.AddWithValue("@Hobbies", hobbies);
-                    command.Parameters.AddWithValue("@Message", message);
-                    command.Parameters.AddWithValue("@Feedback", feedback);
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
+ 
     }
 }

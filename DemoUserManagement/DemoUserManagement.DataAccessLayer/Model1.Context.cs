@@ -31,5 +31,8 @@ namespace DemoUserManagement.DataAccessLayer
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<StudentDetail> StudentDetails { get; set; }
         public virtual DbSet<Hobby> Hobbies { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
+        public virtual DbSet<Note> Notes { get; set; }
+        public virtual DbSet<StudentDetailsTable> StudentDetailsTables { get; set; }
     }
 }

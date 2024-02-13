@@ -44,10 +44,13 @@
     <Compile Include="AddressDetailViewModel.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CountryViewModel.cs" />
+    <Compile Include="DocumentViewModel.cs" />
     <Compile Include="EducationDetailViewModel.cs" />
     <Compile Include="HobbyDetailViewModel.cs" />
+    <Compile Include="NoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateViewModel.cs" />
+    <Compile Include="StudentDetailsTableViewModel.cs" />
     <Compile Include="StudentDetailViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

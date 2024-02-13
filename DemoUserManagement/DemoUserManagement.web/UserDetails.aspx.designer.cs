@@ -87,15 +87,6 @@ namespace DemoUserManagement.web
         protected global::System.Web.UI.WebControls.TextBox birthday;
 
         /// <summary>
-        /// age control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox age;
-
-        /// <summary>
         /// male control.
         /// </summary>
         /// <remarks>
@@ -132,13 +123,13 @@ namespace DemoUserManagement.web
         protected global::System.Web.UI.WebControls.TextBox aadhar;
 
         /// <summary>
-        /// pan control.
+        /// fileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox pan;
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
 
         /// <summary>
         /// addressPanel control.
@@ -517,15 +508,6 @@ namespace DemoUserManagement.web
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DemoUserManagement.web.NoteUserControl NoteUserControl;
-
-        /// <summary>
-        /// submitButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button submitButton;
 
         /// <summary>
         /// submitButton control.

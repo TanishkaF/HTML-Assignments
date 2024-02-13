@@ -22,7 +22,12 @@ namespace DemoUserManagement.DataAccessLayer
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string Pincode { get; set; }
+        public Nullable<int> CountryID { get; set; }
+        public Nullable<int> StateID { get; set; }
     
         public virtual StudentDetail StudentDetail { get; set; }
+        public virtual Country Country1 { get; set; }
+        public virtual State State1 { get; set; }
+        public virtual StudentDetailsTable StudentDetailsTable { get; set; }
     }
 }

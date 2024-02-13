@@ -1,12 +1,9 @@
 ﻿using DemoUserManagement.UtilityLayer;
+using DemoUserManagement.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemoUserManagement.DataAccessLayer
 {
@@ -18,13 +15,13 @@ namespace DemoUserManagement.DataAccessLayer
 
             string query = $@"SELECT 
                         NoteID,
-                        StudentID,
-                        NoteType,
-                        NoteData,
+                        ObjectID,
+                        ObjectType,
+                        NoteText,
                         TimeStamp
                     FROM 
                         Note
-                    WHERE StudentID=@StudentID
+                    WHERE ObjectID=@StudentID
                     ORDER BY 
                         {sortExpression} {sortDirection}
                     OFFSET 
@@ -38,6 +35,7 @@ namespace DemoUserManagement.DataAccessLayer
                     cmd.Parameters.AddWithValue("@StudentID", studentID);
                     cmd.Parameters.AddWithValue("@StartRowIndex", startRowIndex);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.Parameters.AddWithValue("@TimeStamp", DateTime.Now);
 
                     try
                     {
@@ -61,11 +59,10 @@ namespace DemoUserManagement.DataAccessLayer
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                string query = "SELECT COUNT(*) FROM Note WHERE StudentID=@StudentID";
+                string query = "SELECT COUNT(*) FROM Note WHERE ObjectID=@StudentID";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    // Add parameter for studentID
                     cmd.Parameters.AddWithValue("@StudentID", studentID);
 
                     try
@@ -75,7 +72,6 @@ namespace DemoUserManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        // Handle exception
                         Logger.AddData(ex); ;
                     }
                 }
@@ -85,24 +81,23 @@ namespace DemoUserManagement.DataAccessLayer
         }
 
 
-        public static void InsertNote(string studentID, string noteType, string noteData)
+        public static void InsertNote(NoteViewModel note)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
 
-            // Format the current timestamp in the desired format
-            string formattedTimeStamp = DateTime.Now.ToString("hh:mm:ss tt");
+           // string formattedTimeStamp = DateTime.Now.ToString("d");
 
-            string query = "INSERT INTO Note (StudentID, NoteType, NoteData, TimeStamp) VALUES (@StudentID, @NoteType, @NoteData, @TimeStamp)";
+            string query = "INSERT INTO Note (ObjectID, ObjectType, NoteText, TimeStamp) VALUES (@ObjectID, @ObjectType, @NoteText, @TimeStamp)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Add parameters
-                    command.Parameters.AddWithValue("@StudentID", studentID);
-                    command.Parameters.AddWithValue("@NoteType", noteType);
-                    command.Parameters.AddWithValue("@NoteData", noteData);
-                    command.Parameters.AddWithValue("@TimeStamp", formattedTimeStamp);
+                   
+                    command.Parameters.AddWithValue("@ObjectID", note.ObjectID);
+                    command.Parameters.AddWithValue("@ObjectType", NoteType.ObjectType);
+                    command.Parameters.AddWithValue("@NoteText", note.NoteText);
+                    command.Parameters.AddWithValue("@TimeStamp", DateTime.Now.ToString("d"));
 
                     try
                     {
@@ -111,17 +106,11 @@ namespace DemoUserManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        // Handle exceptions (e.g., log error, throw exception)
-                        Logger.AddData(ex); 
+                        Logger.AddData(ex);
                     }
                 }
             }
         }
-
-
-
-
-
 
     }
 }

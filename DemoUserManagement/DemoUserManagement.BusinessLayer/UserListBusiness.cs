@@ -5,27 +5,16 @@ namespace DemoUserManagement.BusinessLayer
 {
     public static class UserListBusiness
     {
-        public static DataTable GetAllUsersData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize)
+
+        public static DataTable GetAllUserListData(string sortExpression, string sortDirection, int startRowIndex, int pageSize)
         {
-            return UserListDataAccess.GetAllUsersData(sortExpression, sortDirection, currentPageIndex, pageSize);
+            return UserListDataAccess.GetAllUserListData(sortExpression, sortDirection, startRowIndex, pageSize);
         }
 
-        public static DataTable GetFilteredUsersData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize)
+        public static int GetTotalUserCount()
         {
-            return UserListDataAccess.GetFilteredUsersData(sortExpression, sortDirection, currentPageIndex, pageSize);
+            return UserListDataAccess.GetTotalUserCount();
         }
-
-        public static int GetTotalCount()
-        {
-            return UserListDataAccess.GetTotalCount();
-        }
-
-        public static DataTable GetStudentRecord(int studentID)
-        {
-            return UserListDataAccess.GetStudentRecord(studentID);
-        }
-
-       
 
     }
 }

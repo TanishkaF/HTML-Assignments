@@ -9,12 +9,12 @@
 <head runat="server">
     <title>Admission Form ASP.NET</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="Scripts/DemoUserManagement.js"></script>   
+    <link href="Content/UserDetailsStyleSheet.css" rel="stylesheet" />
+    <script src="Scripts/DemoUserManagement.js"></script>    
 </head>
 
-<body onload="displayUserData()">
+<body>
     <form id="dataForm" runat="server">
 
         <div class="box-main-main">
@@ -84,7 +84,7 @@
                                         </div>
                                         <asp:TextBox ID="email" runat="server" CssClass="form-control" Placeholder="Email" data-store="Email" ClientIDMode="Static" />
                                     </div>
-                                    <div id="errorMessageDisplayBox" class="error-display-box"></div>
+                                    <div id="errorMessageEmailDiv" class="error-display-box"></div>
                                 </div>
                             </div>
 
@@ -146,22 +146,6 @@
                             <!-- Column 2 -->
                             <div class="col-sm-4">
                                 <div class="p-3">
-                                    <div>
-                                        <asp:Label runat="server" AssociatedControlID="age" Text="Age:" />
-                                    </div>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon1">&#128197;</span>
-                                        </div>
-                                        <asp:TextBox ID="age" runat="server" CssClass="form-control" Placeholder="Age" data-store="Age" ClientIDMode="Static" />
-                                    </div>
-                                    <div id="errorMessageAgeDiv" class="error-display-box"></div>
-                                </div>
-                            </div>
-
-                            <!-- Column 3 -->
-                            <div class="col-sm-4">
-                                <div class="p-3">
                                     <!-- Two Divs in Column 3 -->
                                     <div>
                                         <asp:Label runat="server" Text="Gender:" />
@@ -175,13 +159,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="container-fluid">
-                        <!-- Single Row with Three Columns -->
-                        <div class="row">
-                            <!-- Column 1 -->
+
+                            <!-- Column 3 -->
                             <div class="col-sm-4">
                                 <div class="p-3">
                                     <div>
@@ -197,8 +177,15 @@
                                     <div id="errorMessageContactDiv" class="error-display-box"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Column 2 -->
+                    <div class="container-fluid">
+                        <!-- Single Row with Three Columns -->
+                        <div class="row">
+
+
+                            <!-- Column 1 -->
                             <div class="col-sm-4">
                                 <div class="p-3">
                                     <div>
@@ -212,7 +199,19 @@
                                 </div>
                             </div>
 
-                            <!-- Column 3 -->
+                            <div class="col-sm-4">
+    <div class="p-3">
+        <div>
+            <asp:Label runat="server" Text="Uploaded Document:" />
+        </div>
+        <div class="input-group">
+            <asp:FileUpload ID="fileUpload" runat="server" CssClass="form-control" ClientIDMode="Static" />
+        </div>
+        <div id="errorMessageFileUploadDiv" class="error-display-box"></div>
+    </div>
+</div>
+
+                          <%--  <!-- Column 3 -->
                             <div class="col-sm-4">
                                 <div class="p-3">
                                     <!-- Two Divs in Column 3 -->
@@ -226,7 +225,8 @@
                                         <asp:TextBox ID="pan" runat="server" CssClass="form-control" Placeholder="Pan Card" data-store="Pan" ClientIDMode="Static" />
                                     </div>
                                 </div>
-                            </div>
+                            </div>--%>
+
                         </div>
                     </div>
                 </fieldset>
@@ -345,7 +345,7 @@
                             </div>
                         </div>
 
-                       <div class="same-curr">
+                        <div class="same-curr">
                             <asp:CheckBox runat="server" ID="sameAsCurrent" Text="Permanent Address Same as Current Address." Value="sameAsCurrent" OnCheckedChanged="CopyAddress" AutoPostBack="true" ClientIDMode="Static" />
                         </div>
 
@@ -787,6 +787,7 @@
 
             <div class="extra-space"></div>
 
+            <%--Hobby--%>
             <div>
                 <fieldset>
                     <legend>
@@ -878,15 +879,15 @@
                 </fieldset>
             </div>
 
-                <uc:NoteUserControl ID="NoteUserControl" runat="server" />
-<%--            <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">--%>
-                  <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClientClick="return validateData();" OnClick="SubmitClick" ClientIDMode="Static" />
-                <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit"  OnClick="SubmitClick" ClientIDMode="Static" />
-                <asp:Button ID="resetButton" runat="server" CssClass="btn btn-danger ResetButton ml-2" Text="Reset" onClientClick="return resetForm();" ClientIDMode="Static" />
+            <uc:NoteUserControl ID="NoteUserControl" runat="server" />
+            <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
+                <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit" OnClientClick="return validateForm();" OnClick="SubmitClick" ClientIDMode="Static" />
+                <%--                <asp:Button ID="submitButton" runat="server" CssClass="btn btn-success SubmitButton" Text="Submit"  OnClick="SubmitClick" ClientIDMode="Static" />--%>
+                <asp:Button ID="resetButton" runat="server" CssClass="btn btn-danger ResetButton ml-2" Text="Reset" OnClientClick="return resetForm();" ClientIDMode="Static" />
             </div>
         </div>
 
-    </form>  
+    </form>
 
 </body>
 

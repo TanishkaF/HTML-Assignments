@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="index.css" />
     <style>
         .centered-textbox {
-            margin: 10px; /* Adjust the margin value as needed */
+            margin: 10px;
         }
     </style>
 </head>
@@ -22,16 +22,16 @@
     AutoGenerateColumns="False"
     AllowSorting="True"
     AllowPaging="True"
-           AllowCustomPaging="True"
+    AllowCustomPaging="True"
     OnPageIndexChanging="GridViewNotes_PageIndexChanging"
     OnSorting="GridViewNotes_Sorting"
     PageSize="5"
     DataKeyNames="NoteID">    
             <Columns>
                 <asp:BoundField DataField="NoteID" HeaderText="NoteID" SortExpression="NoteID" />
-                <asp:BoundField DataField="StudentID" HeaderText="Student ID" SortExpression="StudentID" />
-                <asp:BoundField DataField="NoteType" HeaderText="Note Type" SortExpression="NoteType" />
-                <asp:BoundField DataField="NoteData" HeaderText="Note Data" SortExpression="NoteData" />
+                <asp:BoundField DataField="ObjectID" HeaderText="Object ID" SortExpression="ObjectID" />
+                <asp:BoundField DataField="ObjectType" HeaderText="Object Type" SortExpression="ObjectType" />
+                <asp:BoundField DataField="NoteText" HeaderText="Note Text" SortExpression="NoteText" />
                 <asp:BoundField DataField="TimeStamp" HeaderText="TimeStamp" SortExpression="TimeStamp" />
             </Columns>
         </asp:GridView>
