@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DemoUserManagement.ViewModel;
 
 namespace DemoUserManagement.UtilityLayer
 {
-
     public class ConstantValues
     {
 
@@ -30,5 +30,23 @@ namespace DemoUserManagement.UtilityLayer
     {
         public const int ObjectType = 1;
     }
+
+    public class StudentDocumentType
+    {
+        public const int ObjectType = 1;
+       
+
+        public static List<DocumentClass> studentDocument = new List<DocumentClass>
+        {
+            new DocumentClass { documentType = 1, documentName = "AdmitCard" }, 
+            new DocumentClass { documentType = 2, documentName = "PanCard" },
+            new DocumentClass { documentType = 3, documentName = "AadharCard" }
+        };
+
+
+    }
+
+
+
 
 }

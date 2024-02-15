@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,13 +45,14 @@
     <Compile Include="AddressDetailViewModel.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="CountryViewModel.cs" />
+    <Compile Include="DocumentClass.cs" />
     <Compile Include="DocumentViewModel.cs" />
     <Compile Include="EducationDetailViewModel.cs" />
     <Compile Include="HobbyDetailViewModel.cs" />
     <Compile Include="NoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateViewModel.cs" />
-    <Compile Include="StudentDetailsTableViewModel.cs" />
+    <Compile Include="UserDetailsViewModel.cs" />
     <Compile Include="StudentDetailViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

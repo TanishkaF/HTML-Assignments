@@ -47,5 +47,11 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DemoUserManagement.ViewModel\DemoUserManagement.ViewModel.csproj">
+      <Project>{42898012-4fe6-4e15-8ff1-f8bc80bff2eb}</Project>
+      <Name>DemoUserManagement.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

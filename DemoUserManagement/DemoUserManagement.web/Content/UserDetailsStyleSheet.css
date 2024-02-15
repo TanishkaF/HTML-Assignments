@@ -22,17 +22,16 @@ h3 {
 }
 
 .border {
-    border: 2px solid rgb(22, 22, 22) !important;
-    /* to override the bootstrap css  */
+    border: 2px solid rgb(22, 22, 22) !important;    /* to override the bootstrap css  */
     padding: 20px;
     margin: 20px;
     color: black;
 }
 
 .box-main-main {
-    border: 2px solid black; /* Add a border around the main container */
-    padding: 20px; /* Add padding to give some space inside the border */
-    margin: 20px; /* Add margin to create space between the border and surrounding elements */
+    border: 2px solid black; 
+    padding: 20px; 
+    margin: 20px;
 }
 
 fieldset,legend
@@ -40,8 +39,9 @@ fieldset,legend
     all: revert;
     
 }
-
-
+.starSign{
+    color:red;
+}
 
 
 .extra-space {
@@ -63,12 +63,10 @@ fieldset,legend
 }
 
 
-/* Additional styling */
-.message-feedback-container {
+.text-message-feedback {
     margin-bottom: 20px;
 }
 
-/* Set textarea width to 100% */
 .text-message-feedback {
     width: 100%;
 }

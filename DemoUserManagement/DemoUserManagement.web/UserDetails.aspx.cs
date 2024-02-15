@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -15,8 +16,6 @@ namespace DemoUserManagement.web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            resetButton.Click += ResetButton_Click;
-
             if (!IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
@@ -24,28 +23,43 @@ namespace DemoUserManagement.web
                     int studentID;
                     if (int.TryParse(Request.QueryString["StudentID"], out studentID))
                     {
+                      NoteUserControl.ObjectID = studentID;
+                      NoteUserControl.ObjectType = NoteType.ObjectType;
+                        DocumentUserControl.ObjectId = studentID;
+                        DocumentUserControl.ObjectType = StudentDocumentType.ObjectType;
+                        DocumentUserControl.DropDownList = StudentDocumentType.studentDocument;
+
+
                         PopulateStudentTableDetails(studentID);
-                      
-                        PopulatedAddressDetails(studentID);
+                        PopulatedAddressDetails(studentID);                       
                         PopulatedEducationDetails(studentID);
                     }
                 }
-                PopulateCountries(cCountry);
-                PopulateCountries(pCountry);
+                else
+                {
+
+                     PopulateCountries(cCountry);
+                     PopulateCountries(pCountry);
+                }
+
             }
+
+
+       
+          
         }
+
 
         protected void SubmitClick(object sender, EventArgs e)
         {
 
             if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
             {
-                int userID = UserBusiness.GetLastInsertedUserID();
-                
-                StudentDetailsTableViewModel studentDetailsTable = GetStudentTableDetails();
-                UserBusiness.UpdateStudentDetailsTable(userID, studentDetailsTable);
+                int userID = UserBusiness.GetLastInsertedUserID();                
+                UserDetailsViewModel studentDetailsTable = GetStudentTableDetails();
 
                 BtnUpload_Click(sender, e, studentDetailsTable);
+                UserBusiness.UpdateUserDetails(userID, studentDetailsTable);
 
                 AddressDetailViewModel addressDetailsCurrent = GetAddressDetails(userID, AddressType.CurrentAddress);
                 UserBusiness.UpdateAddressDetails(userID, AddressType.CurrentAddress, addressDetailsCurrent);
@@ -61,11 +75,11 @@ namespace DemoUserManagement.web
             }
             else
             {
-                StudentDetailsTableViewModel studentDetails = GetStudentTableDetails();
+                UserDetailsViewModel studentDetails = GetStudentTableDetails();
                 BtnUpload_Click(sender, e, studentDetails);
-                UserBusiness.InsertStudentTableDetails(studentDetails);
+                UserBusiness.InsertUserDetails(studentDetails);
 
-                int userID = UserBusiness.GetLastInsertedUserID();
+                int userID = UserBusiness.GetLastInsertedUserID();                
 
 
                 AddressDetailViewModel addressDetails1 = GetAddressDetails(userID, AddressType.CurrentAddress);
@@ -97,49 +111,7 @@ namespace DemoUserManagement.web
                 UpdateUserDetails();
         }
 
-        protected void BtnUpload_Click(object sender, EventArgs e, StudentDetailsTableViewModel studentDetailsTable)
-        {
-            if (fileUpload.HasFile)
-            {
-                try
-                {
-                    string uploadFolderPath = ConfigurationManager.AppSettings["UploadFolderPath"];
-
-                    string fileName = Path.GetFileName(fileUpload.FileName);
-                    string fileExtension = Path.GetExtension(fileName);
-
-                    if (fileExtension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-                    {
-                        string physicalUploadFolderPath = uploadFolderPath;
-
-                        string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-
-                        string filePath = Path.Combine(physicalUploadFolderPath, uniqueFileName);
-
-                        fileUpload.SaveAs(filePath);
-
-                        DocumentViewModel document = new DocumentViewModel
-                        {
-                            StudentID = UserBusiness.GetLastInsertedUserID(),
-                            DiskDocumentName = uniqueFileName,
-                            OriginalDocumentName = fileName
-                        };
-                       // UserBusiness.InsertDocument(document);
-
-                        studentDetailsTable.DiskDocumentName = uniqueFileName;
-                        studentDetailsTable.OriginalDocumentName = fileName;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.AddData(ex);
-                }
-            }
-            else
-            {
-                // TODO: Handle case when no file is selected
-            }
-        }
+        
         
         protected void ResetButton_Click(object sender, EventArgs e)
         {
@@ -153,7 +125,6 @@ namespace DemoUserManagement.web
                 {
                     ((DropDownList)control).ClearSelection();
                 }
-                // Add other control types as needed (e.g., CheckBox, RadioButton, etc.)
             }
         }       
 
@@ -161,10 +132,74 @@ namespace DemoUserManagement.web
         {
             Response.Redirect($"UserList.aspx");
         }
-          
-        private StudentDetailsTableViewModel GetStudentTableDetails()
+
+        protected void BtnUpload_Click(object sender, EventArgs e, UserDetailsViewModel studentDetailsTable)
         {
-            StudentDetailsTableViewModel studentDetailsTable = new StudentDetailsTableViewModel();
+            UploadFile uploadFileHandler = new UploadFile();
+
+            if (fileUpload.HasFile)
+            {
+                string uploadedFileName = uploadFileHandler.UploadFileToServer(fileUpload.PostedFile);
+
+                if (!string.IsNullOrEmpty(uploadedFileName))
+                {
+                    studentDetailsTable.DiskDocumentName = uploadedFileName;
+                    studentDetailsTable.OriginalDocumentName = fileUpload.FileName;                    
+                }
+                else
+                {
+                    
+                }
+            }
+            else
+            {
+                
+            }
+        }
+
+
+
+
+
+        //protected void BtnUpload_Click(object sender, EventArgs e, UserDetailsViewModel studentDetailsTable)
+        //{
+        //    if (fileUpload.HasFile)
+        //    {
+        //        try
+        //        {
+        //            string uploadFolderPath = ConfigurationManager.AppSettings["UploadFolderPath"];
+
+        //            string fileName = Path.GetFileName(fileUpload.FileName);
+        //            string fileExtension = Path.GetExtension(fileName);
+
+        //            if (fileExtension.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                string physicalUploadFolderPath = uploadFolderPath;
+
+        //                string uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+        //                string filePath = Path.Combine(physicalUploadFolderPath, uniqueFileName);
+
+        //                fileUpload.SaveAs(filePath);
+
+        //                studentDetailsTable.DiskDocumentName = uniqueFileName;
+        //                studentDetailsTable.OriginalDocumentName = fileName;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Logger.AddData(ex);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // TODO: Handle case when no file is selected
+        //    }
+        //}
+
+        private UserDetailsViewModel GetStudentTableDetails()
+        {
+            UserDetailsViewModel studentDetailsTable = new UserDetailsViewModel();
             studentDetailsTable.FirstName = GetValueFromTextBox(firstName);
             studentDetailsTable.MiddleName = GetValueFromTextBox(middleName);
             studentDetailsTable.LastName = GetValueFromTextBox(lastName);
@@ -176,6 +211,7 @@ namespace DemoUserManagement.web
             studentDetailsTable.Hobbies = HobbySelected();
             studentDetailsTable.DiskDocumentName = "";
             studentDetailsTable.OriginalDocumentName = "";
+            studentDetailsTable.Password= GetValueFromTextBox(password);
 
             return studentDetailsTable;
         }      
@@ -294,10 +330,10 @@ namespace DemoUserManagement.web
             return educationDetails;
         }      
 
+        
         protected void PopulateStudentTableDetails(int studentID)
         {
-            StudentDetailsTableViewModel studentDetailsTable = UserBusiness.GetStudentDetailsTable(studentID);
-            // Populate student details
+            UserDetailsViewModel studentDetailsTable = UserBusiness.GetUserDetails(studentID);
             firstName.Text = studentDetailsTable.FirstName;
             middleName.Text = studentDetailsTable.MiddleName;
             lastName.Text = studentDetailsTable.LastName;
@@ -305,6 +341,9 @@ namespace DemoUserManagement.web
             birthday.Text = studentDetailsTable.DateOfBirth.ToString("yyyy-MM-dd");
             phone.Text = studentDetailsTable.Phone;
             aadhar.Text = studentDetailsTable.AadharNumber;
+            password.Text = studentDetailsTable.Password;
+
+
             string gender = studentDetailsTable.Gender;
             if (gender == "Male")
             {
@@ -348,41 +387,99 @@ namespace DemoUserManagement.web
                     case "Reading":
                         checkbox9.Checked = true;
                         break;
+
                 }
             }
+            string uploadedFileName = studentDetailsTable.OriginalDocumentName;
+            if (!string.IsNullOrEmpty(uploadedFileName))
+            {
+                aadharCardUploadLabel.Text = uploadedFileName;
+            }
+
         }
 
         protected void PopulatedAddressDetails(int studentID)
         {
-            // Retrieve current address details
             AddressDetailViewModel currentAddress = UserBusiness.GetCurrentAddress(studentID);
-            c1Address.Text = currentAddress.AddressLine1;
-            c2Address.Text = currentAddress.AddressLine2;
-            cPinCode.Text = currentAddress.Pincode;
-            cState.Text = GetStateName(currentAddress.StateID); // Assuming you have a method to get the state name
-            cCountry.Text = GetCountryName(currentAddress.CountryID); // Assuming you have a method to get the country name
+            if (currentAddress != null && currentAddress.CountryID.HasValue)
+            {
+                c1Address.Text = currentAddress.AddressLine1;
+                c2Address.Text = currentAddress.AddressLine2;
+                cPinCode.Text = currentAddress.Pincode;
 
-            // Retrieve permanent address details
+                int countryID = currentAddress.CountryID.Value; // Access the value of CountryID
+                string currentCountry = UserBusiness.GetCountryName(countryID);
+                PopulateDropdownCountry(currentCountry, cCountry);
+
+                string currentState = UserBusiness.GetStateName((int)currentAddress.StateID);
+                PopulateDropdownState(currentState, cState, (int)currentAddress.CountryID);
+            }
+            else
+            {
+                c1Address.Text = "";
+                c2Address.Text = "";
+                cPinCode.Text = "";
+                PopulateCountries(cCountry);
+                
+            }
+
             AddressDetailViewModel permanentAddress = UserBusiness.GetPermanentAddress(studentID);
-            if (permanentAddress != null)
+            if (permanentAddress != null && permanentAddress.CountryID.HasValue)
             {
                 p1Address.Text = permanentAddress.AddressLine1;
                 p2Address.Text = permanentAddress.AddressLine2;
                 pPinCode.Text = permanentAddress.Pincode;
-                pState.Text = GetStateName(permanentAddress.StateID); // Assuming you have a method to get the state name
-                pCountry.Text = GetCountryName(permanentAddress.CountryID); // Assuming you have a method to get the country name
+
+                int countryID = permanentAddress.CountryID.Value; // Access the value of CountryID
+                string permanentCountry = UserBusiness.GetCountryName(countryID);
+                PopulateDropdownCountry(permanentCountry, pCountry);
+
+                string permanentState = UserBusiness.GetStateName((int)permanentAddress.StateID);
+                PopulateDropdownState(permanentState, pState, (int)permanentAddress.CountryID);
             }
             else
             {
-                // Handle the case where permanent address is not found
-                // For example, you can clear the fields or display a message
                 p1Address.Text = "";
                 p2Address.Text = "";
                 pPinCode.Text = "";
-                pState.Text = "";
-                pCountry.Text = "";
+                PopulateCountries(pCountry);
             }
         }
+
+        private void PopulateDropdownState(string selectedItem, DropDownList dropdown, int countryID)
+        {
+            dropdown.Items.Clear();
+            List<StateViewModel> states = UserBusiness.GetStates(countryID);
+
+            foreach (StateViewModel state in states)
+            {
+                ListItem item = new ListItem(state.StateName, state.StateID.ToString());
+                dropdown.Items.Add(item);
+
+                // Check if the state name matches the selectedItem
+                if (state.StateName == selectedItem)
+                {
+                    dropdown.SelectedValue = state.StateID.ToString();
+                }
+            }
+        }
+
+
+        private void PopulateDropdownCountry(string selectedItem, DropDownList dropdown)
+        {
+            dropdown.Items.Clear();
+            List<CountryViewModel> countries = UserBusiness.GetCountries();
+            foreach (CountryViewModel country in countries)
+            {
+                dropdown.Items.Add(new ListItem(country.CountryName, country.CountryID.ToString()));
+                if(country.CountryName == selectedItem)
+                {
+                    dropdown.SelectedValue = country.CountryID.ToString();
+                   
+                }
+            }
+        }
+
 
         protected void PopulatedEducationDetails(int studentID)
         {
@@ -495,32 +592,6 @@ namespace DemoUserManagement.web
             return null;
         }
 
-        private string GetStateName(int? stateID)
-        {
-            if (stateID.HasValue)
-            {
-                string stateName = "BBSR";
-                return stateName ?? "";
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string GetCountryName(int? countryID)
-        {
-            if (countryID.HasValue)
-            {
-                string countryName = "ANGUL";
-                return countryName ?? "";
-            }
-            else
-            {
-                return "";
-            }
-        }
-
         private int? GetSelectedCountryID(DropDownList countryDropDown)
         {
             if (countryDropDown.SelectedItem != null)
@@ -623,6 +694,14 @@ namespace DemoUserManagement.web
                 pPinCode.Text = (string)ViewState["PrevPPinCode"];
             }
         }
+
+       
+
+      
+
+      
+
+
 
     }
 }

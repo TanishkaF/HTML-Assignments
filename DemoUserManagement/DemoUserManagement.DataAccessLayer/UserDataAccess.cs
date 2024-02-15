@@ -64,6 +64,67 @@ namespace DemoUserManagement.DataAccessLayer
             return states;
         }
 
+        public static string GetStateName(int stateID)
+        {
+            string stateName = "";
+
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT StateName FROM States WHERE StateID = @StateID";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@StateID", stateID);
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            stateName = result.ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+            }
+
+            return stateName;
+        }
+
+        public static string GetCountryName(int countryID)
+        {
+            string countryName = "";
+
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT CountryName FROM Countries WHERE CountryID = @CountryID";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CountryID", countryID);
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            countryName = result.ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+            }
+
+            return countryName;
+        }
+
+
         public static string ValidateAndTrimInput(string input)
         {
             return input?.Trim() ?? string.Empty;
@@ -79,8 +140,7 @@ namespace DemoUserManagement.DataAccessLayer
                 }
                 else
                 {
-                    // Handle invalid date format
-                    throw new ArgumentException("Invalid Date of Birth format");
+                     throw new ArgumentException("Invalid Date of Birth format");
                 }
             }
             return null;
@@ -91,7 +151,7 @@ namespace DemoUserManagement.DataAccessLayer
             int userID = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT IDENT_CURRENT('StudentDetailsTable') AS LastUserID";
+                string query = "SELECT IDENT_CURRENT('UserDetails') AS LastUserID";
                 SqlCommand command = new SqlCommand(query, connection);
 
                 connection.Open();
@@ -104,13 +164,13 @@ namespace DemoUserManagement.DataAccessLayer
 
             return userID;
         }
-        
-        public static void InsertStudentTableDetails(StudentDetailsTableViewModel studentDetails)
+
+        public static void InsertUserDetails(UserDetailsViewModel studentDetails)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"INSERT INTO StudentDetailsTable (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber, Hobbies, DiskDocumentName, OriginalDocumentName) 
-                    VALUES (@FirstName, @MiddleName, @LastName, @Email, @DateOfBirth, @Gender, @Phone, @AadharNumber, @Hobbies, @DiskDocumentName, @OriginalDocumentName)";
+                string query = @"INSERT INTO UserDetails (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber, Hobbies, DiskDocumentName, OriginalDocumentName,Password) 
+                    VALUES (@FirstName, @MiddleName, @LastName, @Email, @DateOfBirth, @Gender, @Phone, @AadharNumber, @Hobbies, @DiskDocumentName, @OriginalDocumentName,@Password)";
 
                 SqlCommand sqlCommand = new SqlCommand(@query, connection);
                 SqlCommand command = new SqlCommand(query, connection);
@@ -128,6 +188,7 @@ namespace DemoUserManagement.DataAccessLayer
                 command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
                 command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
                 command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
+                command.Parameters.AddWithValue("@Password", studentDetails.Password);
 
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -177,40 +238,45 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-        public static void  UpdateStudentDetailsTable(int studentID,StudentDetailsTableViewModel studentDetails)
+        public static void UpdateUserDetails(int studentID, UserDetailsViewModel userDetails)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string updateQuery = @"UPDATE StudentDetailsTable 
-                               SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, 
-                                   Email = @Email, DateOfBirth = @DateOfBirth, Phone = @Phone, AadharNumber = @AadharNumber,
-                                   Gender = @Gender,Hobbies = @Hobbies,DiskDocumentName =@DiskDocumentName,OriginalDocumentName=@OriginalDocumentName
-                               WHERE StudentID = @StudentID";
+                string updateQuery = @"UPDATE UserDetails 
+                              SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, 
+                                  Email = @Email, DateOfBirth = @DateOfBirth, Phone = @Phone, AadharNumber = @AadharNumber,
+                                  Gender = @Gender, Hobbies = @Hobbies, DiskDocumentName = @DiskDocumentName, OriginalDocumentName = @OriginalDocumentName,
+                                  Password = @Password
+                              WHERE StudentID = @StudentID";
 
-                            SqlCommand command = new SqlCommand(updateQuery, connection);
+                SqlCommand command = new SqlCommand(updateQuery, connection);
+                command.Parameters.AddWithValue("@StudentID", studentID);
+                command.Parameters.AddWithValue("@FirstName", userDetails.FirstName);
+                command.Parameters.AddWithValue("@MiddleName", userDetails.MiddleName);
+                command.Parameters.AddWithValue("@LastName", userDetails.LastName);
+                command.Parameters.AddWithValue("@Email", userDetails.Email);
 
-                            command.Parameters.AddWithValue("@StudentID", studentID);
-                            command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
-                            command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
-                            command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
-                            command.Parameters.AddWithValue("@Email", studentDetails.Email);
-                            DateTime? dateOfBirth = studentDetails.DateOfBirth;
-                            SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
-                            dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
-                            command.Parameters.Add(dateOfBirthParameter);
-                            command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
-                            command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
-                            command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
-                            command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
-                            command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
-                            command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
+                // Check for nullability and set DBNull if DateOfBirth is null
+                DateTime? dateOfBirth = userDetails.DateOfBirth;
+                SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
+                dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
+                command.Parameters.Add(dateOfBirthParameter);
 
-                            connection.Open();
-                             int rowsAffected = command.ExecuteNonQuery();
-                //    int rowsAffected = command.ExecuteNonQuery();
+                command.Parameters.AddWithValue("@Gender", userDetails.Gender);
+                command.Parameters.AddWithValue("@Phone", userDetails.Phone);
+                command.Parameters.AddWithValue("@AadharNumber", userDetails.AadharNumber);
+                command.Parameters.AddWithValue("@Hobbies", userDetails.Hobbies);
+                command.Parameters.AddWithValue("@DiskDocumentName", userDetails.DiskDocumentName);
+                command.Parameters.AddWithValue("@OriginalDocumentName", userDetails.OriginalDocumentName);
+                command.Parameters.AddWithValue("@Password", userDetails.Password);
+
+                
+                connection.Open();
+                int rowsAffected = command.ExecuteNonQuery();
                 connection.Close();
             }
-        }     
+        }
+
 
         public static void UpdateAddressDetails(int userID, int addressType, AddressDetailViewModel addressDetails)
         {
@@ -269,13 +335,13 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-        public static StudentDetailsTableViewModel GetStudentDetailsTable(int studentID)
+        public static UserDetailsViewModel GetUserDetails(int studentID)
         {
-            StudentDetailsTableViewModel studentDetails = new StudentDetailsTableViewModel();
+            UserDetailsViewModel userDetails = new UserDetailsViewModel();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string studentQuery = "SELECT * FROM StudentDetailsTable WHERE StudentID = @StudentID";
+                string studentQuery = "SELECT FirstName, MiddleName, LastName, Email, DateOfBirth, Phone, AadharNumber, Gender, Hobbies, DiskDocumentName, OriginalDocumentName, Password FROM UserDetails WHERE StudentID = @StudentID";
                 SqlCommand command = new SqlCommand(studentQuery, connection);
                 command.Parameters.AddWithValue("@StudentID", studentID);
 
@@ -285,17 +351,18 @@ namespace DemoUserManagement.DataAccessLayer
                     SqlDataReader reader = command.ExecuteReader();
                     if (reader.Read())
                     {
-                        studentDetails.FirstName = reader["FirstName"].ToString();
-                        studentDetails.MiddleName = reader["MiddleName"].ToString();
-                        studentDetails.LastName = reader["LastName"].ToString();
-                        studentDetails.Email = reader["Email"].ToString();
-                        studentDetails.DateOfBirth = (DateTime)(reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null);
-                        studentDetails.Phone = reader["Phone"].ToString();
-                        studentDetails.AadharNumber = reader["AadharNumber"].ToString();
-                        studentDetails.Gender = reader["Gender"].ToString();
-                        studentDetails.Hobbies = reader["Hobbies"].ToString(); // Add this line for Hobbies field
-                        studentDetails.DiskDocumentName = reader["DiskDocumentName"].ToString(); // Add this line for DiskDocumentName field
-                        studentDetails.OriginalDocumentName = reader["OriginalDocumentName"].ToString(); // Add this line for OriginalDocumentName field
+                        userDetails.FirstName = reader["FirstName"].ToString();
+                        userDetails.MiddleName = reader["MiddleName"].ToString();
+                        userDetails.LastName = reader["LastName"].ToString();
+                        userDetails.Email = reader["Email"].ToString();
+                        userDetails.DateOfBirth = (DateTime)(reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null);
+                        userDetails.Phone = reader["Phone"].ToString();
+                        userDetails.AadharNumber = reader["AadharNumber"].ToString();
+                        userDetails.Gender = reader["Gender"].ToString();
+                        userDetails.Hobbies = reader["Hobbies"].ToString();
+                        userDetails.DiskDocumentName = reader["DiskDocumentName"].ToString();
+                        userDetails.OriginalDocumentName = reader["OriginalDocumentName"].ToString();
+                        userDetails.Password = reader["Password"].ToString();
                     }
                     reader.Close();
                 }
@@ -305,9 +372,10 @@ namespace DemoUserManagement.DataAccessLayer
                 }
             }
 
-            return studentDetails;
+            return userDetails;
         }
-             
+
+
         public static AddressDetailViewModel GetCurrentAddress(int studentID)
         {
             AddressDetailViewModel currentAddress = new AddressDetailViewModel();

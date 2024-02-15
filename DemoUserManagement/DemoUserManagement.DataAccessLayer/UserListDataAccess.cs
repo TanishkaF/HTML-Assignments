@@ -14,9 +14,9 @@ namespace DemoUserManagement.DataAccessLayer
             DataTable dt = new DataTable();
 
             string query = $@"SELECT 
-                        StudentID, FirstName, LastName, Phone, AadharNumber, OriginalDocumentName
+                        StudentID, FirstName, LastName, Phone, AadharNumber
                       FROM 
-                        StudentDetailsTable
+                        UserDetails
                       ORDER BY {sortExpression} {sortDirection}
                       OFFSET @StartRowIndex ROWS FETCH NEXT @PageSize ROWS ONLY";
 
@@ -51,7 +51,7 @@ namespace DemoUserManagement.DataAccessLayer
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                string query = @"SELECT COUNT(*) FROM StudentDetailsTable"; 
+                string query = @"SELECT COUNT(*) FROM UserDetails"; 
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {

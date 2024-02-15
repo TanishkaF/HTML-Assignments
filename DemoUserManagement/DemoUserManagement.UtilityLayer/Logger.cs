@@ -8,22 +8,29 @@ namespace DemoUserManagement.UtilityLayer
     {
         public static void AddData(Exception inputData)
         {
-            string logFolderPath = ConfigurationManager.AppSettings["LogFolderPath"];
-            string folderPath = Path.Combine(logFolderPath, DateTime.Now.ToString("yyyy-MM-dd"));
-
-            if (!Directory.Exists(folderPath))
+            try
             {
-                Directory.CreateDirectory(folderPath);
+                string logFolderPath = ConfigurationManager.AppSettings["LogFolderPath"];
+                string folderPath = Path.Combine(logFolderPath, DateTime.Now.ToString("yyyy-MM-dd"));
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string logFileName = $"logFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt";
+                string fullLogFilePath = Path.Combine(folderPath, logFileName);
+
+                string logMessage = GetExceptionDetails(inputData);
+
+                using (StreamWriter writer = new StreamWriter(fullLogFilePath, true))
+                {
+                    writer.WriteLine(logMessage);
+                }
             }
-
-            string logFileName = $"logFile_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt";
-            string fullLogFilePath = Path.Combine(folderPath, logFileName);
-
-            string logMessage = GetExceptionDetails(inputData);
-
-            using (StreamWriter writer = new StreamWriter(fullLogFilePath, true))
+            catch (Exception ex)
             {
-                writer.WriteLine(logMessage);
+                Console.WriteLine($"Error occurred while logging: {ex.Message}");
             }
         }
 

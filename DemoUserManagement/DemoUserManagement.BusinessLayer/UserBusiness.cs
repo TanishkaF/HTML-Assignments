@@ -11,11 +11,21 @@ namespace DemoUserManagement.BusinessLayer
         public static List<CountryViewModel> GetCountries()
         {
             return UserDetailsDataAccess.GetCountries();
-        }
+        }       
 
         public static List<StateViewModel> GetStates(int countryID)
         {
             return UserDetailsDataAccess.GetStates(countryID);
+        }
+
+        public static string GetStateName(int stateID)
+        {
+            return UserDetailsDataAccess.GetStateName(stateID);
+        }
+
+        public static string GetCountryName(int countryID)
+        {
+            return UserDetailsDataAccess.GetCountryName(countryID);
         }
 
         public static void CopyAddress(int studentID, bool sameAsCurrent)
@@ -43,11 +53,11 @@ namespace DemoUserManagement.BusinessLayer
         public static int GetLastInsertedUserID()
         {
             return UserDetailsDataAccess.GetLastInsertedUserID();
-        }     
+        }
 
-        public static void InsertStudentTableDetails(StudentDetailsTableViewModel studentDetails)
+        public static void InsertUserDetails(UserDetailsViewModel studentDetails)
         {
-            UserDetailsDataAccess.InsertStudentTableDetails(studentDetails);
+            UserDetailsDataAccess.InsertUserDetails(studentDetails);
         }
 
         public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
@@ -58,11 +68,11 @@ namespace DemoUserManagement.BusinessLayer
         public static void InsertEducationDetails(EducationDetailViewModel educationDetailViewModel)
         {
             UserDetailsDataAccess.InsertEducationDetails(educationDetailViewModel);
-        }       
+        }
 
-        public static void UpdateStudentDetailsTable(int studentID, StudentDetailsTableViewModel studentDetails)
+        public static void UpdateUserDetails(int studentID, UserDetailsViewModel studentDetails)
         {
-            UserDetailsDataAccess.UpdateStudentDetailsTable(studentID, studentDetails);
+            UserDetailsDataAccess.UpdateUserDetails(studentID, studentDetails);
         }
 
         public static void UpdateAddressDetails(int studentID, int addressType, AddressDetailViewModel addressDetails)
@@ -75,10 +85,11 @@ namespace DemoUserManagement.BusinessLayer
             UserDetailsDataAccess.UpdateEducationDetails(studentID, educationType, educationDetails);
         }
 
-        public static StudentDetailsTableViewModel GetStudentDetailsTable(int studentID)
+        public static UserDetailsViewModel GetUserDetails(int studentID)
         {
-            return UserDetailsDataAccess.GetStudentDetailsTable(studentID);
-        }      
+            return UserDetailsDataAccess.GetUserDetails(studentID);
+        }
+       
         public static AddressDetailViewModel GetAddressDetails(int studentID, int addressType)
         {
             AddressDetailViewModel addressDetails = new AddressDetailViewModel();          

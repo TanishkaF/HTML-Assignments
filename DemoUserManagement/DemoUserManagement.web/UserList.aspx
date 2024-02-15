@@ -1,45 +1,45 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="DemoUserManagement.web.UserList" %>
+﻿<%@ Page Language="C#" Title="User's List" AutoEventWireup="true" CodeBehind="UserList.aspx.cs" Inherits="DemoUserManagement.web.UserList" MasterPageFile="~/Site.Master"%>
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<asp:Content ID="BodyContent1" ContentPlaceHolderID="MainContent" runat="server">
     <link href="Content/UserListGridViewStyleSheet.css" rel="stylesheet" />
-    <title></title>
+    <main  id ="GridViewUsers2">
+    <h1>Users List</h1>
+    <asp:GridView 
+        Class="GridViewClass"
+        ID="GridViewUsers"
+        runat="server"
+        AutoGenerateColumns="False"
+        AllowPaging="True"
+        AllowSorting="True"
+        AllowCustomPaging="True"
+        PageSize="5"
+        OnPageIndexChanging="GridViewUsers_PageIndexChanging"
+        OnSorting="GridViewUsers_Sorting"
+        OnRowCommand="GridViewUsers_RowCommand"
+        DataKeyNames="StudentID"
+        ClientIDMode="Static">
+        <Columns>
+            <asp:BoundField DataField="StudentID" HeaderText="Student ID" SortExpression="StudentID" />
+            <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
+            <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
+            <asp:BoundField DataField="Phone" HeaderText="Phone" SortExpression="Phone" />
+            <asp:BoundField DataField="AadharNumber" HeaderText="Aadhar" SortExpression="AadharNumber" />
 
-</head>
-<body>
-    <form id="form1" runat="server">
-        <h1>This is the list of all students register till date.</h1>
-        <asp:GridView ID="GridViewUsers"
-            runat="server"
-            AutoGenerateColumns="False"
-            AllowPaging="True"
-            AllowSorting="True"
-            AllowCustomPaging="True"
-            PageSize="5"
-            OnPageIndexChanging="GridViewUsers_PageIndexChanging"
-            OnSorting="GridViewUsers_Sorting"
-            OnRowCommand="GridViewUsers_RowCommand"
-            DataKeyNames="StudentID">
-            <Columns>
-                <asp:BoundField DataField="StudentID" HeaderText="Student ID" SortExpression="StudentID" />
-                <asp:BoundField DataField="FirstName" HeaderText="First Name" SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="Last Name" SortExpression="LastName" />
-                <asp:BoundField DataField="Phone" HeaderText="Phone" SortExpression="Phone" />
-                <asp:BoundField DataField="AadharNumber" HeaderText="Aadhar" SortExpression="AadharNumber" />
-                <asp:BoundField DataField="OriginalDocumentName" HeaderText="Document Name" SortExpression="OriginalDocumentName" />
-                
-                <asp:TemplateField HeaderText="Edit">
-                    <ItemTemplate>
-                        <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="EditUser" CommandArgument='<%# Eval("StudentID") %>' />
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
+            <%--<asp:TemplateField HeaderText="Download">
+                <ItemTemplate>
+                    <asp:LinkButton ID="downloadLink" runat="server" Text="Download" OnClick="Button_Click" ClientIDMode="Static" CommandArgument='<%# Eval("DiskDocumentName") %>'></asp:LinkButton>
+                </ItemTemplate>
+            </asp:TemplateField>--%>
 
-        </asp:GridView>
+            <asp:TemplateField HeaderText="Edit">
+                <ItemTemplate>
+                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="EditUser" ClientIDMode="Static" CommandArgument='<%# Eval("StudentID") %>' />
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
 
-        <asp:Button ID="btnAddStudent" runat="server" Text="Add More Student" OnClick="BtnAddStudent_Click" />
-
-    </form>
-</body>
+    <asp:Button ID="btnAddStudent" runat="server" Text="Add More Student" ClientIDMode="Static" OnClick="BtnAddStudent_Click" />
+        </main>
+</asp:Content>

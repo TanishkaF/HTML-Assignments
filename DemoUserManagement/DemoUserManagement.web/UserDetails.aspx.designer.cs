@@ -15,15 +15,6 @@ namespace DemoUserManagement.web
     {
 
         /// <summary>
-        /// dataForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm dataForm;
-
-        /// <summary>
         /// firstName control.
         /// </summary>
         /// <remarks>
@@ -130,6 +121,15 @@ namespace DemoUserManagement.web
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileUpload;
+
+        /// <summary>
+        /// aadharCardUploadLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label aadharCardUploadLabel;
 
         /// <summary>
         /// addressPanel control.
@@ -508,6 +508,15 @@ namespace DemoUserManagement.web
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DemoUserManagement.web.NoteUserControl NoteUserControl;
+
+        /// <summary>
+        /// DocumentUserControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DemoUserManagement.web.DocumentUserControl DocumentUserControl;
 
         /// <summary>
         /// submitButton control.
