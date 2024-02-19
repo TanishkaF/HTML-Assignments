@@ -11,13 +11,13 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="p-3">
-                <label for="ddlOptions">Select Option:</label>
+                <asp:label id="lblDdlOptions" for="ddlOptions" runat="server">Select Option:</asp:label>
                 <asp:DropDownList ID="ddlOptions" runat="server" CssClass="form-control"></asp:DropDownList>
              </div>
         </div>
         <div class="col-sm-4">
             <div class="p-3">
-                <label for="fileUpload">Upload PDF:</label>
+                <asp:label for="fileUpload" id="lblFileUpload" runat="server">Upload PDF:</asp:label>
                 <asp:FileUpload ID="fileUpload" runat="server" CssClass="form-control" ClientIDMode="Static" />
             </div>
         </div>
@@ -61,6 +61,7 @@
                     <asp:LinkButton ID="downloadLink" runat="server" Text="Download" OnClick="Button_Click" ClientIDMode="Static" CommandArgument='<%# Eval("DiskDocumentName") %>'></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
+
 
         </Columns>
     </asp:GridView>

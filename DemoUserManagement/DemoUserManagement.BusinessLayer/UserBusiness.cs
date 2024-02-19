@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using DemoUserManagement.DataAccessLayer;
 using DemoUserManagement.UtilityLayer;
 using DemoUserManagement.ViewModel;
@@ -7,7 +8,7 @@ namespace DemoUserManagement.BusinessLayer
 {
     public class UserBusiness
     {
-
+       
         public static List<CountryViewModel> GetCountries()
         {
             return UserDetailsDataAccess.GetCountries();
@@ -30,22 +31,17 @@ namespace DemoUserManagement.BusinessLayer
 
         public static void CopyAddress(int studentID, bool sameAsCurrent)
         {
-            // Get current address details
             AddressDetailViewModel currentAddress = GetAddressDetails(studentID, AddressType.CurrentAddress);   
-            // Insert current address details
             UserDetailsDataAccess.InsertAddressDetails(currentAddress);
 
             if (!sameAsCurrent)
             {
-                // Get permanent address details
                 AddressDetailViewModel permanentAddress = GetAddressDetails(studentID, AddressType.PermanentAddress);
-                // Insert permanent address details
                 UserDetailsDataAccess.InsertAddressDetails(permanentAddress);
             }
             else
             {
-                // Insert current address details with AddressType 2 (permanent address)
-                currentAddress.AddressType = 2;
+                currentAddress.AddressType = AddressType.PermanentAddress;
                 UserDetailsDataAccess.InsertAddressDetails(currentAddress);
             }
         }
@@ -68,6 +64,11 @@ namespace DemoUserManagement.BusinessLayer
         public static void InsertEducationDetails(EducationDetailViewModel educationDetailViewModel)
         {
             UserDetailsDataAccess.InsertEducationDetails(educationDetailViewModel);
+        }
+
+        public static void InsertUserRoll(int userID)
+        {
+            UserDetailsDataAccess.InsertUserRoll(userID);
         }
 
         public static void UpdateUserDetails(int studentID, UserDetailsViewModel studentDetails)
@@ -121,5 +122,10 @@ namespace DemoUserManagement.BusinessLayer
             return UserDetailsDataAccess.GetEducationGraduate(studentID);
         }    
        
+        public static string GetEmailByUserID(int userID)
+        {
+            return UserDetailsDataAccess.GetEmailByUserID(userID);
+        }
+
     }
 }

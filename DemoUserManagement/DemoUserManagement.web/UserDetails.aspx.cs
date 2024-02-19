@@ -3,19 +3,22 @@ using DemoUserManagement.UtilityLayer;
 using DemoUserManagement.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Text;
-using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace DemoUserManagement.web
 {
-    public partial class UserDetails : System.Web.UI.Page
+    public partial class UserDetails : Page
+    
     {
+        private bool authorizationChecked = false;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+          //  CheckAuthorizationAndLoadUserDetails();
+
             if (!IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
@@ -23,30 +26,23 @@ namespace DemoUserManagement.web
                     int studentID;
                     if (int.TryParse(Request.QueryString["StudentID"], out studentID))
                     {
-                      NoteUserControl.ObjectID = studentID;
-                      NoteUserControl.ObjectType = NoteType.ObjectType;
+                        NoteUserControl.ObjectID = studentID;
+                        NoteUserControl.ObjectType = NoteType.ObjectType;
                         DocumentUserControl.ObjectId = studentID;
                         DocumentUserControl.ObjectType = StudentDocumentType.ObjectType;
                         DocumentUserControl.DropDownList = StudentDocumentType.studentDocument;
 
-
                         PopulateStudentTableDetails(studentID);
-                        PopulatedAddressDetails(studentID);                       
+                        PopulatedAddressDetails(studentID);
                         PopulatedEducationDetails(studentID);
                     }
                 }
                 else
                 {
-
-                     PopulateCountries(cCountry);
-                     PopulateCountries(pCountry);
+                    PopulateCountries(cCountry);
+                    PopulateCountries(pCountry);
                 }
-
             }
-
-
-       
-          
         }
 
 
@@ -55,7 +51,8 @@ namespace DemoUserManagement.web
 
             if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
             {
-                int userID = UserBusiness.GetLastInsertedUserID();                
+                int userID = Convert.ToInt32(Request.QueryString["StudentID"]);
+
                 UserDetailsViewModel studentDetailsTable = GetStudentTableDetails();
 
                 BtnUpload_Click(sender, e, studentDetailsTable);
@@ -72,6 +69,19 @@ namespace DemoUserManagement.web
                 UserBusiness.UpdateEducationDetails(userID, EducationType.IntermediateEducation, educationDetails12);
                 EducationDetailViewModel educationDetailsGraduate = GetEducationDetails(userID, EducationType.GraduateEducation);
                 UserBusiness.UpdateEducationDetails(userID, EducationType.GraduateEducation, educationDetailsGraduate);
+
+                string email = UserBusiness.GetEmailByUserID(userID);
+
+                if (AuthenticationServiceBusiness.IsAdmin(email))
+                {
+                    Response.Redirect("UserList.aspx");
+                }
+                else
+                {
+                    Response.Redirect($"UserDetails.aspx?StudentID={userID}");
+                }
+
+              //  UpdateUserDetails(userID);
             }
             else
             {
@@ -79,8 +89,8 @@ namespace DemoUserManagement.web
                 BtnUpload_Click(sender, e, studentDetails);
                 UserBusiness.InsertUserDetails(studentDetails);
 
-                int userID = UserBusiness.GetLastInsertedUserID();                
-
+                int userID = UserBusiness.GetLastInsertedUserID();
+                UserBusiness.InsertUserRoll(userID);
 
                 AddressDetailViewModel addressDetails1 = GetAddressDetails(userID, AddressType.CurrentAddress);
                 addressDetails1.AddressType = AddressType.CurrentAddress;
@@ -95,7 +105,7 @@ namespace DemoUserManagement.web
                 }
                 else
                 {
-                    AddressDetailViewModel addressDetailsPermanent = GetAddressDetails(userID, 2);
+                    AddressDetailViewModel addressDetailsPermanent = GetAddressDetails(userID, AddressType.PermanentAddress);
                     UserBusiness.InsertAddressDetails(addressDetailsPermanent);
                 }
 
@@ -107,11 +117,9 @@ namespace DemoUserManagement.web
                 EducationDetailViewModel educationDetailViewModelGraduate = GetEducationDetails(userID, EducationType.GraduateEducation);
                 UserBusiness.InsertEducationDetails(educationDetailViewModelGraduate);                
 
+                UpdateUserDetails(userID);
             }
-                UpdateUserDetails();
-        }
-
-        
+        }        
         
         protected void ResetButton_Click(object sender, EventArgs e)
         {
@@ -128,9 +136,10 @@ namespace DemoUserManagement.web
             }
         }       
 
-        protected void UpdateUserDetails()
+        protected void UpdateUserDetails(int userID)
         {
-            Response.Redirect($"UserList.aspx");
+            Response.Redirect($"UserDetails.aspx?StudentID={userID}");
+            // Response.Redirect($"UserList.aspx");
         }
 
         protected void BtnUpload_Click(object sender, EventArgs e, UserDetailsViewModel studentDetailsTable)
@@ -156,10 +165,6 @@ namespace DemoUserManagement.web
                 
             }
         }
-
-
-
-
 
         //protected void BtnUpload_Click(object sender, EventArgs e, UserDetailsViewModel studentDetailsTable)
         //{
@@ -250,7 +255,6 @@ namespace DemoUserManagement.web
         {
             EducationDetailViewModel educationDetails = new EducationDetailViewModel();
 
-            // Assuming you have controls for education details on your page
             educationDetails.StudentID = userID;
             educationDetails.EducationType = educationType;
 
@@ -390,6 +394,8 @@ namespace DemoUserManagement.web
 
                 }
             }
+            
+            
             string uploadedFileName = studentDetailsTable.OriginalDocumentName;
             if (!string.IsNullOrEmpty(uploadedFileName))
             {
@@ -695,11 +701,38 @@ namespace DemoUserManagement.web
             }
         }
 
-       
+        private void CheckAuthorizationAndLoadUserDetails()
+        {
+            if (!authorizationChecked) // Only proceed if authorization hasn't been checked yet
+            {
+                if (Session["AuthenticatedUserID"] != null && Session["IsAdmin"] != null)
+                {
+                    int authenticatedUserID = Convert.ToInt32(Session["AuthenticatedUserID"]);
+                    bool isAdmin = Convert.ToBoolean(Session["IsAdmin"]);
 
-      
+                    bool urlParsedSuccessfully = int.TryParse(Request.QueryString["StudentID"], out int urlUpdatedStudentID);
 
-      
+                    if (isAdmin || (urlParsedSuccessfully && urlUpdatedStudentID == authenticatedUserID))
+                    {
+                        // Allow admin or the authenticated user to access the requested data
+                        // No redirection necessary here
+                    }
+                    else
+                    {
+                        Response.Redirect($"UserDetails.aspx?StudentID={authenticatedUserID}");
+                    }
+                }
+                else
+                {
+                    Response.Redirect("UserDetails.aspx");
+                }
+                authorizationChecked = true;
+            }
+        }
+
+
+
+
 
 
 

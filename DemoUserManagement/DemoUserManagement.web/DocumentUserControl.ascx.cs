@@ -46,6 +46,8 @@ namespace DemoUserManagement.web
                 {
                     ddlOptions.Visible = true;
                     fileUpload.Visible = true;
+                    lblFileUpload.Visible = true;
+                    lblDdlOptions.Visible = true;
                     btnAddDocument.Visible = true;
 
                     ViewState["SortDirection"] = "ASC";
@@ -53,6 +55,8 @@ namespace DemoUserManagement.web
                 }
                 else
                 {
+                    lblFileUpload.Visible = false;
+                    lblDdlOptions.Visible = false;
                     ddlOptions.Visible = false;
                     fileUpload.Visible = false;
                     btnAddDocument.Visible = false;
@@ -222,6 +226,9 @@ namespace DemoUserManagement.web
                          window.location.href = '{getFileUrl}';
                      </script>";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "DownloadScript", script);
+
+           // UpdatePanelGridViewDocuments.Update();
+
         }
 
 

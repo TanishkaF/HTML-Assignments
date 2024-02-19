@@ -15,6 +15,15 @@ namespace DemoUserManagement.web
     {
 
         /// <summary>
+        /// lblDdlOptions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDdlOptions;
+
+        /// <summary>
         /// ddlOptions control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace DemoUserManagement.web
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlOptions;
+
+        /// <summary>
+        /// lblFileUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFileUpload;
 
         /// <summary>
         /// fileUpload control.

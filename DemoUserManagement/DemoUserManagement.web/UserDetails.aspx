@@ -1,11 +1,14 @@
 ﻿<%@ Page Language="C#" Title="User Detail Form" AutoEventWireup="true" CodeBehind="UserDetails.aspx.cs" Inherits="DemoUserManagement.web.UserDetails" MasterPageFile="~/Site.Master" %>
 
+
+
 <%@ Register Src="~/NoteUserControl.ascx" TagPrefix="uc" TagName="NoteUserControl" %>
 <%@ Register Src="~/DocumentUserControl.ascx" TagPrefix="uc1" TagName="DocumentUserControl" %>
 
-
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <link href="Content/UserDetailsStyleSheet.css" rel="stylesheet" />
+    <script src="Scripts/CheckEmail.js"></script>
+
     <div class="box-main-main">
 
         <h1><u>Admission Form</u></h1>

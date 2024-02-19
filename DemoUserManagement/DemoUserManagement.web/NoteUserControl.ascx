@@ -7,9 +7,12 @@
         <link href="Content/UserListGridViewStyleSheet.css" rel="stylesheet" />
 
     <asp:TextBox ID="txtNote" runat="server" CssClass="centered-textbox larger-textbox" style="margin:10px"></asp:TextBox>
-    <asp:Button ID="btnAddNote" runat="server" Text="Add Note" OnClick="BtnAddNote_Click" />
 
     
+      <asp:UpdatePanel ID="UpdatePanelGridViewDocuments" runat="server">
+    <ContentTemplate>
+            <asp:Button ID="btnAddNote" runat="server" Text="Add Note" OnClick="BtnAddNote_Click" />
+
         <asp:GridView
             ID="GridViewDocuments"
             runat="server"
@@ -33,6 +36,13 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
+    </ContentTemplate>
+    <Triggers>
+        <asp:AsyncPostBackTrigger ControlID="GridViewDocuments" EventName="PageIndexChanging" />
+        <asp:AsyncPostBackTrigger ControlID="GridViewDocuments" EventName="Sorting" />
+    </Triggers>
+</asp:UpdatePanel>
+
     
 </body>
 </html>

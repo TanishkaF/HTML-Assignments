@@ -52,12 +52,16 @@
                         <li class="nav-item">
                             <a id="Default" class="nav-link" runat="server" title="Home" href="~/">Home</a>
                         </li>
-                        <li class="nav-item">
+                        <%--<li class="nav-item">
                             <a id="UserDetails" class="nav-link" runat="server" title="UserDetails" href="~/UserDetails">UserDetails</a>
                         </li>
                         <li class="nav-item">
                             <a id="UserList" class="nav-link" runat="server" title="UserList" href="~/UserList">UserList</a>
+                        </li>--%>
+                        <li class="nav-item">
+                            <a id="Logout" class="nav-link" runat="server" title="Logout" href="Logout.aspx">LogOut</a>
                         </li>
+
                     </ul>
                 </div>
 

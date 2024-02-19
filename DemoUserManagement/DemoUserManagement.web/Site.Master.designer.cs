@@ -24,22 +24,13 @@ namespace DemoUserManagement.web
         protected global::System.Web.UI.HtmlControls.HtmlAnchor Default;
 
         /// <summary>
-        /// UserDetails control.
+        /// Logout control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor UserDetails;
-
-        /// <summary>
-        /// UserList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor UserList;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor Logout;
 
         /// <summary>
         /// currentFormTitle control.
