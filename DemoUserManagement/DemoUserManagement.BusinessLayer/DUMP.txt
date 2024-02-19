@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DemoUserManagement.BusinessLayer
+{
+    class DUMP
+    {
+      //Home.Attributes["class"] = "nav-link";
+            //UserDetails.Attributes["class"] = "nav-link";
+            //UserList.Attributes["class"] = "nav-link";
+
+
+            //if (String.Equals(currentPageTitle, "Home Page", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    Home.Attributes["class"] += " active";
+            //}
+            //else if (String.Equals(currentPageTitle, "User Detail Form", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    UserDetails.Attributes["class"] += " active";
+            //}
+            //else if (String.Equals(currentPageTitle, "User's List", StringComparison.OrdinalIgnoreCase))
+            //{
+            //    UserList.Attributes["class"] += " active";
+            //}
+
+        
+    }
+}

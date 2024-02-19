@@ -1,0 +1,60 @@
+﻿.GridViewUsers {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .GridViewUsers th,
+    .GridViewUsers td {
+        padding: 20px; 
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .GridViewUsers th.studentID,
+        .GridViewUsers td.studentID {
+            width: 20%; /* Adjusted width for studentID column */
+        }
+
+        .GridViewUsers th.documentName,
+        .GridViewUsers td.documentName {
+            width: 40%; /* Adjusted width for documentName column */
+        }
+
+#btnAddStudent,
+.edit-button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btnAddStudent {
+    margin-top: 20px;
+    background-color: #4CAF50;
+}
+
+.edit-button {
+    background-color: #008CBA;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+
+tr:nth-child(odd) {
+    background-color: #F0F8FF;
+}
+
+#btnAddNote {
+    background-color: green; /* Set the background color to green */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the border */
+    padding: 10px 20px; /* Add padding */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+    /* Hover effect */
+    #btnAddNote:hover {
+        background-color: darkgreen; /* Darken the background color on hover */
+    }
