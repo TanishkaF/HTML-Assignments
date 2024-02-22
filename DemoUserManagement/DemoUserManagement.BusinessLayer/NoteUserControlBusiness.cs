@@ -1,5 +1,7 @@
 ﻿using DemoUserManagement.DataAccessLayer;
+using DemoUserManagement.UtilityLayer;
 using DemoUserManagement.ViewModel;
+using System.Collections.Generic;
 using System.Data;
 
 
@@ -36,5 +38,29 @@ namespace DemoUserManagement.BusinessLayer
         {
             NoteUserControlDataAcess.InsertDocument(document);
         }
+
+        //public static List<DocumentClass> PopulateDocumentDropList(List<DocumentClass> studentDocumentList)
+        //{
+        //    return studentDocumentList;
+        //}
+
+        public static List<DocumentClass> PopulateDocument()
+        {
+            return StudentDocumentType.studentDocument;
+        }
+
+        public static string GetDocumentUniqueNameById(int documentID)
+        {
+            return NoteUserControlDataAcess.GetDocumentUniqueNameById(documentID);
+        }
+
+        public static List<int> GetDocumentIDsByObjectID(int objectID)
+        {
+            return NoteUserControlDataAcess.GetDocumentIDsByObjectID(objectID);
+        }
+
+
+
+
     }
 }

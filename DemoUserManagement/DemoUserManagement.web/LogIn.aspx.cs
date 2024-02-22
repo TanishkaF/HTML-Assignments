@@ -1,4 +1,5 @@
 ﻿using DemoUserManagement.BusinessLayer;
+using DemoUserManagement.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,50 +10,27 @@ using System.Web.UI.WebControls;
 
 namespace DemoUserManagement.web
 {
-    public partial class LogIn : System.Web.UI.Page
+    public partial class LogIn : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
         }
 
         [WebMethod]
-        public static void SetSessionVariables(string email)
+        public static LogInSessionModel ValidateUser(string email, string password)
         {
-            int userID = GetLoggedInUserID(email);
-            HttpContext.Current.Session["AuthenticatedUserID"] = userID;
+            if (AuthenticationServiceBusiness.ValidateUser(email, password))
+            {
+                LogInSessionModel userSession = new LogInSessionModel
+                {
+                    UserID = AuthenticationServiceBusiness.GetUserID(email),
+                    IsAdmin = AuthenticationServiceBusiness.IsAdmin(email)
+                };
 
-            bool isAdmin = IsAdmin(email);
-            HttpContext.Current.Session["IsAdmin"] = isAdmin;
-        }
-
-        [WebMethod]
-        public static bool ValidateUser(string email, string password)
-        {
-           return AuthenticationServiceBusiness.ValidateUser(email, password);
-        }
-
-        [WebMethod]
-        public static bool CheckEmail(string email)
-        {
-            return AuthenticationServiceBusiness.CheckEmailExists(email);
-        }
-
-        [WebMethod]
-        public static bool IsAdmin(string email)
-        {
-            return AuthenticationServiceBusiness.IsAdmin(email);
-        }
-
-        [WebMethod]
-        public static int GetUserID(string email)
-        {
-            return AuthenticationServiceBusiness.GetUserID(email);
-        }
-
-        [WebMethod]
-        public static int GetLoggedInUserID(string email)
-        {
-            return AuthenticationServiceBusiness.GetUserID(email);
+                UtilityLayer.ConstantValues.SetUserSessionInfo(userSession);
+                return userSession; 
+            }
+            return null;
         }
     }
 }

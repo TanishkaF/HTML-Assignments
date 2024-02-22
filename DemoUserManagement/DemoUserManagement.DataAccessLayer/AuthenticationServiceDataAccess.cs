@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DemoUserManagement.DataAccessLayer
 {
@@ -71,44 +68,128 @@ namespace DemoUserManagement.DataAccessLayer
 
         public static bool IsAdmin(string email)
         {
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string getUserIdQuery = "SELECT StudentID FROM UserDetails WHERE Email = @Email";
-                SqlCommand getUserIdCommand = new SqlCommand(getUserIdQuery, connection);
-                getUserIdCommand.Parameters.AddWithValue("@Email", email);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string getUserIdQuery = "SELECT StudentID FROM UserDetails WHERE Email = @Email";
+                    SqlCommand getUserIdCommand = new SqlCommand(getUserIdQuery, connection);
+                    getUserIdCommand.Parameters.AddWithValue("@Email", email);
 
-                connection.Open();
-                int userID = (int)getUserIdCommand.ExecuteScalar();
+                    connection.Open();
+                    int userID = (int)getUserIdCommand.ExecuteScalar();
 
-                string isAdminQuery = @"
-                            SELECT R.isAdmin 
-                            FROM UserRoll UR 
-                            INNER JOIN Roll R ON UR.RollID = R.RollID 
-                            WHERE UR.UserID = @UserID AND R.isAdmin = 1";
+                    string isAdminQuery = @"
+                     SELECT R.isAdmin 
+                     FROM UserRoll UR 
+                     INNER JOIN Roll R ON UR.RollID = R.RollID 
+                     WHERE UR.UserID = @UserID AND R.isAdmin = 1";
 
-                SqlCommand isAdminCommand = new SqlCommand(isAdminQuery, connection);
-                isAdminCommand.Parameters.AddWithValue("@UserID", userID);
+                    SqlCommand isAdminCommand = new SqlCommand(isAdminQuery, connection);
+                    isAdminCommand.Parameters.AddWithValue("@UserID", userID);
 
-                SqlDataReader reader = isAdminCommand.ExecuteReader();
-                bool isAdmin = reader.HasRows;
+                    SqlDataReader reader = isAdminCommand.ExecuteReader();
+                    bool isAdmin = reader.HasRows;
 
-                return isAdmin;
+                    return isAdmin;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+                // Log any exceptions and return false indicating that the user is not an admin
+                return false;
             }
         }
 
-        public static bool CheckEmailExists(string email)
+
+        //public static bool CheckEmailExists(string email)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        string query = "SELECT COUNT(*) FROM UserDetails WHERE Email = @Email";
+        //        SqlCommand command = new SqlCommand(query, connection);
+        //        command.Parameters.AddWithValue("@Email", email);
+
+        //        connection.Open();
+        //        int count = (int)command.ExecuteScalar();
+
+        //        return count > 0;
+        //    }
+        //}
+
+
+        //public static bool CheckEmailExists(string email, int userID)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(connectionString))
+        //    {
+        //        string query;
+        //        SqlCommand command;
+
+        //        // Check if userID is provided (not equal to 0)
+        //        if (userID != 0)
+        //        {
+        //            query = "SELECT COUNT(*) FROM UserDetails WHERE StudentID = @UserID AND Email = @Email";
+        //            command = new SqlCommand(query, connection);
+        //            command.Parameters.AddWithValue("@UserID", userID);
+        //            command.Parameters.AddWithValue("@Email", email);
+        //        }
+        //        else
+        //        {
+        //            // If userID is not provided, only check for email existence
+        //            query = "SELECT COUNT(*) FROM UserDetails WHERE Email = @Email";
+        //            command = new SqlCommand(query, connection);
+        //            command.Parameters.AddWithValue("@Email", email);
+        //        }
+
+        //        connection.Open();
+        //        int count = (int)command.ExecuteScalar();
+
+        //        // Return true if count is greater than 0, indicating the email exists
+        //        return count > 0;
+        //    }
+        //}
+
+        public static bool CheckEmailExists(string email, int userID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT COUNT(*) FROM UserDetails WHERE Email = @Email";
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Email", email);
+                string query = "";
+                SqlCommand command = null;
 
-                connection.Open();
-                int count = (int)command.ExecuteScalar();
+                if (userID == 0)
+                {
+                    query = "SELECT COUNT(*) FROM UserDetails WHERE Email = @Email";
+                    command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Email", email);
+                }
+                else
+                {
+                    query = "SELECT COUNT(*) FROM UserDetails WHERE Email = @Email AND StudentID != @UserID";
+                    command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@UserID", userID);
+                }
 
-                return count > 0;
+                try
+                {
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    if (count <= 0) {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    // Handle exceptions here
+                    Logger.AddData(ex);
+                    Console.WriteLine("Error: " + ex.Message);
+                    return false;
+                }
             }
         }
     }

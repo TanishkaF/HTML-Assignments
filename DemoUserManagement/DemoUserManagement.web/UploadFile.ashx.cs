@@ -79,7 +79,7 @@ namespace DemoUserManagement.web
     {
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "application/json"; // Change content type to JSON
+            context.Response.ContentType = "application/json";
 
             if (context.Request.Files.Count > 0)
             {
@@ -89,18 +89,18 @@ namespace DemoUserManagement.web
 
                 if (!string.IsNullOrEmpty(uploadedFileName))
                 {
-                    // Return JSON response with file details
-                    string originalFileName = uploadedFile.FileName; // Get the original file name
+                   
+                    string originalFileName = uploadedFile.FileName;
                     context.Response.Write("{\"DiskDocumentName\": \"" + uploadedFileName + "\", \"OriginalFileName\": \"" + originalFileName + "\"}");
                 }
                 else
                 {
-                    context.Response.Write("{\"error\": \"Error uploading file.\"}"); // Return error in JSON format
+                    context.Response.Write("{\"error\": \"Error uploading file.\"}"); 
                 }
             }
             else
             {
-                context.Response.Write("{\"error\": \"No file uploaded.\"}"); // Return error in JSON format
+                context.Response.Write("{\"error\": \"No file uploaded.\"}"); 
             }
         }
 

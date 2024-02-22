@@ -50,10 +50,10 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a id="Default" class="nav-link" runat="server" title="Home" href="~/">Home</a>
+                            <a id="Default" class="nav-link" runat="server" title="Home" href="~/LogIn.aspx">Home</a>
                         </li>
                        <li class="nav-item" id="UserDetailsLink" runat="server" visible="false">
-                            <a id="UserDetails" class="nav-link" runat="server" title="UserDetails" href="~/UserDetails.aspx">UserDetails</a>
+                            <a id="UserDetails" class="nav-link" runat="server" title="UserDetails" href="~/UserDetailsV2.aspx">UserDetails</a>
                         </li>
                         <li class="nav-item" id="UsersListLink" runat="server" visible="false">
                             <a id="UserList" class="nav-link" runat="server" title="UserList" href="~/UserList">UserList</a>

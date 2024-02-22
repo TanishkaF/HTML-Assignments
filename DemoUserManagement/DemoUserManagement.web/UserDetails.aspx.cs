@@ -14,13 +14,14 @@ namespace DemoUserManagement.web
     
     {
         private bool authorizationChecked = false;
-
+        public int test = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
-          //  CheckAuthorizationAndLoadUserDetails();
+           CheckAuthorizationAndLoadUserDetails();
 
             if (!IsPostBack)
             {
+                test = 5;
                 if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
                 {
                     int studentID;
@@ -42,6 +43,10 @@ namespace DemoUserManagement.web
                     PopulateCountries(cCountry);
                     PopulateCountries(pCountry);
                 }
+            }
+            else
+            {
+                var test2 = test;
             }
         }
 
@@ -211,7 +216,7 @@ namespace DemoUserManagement.web
             studentDetailsTable.Email = GetValueFromTextBox(email);
             studentDetailsTable.Phone = GetValueFromTextBox(phone);
             studentDetailsTable.AadharNumber = GetValueFromTextBox(aadhar);
-            studentDetailsTable.DateOfBirth = (DateTime)GetDateTimeValueFromTextBox(birthday);
+            studentDetailsTable.DateOfBirth = GetValueFromTextBox(birthday);
             studentDetailsTable.Gender = male.Checked ? "Male" : "Female";
             studentDetailsTable.Hobbies = HobbySelected();
             studentDetailsTable.DiskDocumentName = "";
@@ -342,7 +347,7 @@ namespace DemoUserManagement.web
             middleName.Text = studentDetailsTable.MiddleName;
             lastName.Text = studentDetailsTable.LastName;
             email.Text = studentDetailsTable.Email;
-            birthday.Text = studentDetailsTable.DateOfBirth.ToString("yyyy-MM-dd");
+            birthday.Text = studentDetailsTable.DateOfBirth;
             phone.Text = studentDetailsTable.Phone;
             aadhar.Text = studentDetailsTable.AadharNumber;
             password.Text = studentDetailsTable.Password;
@@ -703,12 +708,13 @@ namespace DemoUserManagement.web
 
         private void CheckAuthorizationAndLoadUserDetails()
         {
-            if (!authorizationChecked) // Only proceed if authorization hasn't been checked yet
+            LogInSessionModel userSessionInfo = ConstantValues.GetUserSessionInfo();
+            if (!authorizationChecked)
             {
-                if (Session["AuthenticatedUserID"] != null && Session["IsAdmin"] != null)
+                if (userSessionInfo != null)
                 {
-                    int authenticatedUserID = Convert.ToInt32(Session["AuthenticatedUserID"]);
-                    bool isAdmin = Convert.ToBoolean(Session["IsAdmin"]);
+                    int authenticatedUserID = userSessionInfo.UserID;
+                    bool isAdmin = userSessionInfo.IsAdmin;
 
                     bool urlParsedSuccessfully = int.TryParse(Request.QueryString["StudentID"], out int urlUpdatedStudentID);
 

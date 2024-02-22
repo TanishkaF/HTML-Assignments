@@ -9,7 +9,7 @@ using DemoUserManagement.BusinessLayer;
 
 namespace DemoUserManagement.web
 {
-    public partial class UserList : System.Web.UI.Page
+    public partial class UserList : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -134,7 +134,7 @@ namespace DemoUserManagement.web
             if (e.CommandName == "EditUser")
             {
                 int studentID = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect($"UserDetails.aspx?StudentID={studentID}");
+                Response.Redirect($"UserDetailsV2.aspx?StudentID={studentID}");
             }
             else if (e.CommandName == "RefreshGrid")
             {

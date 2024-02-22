@@ -18,13 +18,13 @@
         <div class="col-sm-4">
             <div class="p-3">
                 <asp:label for="fileUpload" id="lblFileUpload" runat="server">Upload PDF:</asp:label>
-                <asp:FileUpload ID="fileUpload" runat="server" CssClass="form-control" ClientIDMode="Static" />
+<               <asp:FileUpload ID="fileUpload" runat="server" CssClass="form-control" ClientIDMode="Static" />
             </div>
         </div>
         <div class="col-sm-4">
             <div class="p-3">
                 <label></label>
-                <asp:Button ID="btnAddDocument" runat="server" Text="Add Document" OnClick="BtnAddDocument_Click" CssClass="btn btn-primary" />
+                <asp:Button ID="btnAddDocument" runat="server" Text="Add Document" OnClick="BtnAddDocument_Click" CssClass="btn btn-primary" ClientIDMode="static" />
             </div>
         </div>
     </div>

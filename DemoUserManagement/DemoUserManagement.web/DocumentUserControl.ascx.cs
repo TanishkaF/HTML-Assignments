@@ -33,22 +33,22 @@ namespace DemoUserManagement.web
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
 
             if (!IsPostBack)
             {
                 ViewState["ObjectID"] = this.ObjectID;
                 ViewState["ObjectType"] = this.ObjectType;
-                
+
                 PopulateDropdown(DropDownList);
                 BindGridView();
-                if(ObjectID != 0)
+                if (ObjectID != 0)
                 {
                     ddlOptions.Visible = true;
                     fileUpload.Visible = true;
                     lblFileUpload.Visible = true;
                     lblDdlOptions.Visible = true;
-                    btnAddDocument.Visible = true;
+                    //btnAddDocument.Visible = true;
 
                     ViewState["SortDirection"] = "ASC";
                     ViewState["SortExpression"] = "DocumentID";
@@ -61,7 +61,7 @@ namespace DemoUserManagement.web
                     fileUpload.Visible = false;
                     btnAddDocument.Visible = false;
                 }
-            }            
+            }
         }
 
         public void PopulateDropdown(List<DocumentClass> documentList)
@@ -227,7 +227,7 @@ namespace DemoUserManagement.web
                      </script>";
             Page.ClientScript.RegisterStartupScript(this.GetType(), "DownloadScript", script);
 
-           // UpdatePanelGridViewDocuments.Update();
+            // UpdatePanelGridViewDocuments.Update();
 
         }
 

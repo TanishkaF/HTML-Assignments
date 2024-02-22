@@ -7,151 +7,143 @@ using System.Web.Http;
 using System.Web;
 using Newtonsoft.Json;
 using DemoUserManagement.UtilityLayer;
-using Microsoft.Ajax.Utilities;
-
-
+using System.Text;
 
 
 namespace DemoUserManagement.web
 {
-    public partial class UserDetailsV2 : System.Web.UI.Page
+    public partial class UserDetailsV2 : BasePage
     {
-        private bool authorizationChecked = false;
-        private UserDetailsViewModel userDetails;
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
-            {
-
+            {               
+                if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
+                {
+                    if (int.TryParse(Request.QueryString["StudentID"], out int studentID))
+                    {
+                        NoteUserControlV2.ObjectID = studentID;
+                        NoteUserControlV2.ObjectType = NoteType.ObjectType;
+                        DocumentUserControlV2.ObjectID = studentID;
+                        DocumentUserControlV2.ObjectType = StudentDocumentType.ObjectType;
+                    }
+                }
             }
-
-
-
         }
-
+         
         [WebMethod]
-        public static void ResetButton_Click()
+        public static bool CheckEmail(string email,int userID)
         {
+            return AuthenticationServiceBusiness.CheckEmailExists(email, userID);
         }
 
         [WebMethod]
         public static UserDetailsViewModel GetStudentDetails(int studentID)
         {
-            UserDetailsViewModel studentDetails = UserBusiness.GetUserDetails(studentID);
-            return studentDetails;
-        }
-
-        [WebMethod]
-        public static bool UpdateStudentDetails(int studentID, UserDetailsViewModel studentDetails)
-        {
-            return true;
-        }
-
-        [WebMethod]
-        public static bool CheckEmail(string email)
-        {
-            return AuthenticationServiceBusiness.CheckEmailExists(email);
-        }
-
-
-        [WebMethod]
-        public static string GetSelectedHobbies(bool[] checkboxes)
-        {
-
-            string selectedHobbies = "";
-
-            for (int i = 0; i < checkboxes.Length; i++)
+            if (CheckAuthentication(studentID))
             {
-                if (checkboxes[i])
-                {
-                    selectedHobbies += "Hobby " + (i + 1) + ", ";
-                }
+                UserDetailsViewModel studentDetails = UserBusiness.GetUserDetails(studentID);
+                return studentDetails;
             }
-
-
-            if (!string.IsNullOrEmpty(selectedHobbies))
+            else
             {
-                selectedHobbies = selectedHobbies.TrimEnd(',', ' ');
+                return null;
             }
-
-            return selectedHobbies;
         }
 
         [WebMethod]
         public static AddressDetailViewModel GetAddressDetails(int studentID, int addressType)
         {
-            switch (addressType)
+            if (CheckAuthentication(studentID))
             {
-                case 1:
-                    return UserBusiness.GetCurrentAddress(studentID);
-                case 2:
-                    return UserBusiness.GetPermanentAddress(studentID);
-                default:
-                    return null;
+                switch (addressType)
+                {
+                    case 1:
+                        return UserBusiness.GetCurrentAddress(studentID);
+                    case 2:
+                        return UserBusiness.GetPermanentAddress(studentID);
+                    default:
+                        return null;
+                }
             }
+            else
+            {
+                return null;
+            }
+        }
+
+        [WebMethod]
+        public static string GetCountryName(int countryID)
+        {
+            return UserBusiness.GetCountryName(countryID);
+        }
+
+        [WebMethod]
+        public static string GetStateName(int stateID)
+        {
+            return UserBusiness.GetStateName(stateID);
         }
 
         [WebMethod]
         public static EducationDetailViewModel GetEducationDetail(int studentID, string educationType)
         {
-            switch (educationType)
+            if (CheckAuthentication(studentID))
             {
-                case "10":
-                    return UserBusiness.GetEducation10(studentID);
-                case "12":
-                    return UserBusiness.GetEducation12(studentID);
-                case "graduate":
-                    return UserBusiness.GetEducationGraduate(studentID);
-                default:
-                    return null;
+                switch (educationType)
+                {
+                    case "10":
+                        return UserBusiness.GetEducation10(studentID);
+                    case "12":
+                        return UserBusiness.GetEducation12(studentID);
+                    case "graduate":
+                        return UserBusiness.GetEducationGraduate(studentID);
+                    default:
+                        return null;
+                }
+
+            }
+            else
+            {
+                return null;
             }
         }
 
         [WebMethod]
         public static UserDetailsViewModel GetUserDetails(int userID)
         {
-            return UserBusiness.GetUserDetails(userID);
-        }
-
-        //protected void UpdateUserDetails(int userID)
-        //{
-        //    Response.Redirect($"UserDetailsV2.aspx?StudentID={userID}");
-        //    // Response.Redirect($"UserList.aspx");
-        //}
-
-
-        [WebMethod]
-        public static string GetCountries()
-        {
-            List<CountryViewModel> countryList = UserBusiness.GetCountries();
-            string json = JsonConvert.SerializeObject(countryList);
-            return json;
+            if (CheckAuthentication(userID))
+            {
+                return UserBusiness.GetUserDetails(userID);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [WebMethod]
-        public static string GetStates(int countryID)
+        public static List<CountryViewModel> GetCountry()
         {
-            List<StateViewModel> stateList = UserBusiness.GetStates(countryID);
-            string stateJson = JsonConvert.SerializeObject(stateList);
-            return stateJson;
-        }
-
+            return UserBusiness.GetCountries();           
+        } 
 
         [WebMethod]
-        public static void GetLastInsertedUserID()
+        public static List<StateViewModel> GetStates(int countryID)
         {
-            UserBusiness.GetLastInsertedUserID();
+            return UserBusiness.GetStates(countryID);            
         }
-
 
         [WebMethod]
         public static void InsertDetails(UserDetailsViewModel userDetails)
         {
-
             UserBusiness.InsertUserDetails(userDetails);
-            // UserBusiness.InsertAddressDetails(addressDetailsCurrent);
-            //UserBusiness.InsertAddressDetails(addressDetailsPermanent);           
+        }
+
+        [WebMethod]
+        public static void InsertAddress(AddressDetailViewModel addressDetailView, int addressType)
+        {
+            addressDetailView.AddressType = addressType;
+            UserBusiness.InsertAddressDetails(addressDetailView);
         }
 
         [WebMethod]
@@ -163,31 +155,31 @@ namespace DemoUserManagement.web
 
 
         [WebMethod]
-        public static void InsertAddress(AddressDetailViewModel addressDetailView, int addressType)
-        {
-            addressDetailView.AddressType = addressType;
-            UserBusiness.InsertAddressDetails(addressDetailView);
-        }
-
-        [WebMethod]
         public static void UpdateUserDetails(int userID, UserDetailsViewModel userDetails)
         {
-             UserBusiness.UpdateUserDetails(userID, userDetails);
+            if (CheckAuthentication(userID))
+            {
+                UserBusiness.UpdateUserDetails(userID, userDetails);
+            }
         }
 
         [WebMethod]
-        public static void UpdateAddressDetails(int userID,int addressType,AddressDetailViewModel addressDetailView)
+        public static void UpdateAddressDetails(int userID, int addressType, AddressDetailViewModel addressDetailView)
         {
-             UserBusiness.UpdateAddressDetails(userID,addressType,addressDetailView);
+            if (CheckAuthentication(userID))
+            {
+                UserBusiness.UpdateAddressDetails(userID, addressType, addressDetailView);
+            }
         }
 
-         [WebMethod]
-        public static void UpdateEducationDetails(int userID,int educationType,AddressDetailViewModel educationDetails)
+        [WebMethod]
+        public static void UpdateEducationDetails(int userID, int educationType, EducationDetailViewModel educationDetails)
         {
-             UserBusiness.UpdateAddressDetails(userID, educationType, educationDetails);
+            if (CheckAuthentication(userID))
+            {
+                UserBusiness.UpdateEducationDetails(userID, educationType, educationDetails);
+            }
         }
-
-
 
         [WebMethod]
         public static void CopyAddress(string cCountry, string cState, string c1Address, string c2Address, string cPinCode)
@@ -199,13 +191,6 @@ namespace DemoUserManagement.web
             HttpContext.Current.Session["PrevPPinCode"] = cPinCode;
         }
 
-        [WebMethod]
-        public static int getLastInsertedUserID()
-        {
-            return UserBusiness.GetLastInsertedUserID();
-        }
-
-
-
+      
     }
 }

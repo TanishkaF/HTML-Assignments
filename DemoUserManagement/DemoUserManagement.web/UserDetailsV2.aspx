@@ -1,24 +1,23 @@
-﻿<%@ Page Language="C#" Title="User Detail Form" AutoEventWireup="true" CodeBehind="UserDetailsV2.aspx.cs" Inherits="DemoUserManagement.web.UserDetailsV2" %>
+﻿<%@ Page Language="C#" Title="User Detail Form" AutoEventWireup="true" CodeBehind="UserDetailsV2.aspx.cs" Inherits="DemoUserManagement.web.UserDetailsV2" MasterPageFile="~/Site.Master" %>
+
+<%--<%@ Register Src="~/NoteUserControl.ascx" TagPrefix="uc" TagName="NoteUserControl" %>--%>
+<%--<%@ Register Src="~/DocumentUserControl.ascx" TagPrefix="uc1" TagName="DocumentUserControl" %>--%>
+<%@ Register Src="~/DocumentUserControlV2.ascx" TagPrefix="uc1" TagName="DocumentUserControlV2" %>
+<%@ Register Src="~/NoteUserControlV2.ascx" TagPrefix="uc" TagName="NoteUserControlV2" %>
 
 
-<!DOCTYPE html>
-<html>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-<head>
     <title>Admission Form Bootstrap</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="Content/index.css" rel="stylesheet" />
-</head>
-
-<body>
 
     <div class="border">
 
         <h1><u>Admission Form</u></h1>
 
         <form name='registration' id="dataForm">
-
 
             <!-- PERSONAL INFO -->
             <div>
@@ -87,6 +86,7 @@
                                     <div>
                                         <span id="starSign" class="text-danger font-weight-bold">*</span>
                                         <label for="email">Email:</label>
+                                        <!-- Added for attribute for associating label with input -->
                                     </div>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
@@ -95,7 +95,8 @@
                                         <input type="text" id="email" name="email" placeholder="Email"
                                             class="form-control" data-store="Email">
                                     </div>
-                                    <div id="errorMessageDisplayBox" class="error-display-box"></div>
+                                    <div id="lblEmailError" class="error-display-box-email"></div>
+                                    <!-- Added class for styling error message -->
 
                                 </div>
                             </div>
@@ -162,7 +163,7 @@
                                 </div>
                             </div>
 
-                           
+
                             <div class="col-sm-4">
                                 <div class="p-3   ">
                                     <!-- Two Divs in Column 3 -->
@@ -382,7 +383,7 @@
                                             </div>
                                             <select id="pCountry" name="country" data-store="PermanentCountry"
                                                 class="form-control" onchange="getStates(this.value, 'pState')">
-                                                <option value="" disabled selected>Select Country</option>                                              
+                                                <option value="" disabled selected>Select Country</option>
                                             </select>
                                         </div>
                                     </div>
@@ -553,7 +554,7 @@
                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <input type="radio" id="percentage10" name="marks" value="percentage"
                                                     data-store="Marks10">
-                                                <label for="percentage">Percentage</label>
+                                                <label for="percentage10">Percentage</label>
                                             </div>
                                         </div>
                                     </div>
@@ -661,13 +662,13 @@
                                         <div>
                                             <div class="radio-button">
                                                 <div class="radio-container form-control">
-                                                    <input type="radio" id="cgpa12" name="marks" value="cgpa"
+                                                    <input type="radio" id="cgpa12" name="marks12" value="cgpa"
                                                         data-store="Marks12">
-                                                    <label for="cgpa">CGPA</label>
+                                                    <label for="cgpa12">CGPA</label>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <input type="radio" id="percentage12" name="marks" value="percentage"
+                                                    <input type="radio" id="percentage12" name="marks12" value="percentage"
                                                         data-store="Marks12">
-                                                    <label for="percentage">Percentage</label>
+                                                    <label for="percentage12">Percentage</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -941,14 +942,16 @@
                     </div>
                 </fieldset>
             </div>
-
-            <!-- BUTTONS -->
-            <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
-                <button type="button" class="btn btn-success SubmitButton" id="submitButton" onclick="return submitUserDetails()">Submit</button>
-                <button type="button" class="btn btn-danger ResetButton ml-2" onclick="resetForm()">Reset</button>
-            </div>
-
         </form>
+        <uc:NoteUserControlV2 runat="server" id="NoteUserControlV2" />
+        <uc1:DocumentUserControlV2 ID="DocumentUserControlV2" runat="server" />
+<%--        <uc:NoteUserControl ID="NoteUserControl" runat="server" />--%>
+<%--        <uc1:DocumentUserControl ID="DocumentUserControl" runat="server" />--%>
+        <!-- BUTTONS -->
+        <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
+            <button type="button" class="btn btn-success SubmitButton" id="submitButton" onclick="return submitUserDetails()">Submit</button>
+            <button type="button" class="btn btn-danger ResetButton ml-2" onclick="resetForm()">Reset</button>
+        </div>
     </div>
 
     <!-- Add Bootstrap JS and Popper.js -->
@@ -958,6 +961,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="Scripts/UserDetailsV2.js"></script>
     <script src="Scripts/CheckEmail.js"></script>
-</body>
+    <script src="Scripts/UserControl.js"></script>
+    <%--</body>
 
-</html>
+</html>--%>
+</asp:Content>

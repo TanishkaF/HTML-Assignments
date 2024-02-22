@@ -11,7 +11,7 @@
     
       <asp:UpdatePanel ID="UpdatePanelGridViewDocuments" runat="server">
     <ContentTemplate>
-            <asp:Button ID="btnAddNote" runat="server" Text="Add Note" OnClick="BtnAddNote_Click" />
+            <asp:Button ID="btnAddNote" runat="server" Text="Add Note" OnClick="BtnAddNote_Click" ClientIDMode="static" />
 
         <asp:GridView
             ID="GridViewDocuments"

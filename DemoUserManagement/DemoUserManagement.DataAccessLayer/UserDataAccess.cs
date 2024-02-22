@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using DemoUserManagement.UtilityLayer;
 using System.Data;
+using System.Globalization;
 
 
 namespace DemoUserManagement.DataAccessLayer
@@ -17,24 +18,31 @@ namespace DemoUserManagement.DataAccessLayer
         public static List<CountryViewModel> GetCountries()
         {
             List<CountryViewModel> countries = new List<CountryViewModel>();
-            string query = "SELECT CountryID, CountryName FROM Countries";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                string query = "SELECT CountryID, CountryName FROM Countries";
 
-                while (reader.Read())
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    CountryViewModel country = new CountryViewModel
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
                     {
-                        CountryID = Convert.ToInt32(reader["CountryID"]),
-                        CountryName = reader["CountryName"].ToString()
-                    };
-                    countries.Add(country);
+                        CountryViewModel country = new CountryViewModel
+                        {
+                            CountryID = Convert.ToInt32(reader["CountryID"]),
+                            CountryName = reader["CountryName"].ToString()
+                        };
+                        countries.Add(country);
+                    }
+                    reader.Close();
                 }
-                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
             return countries;
         }
@@ -42,25 +50,32 @@ namespace DemoUserManagement.DataAccessLayer
         public static List<StateViewModel> GetStates(int countryID)
         {
             List<StateViewModel> states = new List<StateViewModel>();
-            string query = "SELECT StateID, StateName FROM States WHERE CountryID = @CountryID";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@CountryID", countryID);
-                connection.Open();
-                SqlDataReader reader = command.ExecuteReader();
+                string query = "SELECT StateID, StateName FROM States WHERE CountryID = @CountryID";
 
-                while (reader.Read())
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    StateViewModel state = new StateViewModel
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@CountryID", countryID);
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
                     {
-                        StateID = Convert.ToInt32(reader["StateID"]),
-                        StateName = reader["StateName"].ToString()
-                    };
-                    states.Add(state);
+                        StateViewModel state = new StateViewModel
+                        {
+                            StateID = Convert.ToInt32(reader["StateID"]),
+                            StateName = reader["StateName"].ToString()
+                        };
+                        states.Add(state);
+                    }
+                    reader.Close();
                 }
-                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
             return states;
         }
@@ -125,7 +140,6 @@ namespace DemoUserManagement.DataAccessLayer
             return countryName;
         }
 
-
         public static string ValidateAndTrimInput(string input)
         {
             return input?.Trim() ?? string.Empty;
@@ -150,17 +164,24 @@ namespace DemoUserManagement.DataAccessLayer
         public static int GetLastInsertedUserID()
         {
             int userID = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = "SELECT IDENT_CURRENT('UserDetails') AS LastUserID";
-                SqlCommand command = new SqlCommand(query, connection);
-
-                connection.Open();
-                object result = command.ExecuteScalar();
-                if (result != null)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    userID = Convert.ToInt32(result);
+                    string query = "SELECT IDENT_CURRENT('UserDetails') AS LastUserID";
+                    SqlCommand command = new SqlCommand(query, connection);
+
+                    connection.Open();
+                    object result = command.ExecuteScalar();
+                    if (result != null)
+                    {
+                        userID = Convert.ToInt32(result);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
 
             return userID;
@@ -168,54 +189,66 @@ namespace DemoUserManagement.DataAccessLayer
 
         public static void InsertUserDetails(UserDetailsViewModel studentDetails)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = @"INSERT INTO UserDetails (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber, Hobbies, DiskDocumentName, OriginalDocumentName,Password) 
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"INSERT INTO UserDetails (FirstName, MiddleName, LastName, Email, DateOfBirth, Gender, Phone, AadharNumber, Hobbies, DiskDocumentName, OriginalDocumentName,Password) 
                     VALUES (@FirstName, @MiddleName, @LastName, @Email, @DateOfBirth, @Gender, @Phone, @AadharNumber, @Hobbies, @DiskDocumentName, @OriginalDocumentName,@Password)";
 
-                SqlCommand sqlCommand = new SqlCommand(@query, connection);
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
-                command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
-                command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
-                command.Parameters.AddWithValue("@Email", studentDetails.Email);
-                DateTime? dateOfBirth = studentDetails.DateOfBirth;
-                SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
-                dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
-                command.Parameters.Add(dateOfBirthParameter);
-                command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
-                command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
-                command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
-                command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
-                command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
-                command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
-                command.Parameters.AddWithValue("@Password", studentDetails.Password);
+                    SqlCommand sqlCommand = new SqlCommand(@query, connection);
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@FirstName", studentDetails.FirstName);
+                    command.Parameters.AddWithValue("@MiddleName", studentDetails.MiddleName);
+                    command.Parameters.AddWithValue("@LastName", studentDetails.LastName);
+                    command.Parameters.AddWithValue("@Email", studentDetails.Email);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    command.Parameters.AddWithValue("@Gender", studentDetails.Gender);
+                    command.Parameters.AddWithValue("@Phone", studentDetails.Phone);
+                    command.Parameters.AddWithValue("@DateOfBirth", studentDetails.DateOfBirth);
+                    command.Parameters.AddWithValue("@AadharNumber", studentDetails.AadharNumber);
+                    command.Parameters.AddWithValue("@Hobbies", studentDetails.Hobbies);
+                    command.Parameters.AddWithValue("@DiskDocumentName", studentDetails.DiskDocumentName);
+                    command.Parameters.AddWithValue("@OriginalDocumentName", studentDetails.OriginalDocumentName);
+                    command.Parameters.AddWithValue("@Password", studentDetails.Password);
 
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
         public static void InsertAddressDetails(AddressDetailViewModel addressDetails)
         {
             int userID = GetLastInsertedUserID();
-            string query = @"INSERT INTO AddressDetails (UserID, AddressType, CountryID, StateID, AddressLine1, AddressLine2, Pincode) 
+            try
+            {
+                string query = @"INSERT INTO AddressDetails (UserID, AddressType, CountryID, StateID, AddressLine1, AddressLine2, Pincode) 
                     VALUES (@UserID, @AddressType, @CountryID, @StateID, @AddressLine1, @AddressLine2, @Pincode)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@UserID", userID);
-                command.Parameters.AddWithValue("@AddressType", addressDetails.AddressType);
-                command.Parameters.AddWithValue("@CountryID", addressDetails.CountryID.HasValue ? (object)addressDetails.CountryID.Value : (object)DBNull.Value);
-                command.Parameters.AddWithValue("@StateID", addressDetails.StateID.HasValue ? (object)addressDetails.StateID.Value : (object)DBNull.Value);
-                command.Parameters.AddWithValue("@AddressLine1", string.IsNullOrEmpty(addressDetails.AddressLine1) ? (object)DBNull.Value : (object)addressDetails.AddressLine1);
-                command.Parameters.AddWithValue("@AddressLine2", string.IsNullOrEmpty(addressDetails.AddressLine2) ? (object)DBNull.Value : (object)addressDetails.AddressLine2);
-                command.Parameters.AddWithValue("@Pincode", string.IsNullOrEmpty(addressDetails.Pincode) ? (object)DBNull.Value : (object)addressDetails.Pincode);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@AddressType", addressDetails.AddressType);
+                    command.Parameters.AddWithValue("@CountryID", addressDetails.CountryID.HasValue ? (object)addressDetails.CountryID.Value : (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@StateID", addressDetails.StateID.HasValue ? (object)addressDetails.StateID.Value : (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@AddressLine1", string.IsNullOrEmpty(addressDetails.AddressLine1) ? (object)DBNull.Value : (object)addressDetails.AddressLine1);
+                    command.Parameters.AddWithValue("@AddressLine2", string.IsNullOrEmpty(addressDetails.AddressLine2) ? (object)DBNull.Value : (object)addressDetails.AddressLine2);
+                    command.Parameters.AddWithValue("@Pincode", string.IsNullOrEmpty(addressDetails.Pincode) ? (object)DBNull.Value : (object)addressDetails.Pincode);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
@@ -245,77 +278,97 @@ namespace DemoUserManagement.DataAccessLayer
             int studentID = GetLastInsertedUserID();
             string query = @"INSERT INTO EducationDetails (StudentID, EducationType, InstituteName, Board, Marks, Aggregate, YearOfCompletion) 
                              VALUES (@StudentID, @EducationType, @InstituteName, @Board, @Marks, @Aggregate, @YearOfCompletion)";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@StudentID", studentID);
-                command.Parameters.AddWithValue("@EducationType", educationDetails.EducationType ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@InstituteName", string.IsNullOrEmpty(educationDetails.InstituteName) ? DBNull.Value : (object)educationDetails.InstituteName);
-                command.Parameters.AddWithValue("@Board", string.IsNullOrEmpty(educationDetails.Board) ? DBNull.Value : (object)educationDetails.Board);
-                command.Parameters.AddWithValue("@Marks", string.IsNullOrEmpty(educationDetails.Marks) ? DBNull.Value : (object)educationDetails.Marks);
-                command.Parameters.AddWithValue("@Aggregate", educationDetails.Aggregate ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@YearOfCompletion", educationDetails.YearOfCompletion ?? (object)DBNull.Value);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@StudentID", studentID);
+                    command.Parameters.AddWithValue("@EducationType", educationDetails.EducationType ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@InstituteName", string.IsNullOrEmpty(educationDetails.InstituteName) ? DBNull.Value : (object)educationDetails.InstituteName);
+                    command.Parameters.AddWithValue("@Board", string.IsNullOrEmpty(educationDetails.Board) ? DBNull.Value : (object)educationDetails.Board);
+                    command.Parameters.AddWithValue("@Marks", string.IsNullOrEmpty(educationDetails.Marks) ? DBNull.Value : (object)educationDetails.Marks);
+                    command.Parameters.AddWithValue("@Aggregate", educationDetails.Aggregate ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@YearOfCompletion", educationDetails.YearOfCompletion ?? (object)DBNull.Value);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
         public static void InsertUserRoll(int userId)
         {
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string query = @"INSERT INTO UserRoll (RollID, UserID)
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string query = @"INSERT INTO UserRoll (RollID, UserID)
                          SELECT RollID, @UserID
                          FROM Roll
                          WHERE isDefault = 1";
 
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@UserID", userId);
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@UserID", userId);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
         public static void UpdateUserDetails(int studentID, UserDetailsViewModel userDetails)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string updateQuery = @"UPDATE UserDetails 
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string updateQuery = @"UPDATE UserDetails 
                               SET FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, 
                                   Email = @Email, DateOfBirth = @DateOfBirth, Phone = @Phone, AadharNumber = @AadharNumber,
                                   Gender = @Gender, Hobbies = @Hobbies, DiskDocumentName = @DiskDocumentName, OriginalDocumentName = @OriginalDocumentName,
                                   Password = @Password
                               WHERE StudentID = @StudentID";
 
-                SqlCommand command = new SqlCommand(updateQuery, connection);
-                command.Parameters.AddWithValue("@StudentID", studentID);
-                command.Parameters.AddWithValue("@FirstName", userDetails.FirstName);
-                command.Parameters.AddWithValue("@MiddleName", userDetails.MiddleName);
-                command.Parameters.AddWithValue("@LastName", userDetails.LastName);
-                command.Parameters.AddWithValue("@Email", userDetails.Email);
+                    SqlCommand command = new SqlCommand(updateQuery, connection);
+                    command.Parameters.AddWithValue("@StudentID", studentID);
+                    command.Parameters.AddWithValue("@FirstName", userDetails.FirstName);
+                    command.Parameters.AddWithValue("@MiddleName", userDetails.MiddleName);
+                    command.Parameters.AddWithValue("@LastName", userDetails.LastName);
+                    command.Parameters.AddWithValue("@Email", userDetails.Email);
 
-                // Check for nullability and set DBNull if DateOfBirth is null
-                DateTime? dateOfBirth = userDetails.DateOfBirth;
-                SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
-                dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
-                command.Parameters.Add(dateOfBirthParameter);
+                    // Check for nullability and set DBNull if DateOfBirth is null
+                    string dateOfBirth = userDetails.DateOfBirth;
 
-                command.Parameters.AddWithValue("@Gender", userDetails.Gender);
-                command.Parameters.AddWithValue("@Phone", userDetails.Phone);
-                command.Parameters.AddWithValue("@AadharNumber", userDetails.AadharNumber);
-                command.Parameters.AddWithValue("@Hobbies", userDetails.Hobbies);
-                command.Parameters.AddWithValue("@DiskDocumentName", userDetails.DiskDocumentName);
-                command.Parameters.AddWithValue("@OriginalDocumentName", userDetails.OriginalDocumentName);
-                command.Parameters.AddWithValue("@Password", userDetails.Password);
+                    SqlParameter dateOfBirthParameter = new SqlParameter("@DateOfBirth", SqlDbType.Date);
+                    dateOfBirthParameter.Value = (object)dateOfBirth ?? DBNull.Value;
+                    command.Parameters.Add(dateOfBirthParameter);
+
+                    command.Parameters.AddWithValue("@Gender", userDetails.Gender);
+                    command.Parameters.AddWithValue("@Phone", userDetails.Phone);
+                    command.Parameters.AddWithValue("@AadharNumber", userDetails.AadharNumber);
+                    command.Parameters.AddWithValue("@Hobbies", userDetails.Hobbies);
+                    command.Parameters.AddWithValue("@DiskDocumentName", userDetails.DiskDocumentName);
+                    command.Parameters.AddWithValue("@OriginalDocumentName", userDetails.OriginalDocumentName);
+                    command.Parameters.AddWithValue("@Password", userDetails.Password);
 
 
-                connection.Open();
-                int rowsAffected = command.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    int rowsAffected = command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
@@ -359,20 +412,26 @@ namespace DemoUserManagement.DataAccessLayer
                          Aggregate = @Aggregate, 
                          YearOfCompletion = @YearOfCompletion
                      WHERE StudentID = @StudentID AND EducationType = @EducationType";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@StudentID", studentID);
-                command.Parameters.AddWithValue("@EducationType", educationType);
-                command.Parameters.AddWithValue("@InstituteName", string.IsNullOrEmpty(educationDetails.InstituteName) ? DBNull.Value : (object)educationDetails.InstituteName);
-                command.Parameters.AddWithValue("@Board", string.IsNullOrEmpty(educationDetails.Board) ? DBNull.Value : (object)educationDetails.Board);
-                command.Parameters.AddWithValue("@Marks", string.IsNullOrEmpty(educationDetails.Marks) ? DBNull.Value : (object)educationDetails.Marks);
-                command.Parameters.AddWithValue("@Aggregate", educationDetails.Aggregate ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@YearOfCompletion", educationDetails.YearOfCompletion ?? (object)DBNull.Value);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@StudentID", studentID);
+                    command.Parameters.AddWithValue("@EducationType", educationType);
+                    command.Parameters.AddWithValue("@InstituteName", string.IsNullOrEmpty(educationDetails.InstituteName) ? DBNull.Value : (object)educationDetails.InstituteName);
+                    command.Parameters.AddWithValue("@Board", string.IsNullOrEmpty(educationDetails.Board) ? DBNull.Value : (object)educationDetails.Board);
+                    command.Parameters.AddWithValue("@Marks", string.IsNullOrEmpty(educationDetails.Marks) ? DBNull.Value : (object)educationDetails.Marks);
+                    command.Parameters.AddWithValue("@Aggregate", educationDetails.Aggregate ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@YearOfCompletion", educationDetails.YearOfCompletion ?? (object)DBNull.Value);
 
-                connection.Open();
-                command.ExecuteNonQuery();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
             }
         }
 
@@ -396,7 +455,9 @@ namespace DemoUserManagement.DataAccessLayer
                         userDetails.MiddleName = reader["MiddleName"].ToString();
                         userDetails.LastName = reader["LastName"].ToString();
                         userDetails.Email = reader["Email"].ToString();
-                        userDetails.DateOfBirth = (DateTime)(reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]) : (DateTime?)null);
+
+                        userDetails.DateOfBirth = reader["DateOfBirth"] != DBNull.Value ? Convert.ToDateTime(reader["DateOfBirth"]).ToString("dd-MM-yyyy") : null;
+
                         userDetails.Phone = reader["Phone"].ToString();
                         userDetails.AadharNumber = reader["AadharNumber"].ToString();
                         userDetails.Gender = reader["Gender"].ToString();
@@ -534,7 +595,6 @@ namespace DemoUserManagement.DataAccessLayer
             return GetEducationDetails(studentID, EducationType.MatriculationEducation);
         }
 
-
         public static string GetEmailByUserID(int userID)
         {
             string email = null;
@@ -559,7 +619,7 @@ namespace DemoUserManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                // Handle the exception (logging, notifying, etc.)
+                Logger.AddData(ex);
                 Console.WriteLine("An error occurred while fetching email by UserID: " + ex.Message);
             }
 

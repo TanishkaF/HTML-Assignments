@@ -24,9 +24,9 @@ namespace DemoUserManagement.BusinessLayer
             return AuthenticationServiceDataAccess.IsAdmin(email);
         }
 
-        public static bool CheckEmailExists(string email)
+        public static bool CheckEmailExists(string email,int userID)
         {
-            return AuthenticationServiceDataAccess.CheckEmailExists(email);
+            return AuthenticationServiceDataAccess.CheckEmailExists(email, userID);
         }
     }
 

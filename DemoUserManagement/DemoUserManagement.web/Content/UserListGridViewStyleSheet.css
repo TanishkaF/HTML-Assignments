@@ -5,7 +5,7 @@
 
     .GridViewUsers th,
     .GridViewUsers td {
-        padding: 20px; 
+        padding: 20px;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
@@ -21,7 +21,8 @@
         }
 
 #btnAddStudent,
-.edit-button {
+.edit-button,
+#btnAddDocument {
     padding: 10px 20px;
     color: white;
     border: none;
@@ -38,6 +39,11 @@
     background-color: #008CBA;
 }
 
+#btnAddDocument {
+    background-color: blueviolet;
+    margin-top: 20px;
+}
+
 tr:nth-child(even) {
     background-color: white;
 }
@@ -47,14 +53,13 @@ tr:nth-child(odd) {
 }
 
 #btnAddNote {
-    background-color: green; /* Set the background color to green */
-    color: white; /* Set the text color to white */
-    border: none; /* Remove the border */
-    padding: 10px 20px; /* Add padding */
-    cursor: pointer; /* Change cursor to pointer on hover */
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
-    /* Hover effect */
     #btnAddNote:hover {
-        background-color: darkgreen; /* Darken the background color on hover */
+        background-color: darkgreen;
     }

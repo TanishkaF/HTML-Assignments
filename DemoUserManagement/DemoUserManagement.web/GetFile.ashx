@@ -3,51 +3,112 @@ using System;
 using System.Configuration;
 using System.IO;
 using System.Web;
+using System.Collections.Generic;
 using DemoUserManagement.UtilityLayer;
+using DemoUserManagement.BusinessLayer;
+using DemoUserManagement.ViewModel;
+
 
 
 namespace DemoUserManagement.web
 {
-    public class GetFile : IHttpHandler
+    public class GetFile : IHttpHandler, System.Web.SessionState.IRequiresSessionState
     {
 
         public void ProcessRequest(HttpContext context)
         {
-            try
+            LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
+            int loggedInUserID = logInSessionModel.UserID;
+
+            if (BasePage.CheckAuthentication(loggedInUserID))
             {
-                string fileName = context.Request.QueryString["fileName"];
-                string folderPath = ConfigurationManager.AppSettings["UploadFolderPath"];
-                string filePath = Path.Combine(folderPath, fileName);
-
-                FileInfo file = new FileInfo(filePath);
-                if (file.Exists)
+                string documentIdString = context.Request.QueryString["documentID"];
+                if (string.IsNullOrEmpty(documentIdString) || !int.TryParse(documentIdString, out int documentId))
                 {
-                    context.Response.Clear();
-                   context.Response.ContentType = "application/pdf"; 
+                    context.Response.StatusCode = 400;
+                    context.Response.Write("Invalid document ID");
+                    return;
+                }
 
-                    context.Response.AddHeader("Content-Disposition", "attachment; filename=" + file.Name);
-                    context.Response.AddHeader("Content-Length", file.Length.ToString());
-           //       context.Response.ContentType = GetMimeType(file.Extension);
-                    context.Response.TransmitFile(file.FullName);
-                    context.Response.Flush();
+                List<int> userDocumentIDs = NoteUserControlBusiness.GetDocumentIDsByObjectID(loggedInUserID);
+
+                if (userDocumentIDs.Contains(documentId) || logInSessionModel.IsAdmin)
+                {
+                    string fileName = NoteUserControlBusiness.GetDocumentUniqueNameById(documentId);
+                    string folderPath = ConfigurationManager.AppSettings["UploadFolderPath"];
+                    string filePath = Path.Combine(folderPath, fileName);
+
+                    if (File.Exists(filePath))
+                    {
+                        context.Response.ContentType = "application/octet-stream";
+                        context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + HttpUtility.UrlPathEncode(fileName) + "\"");
+                        context.Response.TransmitFile(filePath);
+                        return;
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = 404;
+                        context.Response.Write("File not found");
+                        return;
+                    }
                 }
                 else
                 {
-                    context.Response.StatusCode = 404;
-                    context.Response.Write("File not found");
+                    context.Response.StatusCode = 403; // Forbidden
+                    context.Response.Write("Access denied");
+                    return;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Logger.AddData(ex);
-                context.Response.StatusCode = 500;
-                context.Response.Write("An error occurred: " + ex.Message);
-            }
-            finally
-            {
-                context.Response.End();
+                string redirectUrl = "UserDetailsV2.aspx?StudentID=" + loggedInUserID;
+                context.Response.Redirect(redirectUrl);
             }
         }
+
+
+        //public void ProcessRequest(HttpContext context)
+        //{
+        //    LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
+        //    int loggedInUserID = logInSessionModel.UserID;
+
+        //    if (BasePage.CheckAuthentication(loggedInUserID))
+        //    {
+        //        string documentId = context.Request.QueryString["documentID"];
+        //        List<int> list = NoteUserControlBusiness.GetDocumentIDsByObjectID(loggedInUserID);
+
+        //        if (!string.IsNullOrEmpty(documentId) && int.TryParse(documentId, out int id))
+        //        {
+        //            string fileName = NoteUserControlBusiness.GetDocumentUniqueNameById(id);
+        //            string folderPath = ConfigurationManager.AppSettings["UploadFolderPath"];
+        //            string filePath = Path.Combine(folderPath, fileName);
+
+        //            if (File.Exists(filePath))
+        //            {
+        //                context.Response.ContentType = "application/octet-stream";
+        //                context.Response.AppendHeader("Content-Disposition", "inline; filename=\"" + HttpUtility.UrlPathEncode(fileName) + "\"");
+        //                context.Response.TransmitFile(filePath);
+        //            }
+        //            else
+        //            {
+        //                context.Response.StatusCode = 404;
+        //                context.Response.Write("File not found");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            context.Response.StatusCode = 400;
+        //            context.Response.Write("Invalid document ID");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        string redirectUrl = "UserDetailsV2.aspx?StudentID=" + loggedInUserID;
+        //        context.Response.Redirect(redirectUrl);
+        //        // HttpResponse.Redirect("UserDetailsV2.aspx?StudentID=");
+        //    }
+        //    // context.Response.End();
+        //}
 
         public bool IsReusable
         {

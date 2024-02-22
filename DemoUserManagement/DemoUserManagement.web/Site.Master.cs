@@ -2,6 +2,7 @@
 using System.Web.UI.HtmlControls;
 using System.Web.UI;
 using System.IO;
+using DemoUserManagement.ViewModel;
 
 namespace DemoUserManagement.web
 {
@@ -11,37 +12,36 @@ namespace DemoUserManagement.web
         {
             currentFormTitle.Text = Page.Title;
 
-            //if (!IsPostBack)
-            //{
-            //    CheckUserRole();
-            //    HideLogoutLink();
-
-            //}
+            if (!IsPostBack)
+            {
+                CheckUserRole();
+                HideLink();
+            }
         }
 
-        //private void CheckUserRole()
-        //{
-        //    if (Session["UserSessionInfo"] != null)
-        //    {
-        //        var userSessionInfo = (UserSessionInfo)Session["UserSessionInfo"];
-        //        UserDetailsLink.Visible = userSessionInfo.IsAdmin;
-        //        UsersListLink.Visible = userSessionInfo.IsAdmin;
-        //    }
-        //    else
-        //    {
-        //        UserDetailsLink.Visible = false;
-        //        UsersListLink.Visible = false;
-        //    }
-        //}
+        private void CheckUserRole()
+        {
+            if (Session["UserSessionInfo"] != null)
+            {
+                var userSessionInfo = (LogInSessionModel)Session["UserSessionInfo"];
+                UserDetailsLink.Visible = userSessionInfo.IsAdmin;
+                UsersListLink.Visible = userSessionInfo.IsAdmin;
+            }
+            else
+            {
+                UserDetailsLink.Visible = false;
+                UsersListLink.Visible = false;
+            }
+        }
 
-        //private void HideLogoutLink()
-        //{
-        //    if (Session["UserSessionInfo"] == null)
-        //        LogoutLink.Visible = false;
-        //    else
-        //        LogoutLink.Visible = true;
+        private void HideLink()
+        {
+            if (Session["UserSessionInfo"] == null)
+                LogoutLink.Visible = false;
+            else
+                LogoutLink.Visible = true;
 
-        //}
+        }
     }
 
 }

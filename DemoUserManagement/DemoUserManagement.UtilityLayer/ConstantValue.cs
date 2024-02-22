@@ -11,8 +11,17 @@ namespace DemoUserManagement.UtilityLayer
 {
     public class ConstantValues
     {
+        public static LogInSessionModel GetUserSessionInfo()
+        {
+            return HttpContext.Current.Session["UserSessionInfo"] as LogInSessionModel;
+        }
 
+        public static void SetUserSessionInfo(LogInSessionModel userSessionInfo)
+        {
+            HttpContext.Current.Session["UserSessionInfo"] = userSessionInfo;
+        }
     }
+
 
     public struct AddressType
     {
@@ -44,19 +53,5 @@ namespace DemoUserManagement.UtilityLayer
             new DocumentClass { documentType = 2, documentName = "PanCard" },
             new DocumentClass { documentType = 3, documentName = "AadharCard" }
         };
-    }
-
-
-    //public static int 
-
-    //public  LogInSessionModel GetSessionDetails()
-    //{
-    // return    HttpContext.Current.Session["LoggedInUserID"] as LogInSessionModel;
-
-    //}
-
-
-
-
-
+    }  
 }

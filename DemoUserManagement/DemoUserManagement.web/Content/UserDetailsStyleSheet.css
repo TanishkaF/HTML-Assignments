@@ -99,6 +99,11 @@ fieldset,legend
     text-decoration-thickness: bold;
 }
 
+.error-display-box-email
+{
+    display: block;
+    color: red; /* or any other desired color */
+}
 
 
 .modal-content {

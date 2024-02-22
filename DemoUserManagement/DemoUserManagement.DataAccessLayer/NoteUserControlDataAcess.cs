@@ -1,6 +1,7 @@
 ﻿using DemoUserManagement.UtilityLayer;
 using DemoUserManagement.ViewModel;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -207,6 +208,72 @@ namespace DemoUserManagement.DataAccessLayer
             }
 
             return totalCount;
+        }
+
+        public static string GetDocumentUniqueNameById(int documentID)
+        {
+            string uniqueDocumentName = null;
+            string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
+
+            string query = "SELECT DiskDocumentName FROM Document WHERE DocumentID = @Id";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", documentID);
+
+                    try
+                    {
+                        connection.Open();
+                        uniqueDocumentName = (string)command.ExecuteScalar();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.AddData(ex);
+                    }
+                }
+            }
+
+            return uniqueDocumentName;
+        }
+
+        public static List<int> GetDocumentIDsByObjectID(int objectID)
+        {
+            List<int> documentIDs = new List<int>();
+
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString;
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    // Your SQL query to retrieve documentIDs based on ObjectID
+                    string query = "SELECT DocumentID FROM Document WHERE ObjectID = @ObjectID";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ObjectID", objectID);
+
+                        connection.Open();
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            int documentID = Convert.ToInt32(reader["DocumentID"]);
+                            documentIDs.Add(documentID);
+                        }
+
+                        reader.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddData(ex);
+            }
+
+            return documentIDs;
         }
 
     }

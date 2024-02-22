@@ -125,7 +125,7 @@ namespace DemoUserManagement.BusinessLayer
         public static string GetEmailByUserID(int userID)
         {
             return UserDetailsDataAccess.GetEmailByUserID(userID);
-        }
+        }    
 
     }
 }
