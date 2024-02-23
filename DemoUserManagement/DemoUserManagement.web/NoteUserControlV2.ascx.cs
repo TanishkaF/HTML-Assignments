@@ -35,17 +35,19 @@ namespace DemoUserManagement.web
             {
                int objectID = this.ObjectID;
                int objectType = this.ObjectType;
+                ViewState["ObjectID"] = objectID;
+                ViewState["ObjectType"] = objectType;
 
                 if (objectID != 0)
                 {
-                    //ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "ToggleNoteControls", "toggleNoteControls(true);", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "toggleUserControls", "toggleUserControls(true);", false);
                     ViewState["SortDirection"] = "ASC";
                     ViewState["SortExpression"] = "NoteID";                 
                     BindGridView();
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "ToggleNoteControls", "toggleNoteControls(false);", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "toggleUserControls", "toggleUserControls(false);", true);
                     BindGridView();
                 }
             }
@@ -61,15 +63,19 @@ namespace DemoUserManagement.web
             int currentPageIndex = GridViewDocuments.PageIndex;
             int pageSize = GridViewDocuments.PageSize;
 
-            int objectID = ObjectID;
-            int objectType = ObjectType;
+            //int objectID = ObjectID;
+            //int objectType = ObjectType;
+
+            int objectID = ViewState["ObjectID"] != null ? (int)ViewState["ObjectID"] : 0;
+            int objectType = ViewState["ObjectType"] != null ? (int)ViewState["ObjectType"] : 0; ;
+
 
             if (objectID>0)
             {
                 // Conversion successful, proceed with the code
-                GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalNotesCount(objectID);
+                GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalNotesCount(objectID,objectType);
 
-                DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID);
+                DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID, objectType);
                 GridViewDocuments.DataSource = dt;
                 GridViewDocuments.DataBind();
             }

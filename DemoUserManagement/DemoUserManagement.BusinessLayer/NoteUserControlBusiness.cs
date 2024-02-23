@@ -9,14 +9,14 @@ namespace DemoUserManagement.BusinessLayer
 {
     public class NoteUserControlBusiness
     {
-        public static DataTable GetAllNotesData(string sortExpression, string sortDirection, int startRowIndex, int pageSize,int studentID)
+        public static DataTable GetAllNotesData(string sortExpression, string sortDirection, int startRowIndex, int pageSize,int objectID, int objectType)
         {
-            return NoteUserControlDataAcess.GetAllNotesData(sortExpression, sortDirection, startRowIndex, pageSize,studentID);
+            return NoteUserControlDataAcess.GetAllNotesData(sortExpression, sortDirection, startRowIndex, pageSize, objectID, objectType);
         }
      
-        public static int GetTotalNotesCount(int studentID)
+        public static int GetTotalNotesCount(int objectID,int objectType)
         {
-            return NoteUserControlDataAcess.GetTotalNotesCount(studentID);
+            return NoteUserControlDataAcess.GetTotalNotesCount(objectID, objectType);
         }
 
         public static void InsertNote(NoteViewModel note)
@@ -24,14 +24,14 @@ namespace DemoUserManagement.BusinessLayer
             NoteUserControlDataAcess.InsertNote(note);
         } 
         
-        public static DataTable GetAllDocumentData(string sortExpression, string sortDirection, int startRowIndex, int pageSize,int studentID)
+        public static DataTable GetAllDocumentData(string sortExpression, string sortDirection, int startRowIndex, int pageSize,int objectID,int objectType)
         {
-            return NoteUserControlDataAcess.GetAllDocumentData(sortExpression, sortDirection, startRowIndex, pageSize,studentID);
+            return NoteUserControlDataAcess.GetAllDocumentData(sortExpression, sortDirection, startRowIndex, pageSize, objectID, objectType);
         }
      
-        public static int GetTotalDocumentCount(int studentID)
+        public static int GetTotalDocumentCount(int objectID,int objectType)
         {
-            return NoteUserControlDataAcess.GetTotalDocumentCount(studentID);
+            return NoteUserControlDataAcess.GetTotalDocumentCount(objectID,objectType);
         }
 
         public static void InsertDocument(DocumentViewModel document)
@@ -58,9 +58,5 @@ namespace DemoUserManagement.BusinessLayer
         {
             return NoteUserControlDataAcess.GetDocumentIDsByObjectID(objectID);
         }
-
-
-
-
     }
 }

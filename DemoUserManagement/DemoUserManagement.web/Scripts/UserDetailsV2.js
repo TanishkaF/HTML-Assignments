@@ -17,51 +17,59 @@
 });
 
 function submitUserDetails() {
+    $.ajax({
+        url: 'UserDetailsV2.aspx/CheckAdmin',
+        type: 'POST',
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (response) {
+            if (response && response.d === true) {
+                // If user is admin, redirect to UserList.aspx
+                window.location.href = 'UserList.aspx';
+            } else if (response === null) {
+                // If response is null, redirect to LogIn.aspx
+                window.location.href = 'LogIn.aspx';
+            } else {
+                // If user is not admin, proceed with other actions
+                var urlParams = new URLSearchParams(window.location.search);
+                var studentID = urlParams.get('StudentID');
+                if (!studentID) {
+                    alert("New user");
+                    window.location.href = 'LogIn.aspx';
+                } else {
+                    // Upload file and perform other actions
+                    var formData = new FormData();
+                    var studentDetailsTable = getUserDetails();
+                    for (var key in studentDetailsTable) {
+                        formData.append(key, studentDetailsTable[key]);
+                    }
+                    var fileInput = document.getElementById('fileUpload');
+                    if (fileInput.files.length > 0) {
+                        formData.append('file', fileInput.files[0]);
+                        studentDetailsTable.OriginalDocumentName = fileInput.files[0].name;
+                    }
+                    uploadFile(formData, studentDetailsTable, studentID);
 
-    var formData = new FormData();
-    var studentDetailsTable = getUserDetails();
+                    var addressDetailViewCurrent = getAddressDetails('c');
+                    var addressDetailViewPermanent = getAddressDetails('p');
+                    updateAddressDetails(studentID, 1, addressDetailViewCurrent);
+                    updateAddressDetails(studentID, 2, addressDetailViewPermanent);
 
-    for (var key in studentDetailsTable) {
-        formData.append(key, studentDetailsTable[key]);
-    }
-    var fileInput = document.getElementById('fileUpload');
+                    var educationDetails10 = getEducationDetails('10');
+                    var educationDetails12 = getEducationDetails('12');
+                    var educationDetailsG = getEducationDetails('G');
+                    updateEducationDetails(studentID, 1, educationDetails10);
+                    updateEducationDetails(studentID, 2, educationDetails12);
+                    updateEducationDetails(studentID, 3, educationDetailsG);
 
-    if (fileInput.files.length > 0) {
-        formData.append('file', fileInput.files[0]);
-        studentDetailsTable.OriginalDocumentName = fileInput.files[0].name;
-    }
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var studentID = urlParams.get('StudentID');
-
-    if (!studentID) {
-        uploadFile(formData, studentDetailsTable, 0);
-        alert("new user");
-        window.location.href = 'LogIn.aspx';
-        return false; // Stop further execution
-    }
-
-    // Upload file and perform other actions
-    uploadFile(formData, studentDetailsTable, studentID);
-
-    var addressDetailViewCurrent = getAddressDetails('c');
-    var addressDetailViewPermanent = getAddressDetails('p');
-
-    updateAddressDetails(studentID, 1, addressDetailViewCurrent);
-    updateAddressDetails(studentID, 2, addressDetailViewPermanent);
-
-    var educationDetails10 = getEducationDetails('10');
-    var educationDetails12 = getEducationDetails('12');
-    var educationDetailsG = getEducationDetails('G');
-
-    updateEducationDetails(studentID, 1, educationDetails10);
-    updateEducationDetails(studentID, 2, educationDetails12);
-    updateEducationDetails(studentID, 3, educationDetailsG);
-
-    // Display success message
-    alert('Data Updated successfully.');
-
-    return false;
+                    alert('Data Updated successfully.');
+                }
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+        }
+    });
 }
 
 function resetForm() {
@@ -105,8 +113,6 @@ function uploadFile(formData, studentDetailsTable, studentID) {
                     var sameAsCurrent = $('#sameAsCurrent').prop('checked');
                     insertAddress(sameAsCurrent);
                 });
-
-                // Insert education after successful user details insertion
                 insertEducation('10');
                 insertEducation('12');
                 insertEducation('G');
@@ -306,9 +312,9 @@ function populateStudentDetails(studentID) {
             $("#password").val(studentDetails.Password);
 
             var gender = studentDetails.Gender;
-            if (gender === "Male") {
+            if (gender === "male") {
                 $("#male").prop("checked", true);
-            } else if (gender === "Female") {
+            } else if (gender === "female") {
                 $("#female").prop("checked", true);
             }
 
@@ -432,7 +438,7 @@ function populateEducationFields(educationDetail, educationType) {
 
     instName.val(educationDetail.InstituteName);
     board.val(educationDetail.Board);
-    cgpa.prop("checked", educationDetail.Marks === "CGPA");
+    cgpa.prop("checked", educationDetail.Marks === "cgpa");
     percentage.prop("checked", educationDetail.Marks === "Percentage");
     gradeValue.val(educationDetail.Aggregate);
     yop.val(educationDetail.YearOfCompletion);
@@ -604,7 +610,7 @@ function populateAddressFields(addressDetail, prefix) {
 
     populateSelectedCountryDropdown(addressDetail.CountryID, prefix);
 
-    
+
     $.ajax({
         type: "POST",
         url: "UserDetailsV2.aspx/GetStateName",
@@ -663,40 +669,110 @@ function getCountry() {
     });
 }
 
-function populateCountries(dropDownId, countries) {
-    var dropDown = $('#' + dropDownId);
-    dropDown.empty();
-    dropDown.append($('<option>').val('').text('Select Country').prop('disabled', true).prop('selected', true));
+//function populateCountries(dropDownId, countries) {
+//    var dropDown = $('#' + dropDownId);
+//    dropDown.empty();
+//    dropDown.append($('<option>').val('').text('Select Country').prop('disabled', true).prop('selected', true));
 
-    $.each(countries, function (index, country) {
-        var option = $('<option>').val(country.CountryID).text(country.CountryName);
-        dropDown.append(option);
-    });
-}
+//    $.each(countries, function (index, country) {
+//        var option = $('<option>').val(country.CountryID).text(country.CountryName);
+//        dropDown.append(option);
+//    });
+//}
 
-function getAndPopulateAddressDetails(studentID, addressType) {
+//function getAndPopulateAddressDetails(studentID, addressType) {
+//    $.ajax({
+//        type: "POST",
+//        url: "UserDetailsV2.aspx/GetAddressDetails",
+//        data: JSON.stringify({ studentID: studentID, addressType: addressType }),
+//        contentType: "application/json; charset=utf-8",
+//        dataType: "json",
+//        success: function (response) {
+//            // Handle the response from the server and populate the address details
+//            var addressDetail = response.d;
+//            if (addressDetail != null) {
+//                if (addressType == 1) {
+//                    populateAddressFields(addressDetail, "c");
+//                } else if (addressType == 2) {
+//                    populateAddressFields(addressDetail, "p");
+//                }
+//            } else {
+//                console.error("Address details not found for address type: " + addressType);
+//            }
+//        },
+//        error: function (xhr, ajaxOptions, thrownError) {
+//            // Handle any errors
+//            console.error("Error getting address details:", thrownError);
+//        }
+//    });
+//}
+function populateCountries(dropdownId) {
     $.ajax({
         type: "POST",
-        url: "UserDetailsV2.aspx/GetAddressDetails",
-        data: JSON.stringify({ studentID: studentID, addressType: addressType }),
+        url: "UserDetails2.aspx/GetCountries",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-            // Handle the response from the server and populate the address details
-            var addressDetail = response.d;
-            if (addressDetail != null) {
-                if (addressType == 1) {
-                    populateAddressFields(addressDetail, "c");
-                } else if (addressType == 2) {
-                    populateAddressFields(addressDetail, "p");
-                }
-            } else {
-                console.error("Address details not found for address type: " + addressType);
-            }
+            var dropdown = $("#" + dropdownId);
+            dropdown.empty();
+            dropdown.append($("<option></option>").val("").text("Select Country"));
+            $.each(response.d, function (key, value) {
+                dropdown.append($("<option></option>").val(value.CountryID).text(value.CountryName));
+            });
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            // Handle any errors
-            console.error("Error getting address details:", thrownError);
+        error: function (xhr, status, error) {
+            console.log(error);
         }
     });
+}
+
+function PopulateStates(countryId, isCurrent, callback) {
+    var stateDropdownId = isCurrent ? "ddlCurrentState" : "ddlPermanentState";
+    var stateUrl = isCurrent ? "UserDetails2.aspx/GetStates" : "UserDetails2.aspx/GetStates";
+
+    $.ajax({
+        type: "POST",
+        url: stateUrl,
+        data: JSON.stringify({ CountryID: countryId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            var dropdown = $("#" + stateDropdownId);
+            dropdown.empty();
+            dropdown.append($("<option></option>").val("").text("Select State"));
+            $.each(response.d, function (key, value) {
+                dropdown.append($("<option></option>").val(value.StateID).text(value.StateName));
+            });
+            if (callback) {
+                callback();
+            }
+        },
+        error: function (xhr, status, error) {
+            console.log(error);
+        }
+    });
+}
+
+function populateCurrentAddressFields(addressDetails) {
+    if (addressDetails) {
+        document.getElementById("txtCurrentAddressLine1").value = addressDetails.AddressLine1;
+        document.getElementById("txtCurrentAddressLine2").value = addressDetails.AddressLine2;
+        document.getElementById("ddlCurrentCountry").value = addressDetails.CountryID.toString();
+        PopulateStates(addressDetails.CountryID, true, function () {
+            document.getElementById("ddlCurrentState").value = addressDetails.StateID.toString();
+        });
+        document.getElementById("txtCurrentPincode").value = addressDetails.Pincode;
+    }
+}
+
+function populatePermanentAddressFields(addressDetails) {
+    if (addressDetails) {
+        document.getElementById("txtPermanentAddressLine1").value = addressDetails.AddressLine1;
+        document.getElementById("txtPermanentAddressLine2").value = addressDetails.AddressLine2;
+        document.getElementById("ddlPermanentCountry").value = addressDetails.CountryID.toString();
+        PopulateStates(addressDetails.CountryID, false, function () {
+            document.getElementById("ddlPermanentState").value = addressDetails.StateID.toString();
+        });
+        document.getElementById("txtPermanentPincode").value = addressDetails.Pincode;
+    }
 }

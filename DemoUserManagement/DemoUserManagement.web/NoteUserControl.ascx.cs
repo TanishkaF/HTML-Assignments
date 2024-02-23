@@ -61,11 +61,11 @@ namespace DemoUserManagement.web
 
             //string studentIDString = Request.QueryString["StudentID"];
             int objectID = ViewState["ObjectID"] != null ? (int)ViewState["ObjectID"] : 0;
-            int studentID = Convert.ToInt32(objectID);
+            int objectType = ViewState["ObjectType"] != null ? (int)ViewState["ObjectType"] : 0; 
 
-            GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalNotesCount(studentID); 
+            GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalNotesCount(objectID, objectType); 
 
-            DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, studentID);
+            DataTable dt = NoteUserControlBusiness.GetAllNotesData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID, objectType);
             GridViewDocuments.DataSource = dt;
             GridViewDocuments.DataBind();
         }

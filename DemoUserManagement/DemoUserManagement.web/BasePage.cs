@@ -70,6 +70,20 @@ namespace DemoUserManagement.web
 
         }
 
+        //[WebMethod]
+        //public static bool CheckAdmin()
+        //{
+        //    LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
+        //    return logInSessionModel.IsAdmin;
+        //}
+
+        [WebMethod]
+        public static bool CheckAdmin()
+        {
+            LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
+            return logInSessionModel != null && logInSessionModel.IsAdmin;
+        }
+
         public static bool CheckAuthentication(int userID)
         {
             LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();

@@ -10,7 +10,7 @@ namespace DemoUserManagement.DataAccessLayer
 {
     public class NoteUserControlDataAcess
     {
-        public static DataTable GetAllNotesData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize, int studentID)
+        public static DataTable GetAllNotesData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize, int objectID,int objectType)
         {
             DataTable dt = new DataTable();
 
@@ -22,7 +22,7 @@ namespace DemoUserManagement.DataAccessLayer
                    FORMAT(TimeStamp, 'MM/dd/yyyy hh:mm:ss tt') AS TimeStampFormatted
                FROM 
                    Note
-               WHERE ObjectID = @StudentID
+               WHERE ObjectID = @ObjectID AND ObjectType = @ObjectType
                ORDER BY 
                    {sortExpression} {sortDirection}
                OFFSET 
@@ -33,7 +33,8 @@ namespace DemoUserManagement.DataAccessLayer
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     int startRowIndex = currentPageIndex * pageSize;
-                    cmd.Parameters.AddWithValue("@StudentID", studentID);
+                    cmd.Parameters.AddWithValue("@ObjectID", objectID);
+                    cmd.Parameters.AddWithValue("@ObjectType", objectType);
                     cmd.Parameters.AddWithValue("@StartRowIndex", startRowIndex);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
 
@@ -53,17 +54,18 @@ namespace DemoUserManagement.DataAccessLayer
             return dt;
         }
 
-        public static int GetTotalNotesCount(int studentID)
+        public static int GetTotalNotesCount(int objectID,int objectType)
         {
             int totalCount = 0;
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                string query = "SELECT COUNT(*) FROM Note WHERE ObjectID=@StudentID";
+                string query = "SELECT COUNT(*) FROM Note WHERE ObjectID=@ObjectID AND ObjectType = @ObjectType";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@StudentID", studentID);
+                    cmd.Parameters.AddWithValue("@ObjectID", objectID);
+                    cmd.Parameters.AddWithValue("@ObjectType", objectType);
 
                     try
                     {
@@ -138,7 +140,7 @@ namespace DemoUserManagement.DataAccessLayer
             }
         }
 
-        public static DataTable GetAllDocumentData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize, int objectID)
+        public static DataTable GetAllDocumentData(string sortExpression, string sortDirection, int currentPageIndex, int pageSize, int objectID,int objectType)
         {
             DataTable dt = new DataTable();
 
@@ -152,7 +154,7 @@ namespace DemoUserManagement.DataAccessLayer
              FORMAT(Timestamp, 'MM/dd/yyyy hh:mm:ss tt') AS TimestampFormatted
              FROM 
                  Document
-             WHERE ObjectID = @ObjectID
+             WHERE ObjectID = @ObjectID AND ObjectType = @objectType
              ORDER BY 
                  {sortExpression} {sortDirection}
              OFFSET 
@@ -164,6 +166,7 @@ namespace DemoUserManagement.DataAccessLayer
                 {
                     int startRowIndex = currentPageIndex * pageSize;
                     cmd.Parameters.AddWithValue("@ObjectID", objectID);
+                    cmd.Parameters.AddWithValue("@ObjectType", objectType);
                     cmd.Parameters.AddWithValue("@StartRowIndex", startRowIndex);
                     cmd.Parameters.AddWithValue("@PageSize", pageSize);
 
@@ -183,17 +186,18 @@ namespace DemoUserManagement.DataAccessLayer
             return dt;
         }
 
-        public static int GetTotalDocumentCount(int studentID)
+        public static int GetTotalDocumentCount(int objectID, int objectType)
         {
             int totalCount = 0;
 
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["DemoUserManagementConnectionString"].ConnectionString))
             {
-                string query = "SELECT COUNT(*) FROM Document WHERE ObjectID=@StudentID";
+                string query = "SELECT COUNT(*) FROM Document WHERE ObjectID=@ObjectID AND ObjectType=@ObjectType";
 
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@StudentID", studentID);
+                    cmd.Parameters.AddWithValue("@ObjectID", objectID);
+                    cmd.Parameters.AddWithValue("@ObjectType", objectType);
 
                     try
                     {

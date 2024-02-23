@@ -11,13 +11,13 @@
     <div class="row">
         <div class="col-sm-4">
             <div class="p-3">
-                <label for="ddlOptions">Select Option:</label>
+                <label for="ddlOptions" class="toggleClass">Select Option:</label>
                 <select id="ddlOptions" class="form-control"></select>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="p-3">
-                <label for="fileInput">Upload PDF:</label>
+                <label for="fileInput" class="toggleClass">Upload PDF:</label>
                 <input type="file" id="fileInput" />
             </div>
         </div>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <asp:GridView
+    <%--<asp:GridView
         class="GridViewUsers"
         ID="GridViewDocuments"
         runat="server"
@@ -40,7 +40,7 @@
         OnPageIndexChanging="GridViewDocuments_PageIndexChanging"
         OnSorting="GridViewDocuments_Sorting"
         OnRowCommand="GridViewDocuments_RowCommand"
-        PageSize="5"
+        PageSize="2"
         DataKeyNames="DocumentID"
         ClientIDMode="Static">
         <Columns>
@@ -61,15 +61,51 @@
         </ItemTemplate>
     </asp:TemplateField>
 
-         <%--   <asp:TemplateField HeaderText="Download">
-                <ItemTemplate>
-                    <asp:LinkButton ID="downloadLink" runat="server" Text="Download"  ClientIDMode="Static" CommandArgument='<%# Eval("DocumentID") %>'></asp:LinkButton>
-                </ItemTemplate>
-            </asp:TemplateField>--%>
-
-
         </Columns>
-    </asp:GridView>
+    </asp:GridView>--%>
+
+    <asp:UpdatePanel ID="UpdatePanelGridViewDocuments" runat="server">
+    <ContentTemplate>
+        <asp:GridView
+            class="GridViewUsers"
+            ID="GridViewDocuments"
+            runat="server"
+            AutoGenerateColumns="False"
+            AllowSorting="True"
+            AllowPaging="True"
+            AllowCustomPaging="True"
+            OnPageIndexChanging="GridViewDocuments_PageIndexChanging"
+            OnSorting="GridViewDocuments_Sorting"
+            OnRowCommand="GridViewDocuments_RowCommand"
+            PageSize="2"
+            DataKeyNames="DocumentID"
+            ClientIDMode="Static">
+            <Columns>
+                <asp:BoundField DataField="DocumentID" HeaderText="Document ID" SortExpression="DocumentID" />
+                <asp:BoundField DataField="ObjectID" HeaderText="Object ID" SortExpression="ObjectID" />
+                <asp:BoundField DataField="ObjectType" HeaderText="Object Type" SortExpression="ObjectType" />
+                <asp:BoundField DataField="DocumentType" HeaderText="Document Type" SortExpression="DocumentType" />
+                <asp:BoundField DataField="OriginalDocumentName" HeaderText="Original Name" SortExpression="OriginalDocumentName" />
+                <asp:TemplateField HeaderText="Time Stamp" SortExpression="TimeStamp">
+                    <ItemTemplate>
+                        <%# Eval("TimeStampFormatted") %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="Download">
+                    <ItemTemplate>
+                        <asp:Button ID="btnDownload" runat="server" Text="Download" CommandName="DownloadFile" CommandArgument='<%# Eval("DocumentID") %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+            </Columns>
+        </asp:GridView>
+    </ContentTemplate>
+</asp:UpdatePanel>
+
+
+
+
     <input type="hidden" id="hiddenObjectID" value="<%= ObjectID %>" runat="server"/>
     <input type="hidden" id="hiddenObjectType" value="<%= ObjectType %>" runat="server" />
     <input type="hidden" id="hiddenDocumentType" runat="server"/>

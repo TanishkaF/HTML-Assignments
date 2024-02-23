@@ -31,15 +31,15 @@ function addNote() {
     return false;
 }
 
-//function toggleNoteControls() {
+function toggleUserControls() {
 
-//    $('#txtNote').toggle();
-//    $('#btnAddNote').toggle();
-//    $('ddlOptions').toggle();
-//    $('fileInput').toggle();
-//    $('btnAddDocument').toggle();
-
-//}
+    $('#txtNote').toggle();
+    $('#btnAddNote').toggle();
+    $('#ddlOptions').toggle();
+    $('#fileInput').toggle();
+    $('#btnAddDocument').toggle();
+    $('.toggleClass').toggle();
+}
 
 function getDocumentList() {
     $.ajax({

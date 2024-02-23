@@ -200,6 +200,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="GetFile.ashx" />
+    <Content Include="DownloadFile.ashx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\DemoUserManagement.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -281,6 +282,9 @@
     </Compile>
     <Compile Include="DocumentUserControlV2.ascx.designer.cs">
       <DependentUpon>DocumentUserControlV2.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="DownloadFile.ashx.cs">
+      <DependentUpon>DownloadFile.ashx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

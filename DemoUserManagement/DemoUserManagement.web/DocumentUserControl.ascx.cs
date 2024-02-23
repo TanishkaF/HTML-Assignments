@@ -181,10 +181,11 @@ namespace DemoUserManagement.web
             int pageSize = GridViewDocuments.PageSize;
 
             int objectID = ViewState["ObjectID"] != null ? (int)ViewState["ObjectID"] : 0;
+            int objectType = ViewState["ObjectType"] != null ? (int)ViewState["ObjectType"] : 0;
 
-            GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalDocumentCount(objectID);
+            GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalDocumentCount(objectID, objectType);
 
-            DataTable dt = NoteUserControlBusiness.GetAllDocumentData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID);
+            DataTable dt = NoteUserControlBusiness.GetAllDocumentData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID, objectType);
             GridViewDocuments.DataSource = dt;
             GridViewDocuments.DataBind();
         }

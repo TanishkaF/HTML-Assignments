@@ -37,16 +37,19 @@ namespace DemoUserManagement.web
 
                 int objectID = this.ObjectID;
                 int objectType = this.ObjectType;
+                ViewState["ObjectID"] = objectID;
+                ViewState["ObjectType"] = objectType;
 
                 if (ObjectID != 0)
                 {
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "toggleUserControls", "toggleUserControls(true);", false);
                     ViewState["SortDirection"] = "ASC";
                     ViewState["SortExpression"] = "DocumentID";
                     BindGridView();
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "ToggleNoteControls", "toggleNoteControls(false);", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "toggleUserControls", "toggleUserControls(false);", true);
                     BindGridView();
                 }
             }
@@ -73,25 +76,16 @@ namespace DemoUserManagement.web
             }
         }
 
+
         protected void GridViewDocuments_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            try
+            if (e.CommandName == "DownloadFile")
             {
-                if (e.CommandName == "DownloadFile")
-                {
-                    int documentId = Convert.ToInt32(e.CommandArgument);
-                    int userId = ObjectID;
-                    string url = $"GetFile.ashx?documentID={documentId}";
-                    Response.Redirect(url);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.AddData(ex);
+                int documentId = Convert.ToInt32(e.CommandArgument);
+                string url = $"DownloadFile.ashx?documentID={documentId}";
+                Response.Redirect(url);
             }
         }
-
-
 
         private void BindGridView()
         {
@@ -103,13 +97,14 @@ namespace DemoUserManagement.web
                 int currentPageIndex = GridViewDocuments.PageIndex;
                 int pageSize = GridViewDocuments.PageSize;
 
-                int objectID = ObjectID;
+                int objectID = ViewState["ObjectID"] != null ? (int)ViewState["ObjectID"] : 0;
+                int objectType = ViewState["ObjectType"] != null ? (int)ViewState["ObjectType"] : 0;
 
                 if (objectID > 0)
                 {
-                    GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalDocumentCount(objectID);
+                    GridViewDocuments.VirtualItemCount = NoteUserControlBusiness.GetTotalDocumentCount(objectID, objectType);
 
-                    DataTable dt = NoteUserControlBusiness.GetAllDocumentData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID);
+                    DataTable dt = NoteUserControlBusiness.GetAllDocumentData(sortExpression, sortDirection, currentPageIndex, pageSize, objectID, objectType);
                     GridViewDocuments.DataSource = dt;
                     GridViewDocuments.DataBind();
                 }
