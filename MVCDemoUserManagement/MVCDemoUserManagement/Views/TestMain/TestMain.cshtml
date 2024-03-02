@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "TestMainView";
+}
+
+<h2>TestMainView</h2>
+
+<input type="hidden" id="objectId" value="5" />
+<input type="hidden" id="objectType" value="1" />
+
+<div id="notePartialView">
+    @Html.Partial("~/Views/NoteUserV2/NoteViewV2.cshtml", new ViewDataDictionary { { "objectId", 5 }, { "objectType", 1 } });
+</div>
+
+<div id="documentPartialView">
+    @Html.Partial("~/Views/DocumentUserV2/DocumentViewV2.cshtml", new ViewDataDictionary { { "objectId", 5 }, { "objectType", 1 } });
+</div>
+
+

@@ -1,0 +1,65 @@
+﻿.GridViewUsers {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    .GridViewUsers th,
+    .GridViewUsers td {
+        padding: 20px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+        .GridViewUsers th.studentID,
+        .GridViewUsers td.studentID {
+            width: 20%; /* Adjusted width for studentID column */
+        }
+
+        .GridViewUsers th.documentName,
+        .GridViewUsers td.documentName {
+            width: 40%; /* Adjusted width for documentName column */
+        }
+
+#btnAddStudent,
+.edit-button,
+#btnAddDocument {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btnAddStudent {
+    margin-top: 20px;
+    background-color: #4CAF50;
+}
+
+.edit-button {
+    background-color: #008CBA;
+}
+
+#btnAddDocument {
+    background-color: blueviolet;
+    margin-top: 20px;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+
+tr:nth-child(odd) {
+    background-color: #F0F8FF;
+}
+
+#btnAddNote {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+    #btnAddNote:hover {
+        background-color: darkgreen;
+    }

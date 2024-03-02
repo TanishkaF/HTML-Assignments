@@ -1,0 +1,43 @@
+﻿@model List<DemoUserManagement.ViewModel.UserDetailsViewModel>
+<link href="~/Content/GridViewTable.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "UserListV2";
+}
+
+@{
+    int defaultPageIndex = DemoUserManagement.UtilityLayer.UserListType.PageIndex;
+    int defaultPageSize = DemoUserManagement.UtilityLayer.UserListType.PageSize;
+    string defaultSortExpression = DemoUserManagement.UtilityLayer.UserListType.SortExpression;
+    string defaultSortDirection = DemoUserManagement.UtilityLayer.UserListType.SortDirection;
+}
+
+<input type="hidden" id="pageIndexUserList" value="@defaultPageIndex" />
+<input type="hidden" id="pageSizeUserList" value="@defaultPageSize" />
+<input type="hidden" id="sortExpressionUserList" value="@defaultSortExpression" />
+<input type="hidden" id="sortDirectionUserList" value="@defaultSortDirection" />
+
+<h2>List Of All Users</h2>
+
+<button id="btnAddUser">Add User</button>
+
+
+<table class="table-container" id="userListTable">
+    <thead>
+        <tr>
+            <th><a href="#" class="sortable-header-users" data-sort-expression="StudentID">StudentID</a></th>
+            <th><a href="#" class="sortable-header-users" data-sort-expression="FirstName">FirstName</a></th>
+            <th><a href="#" class="sortable-header-users" data-sort-expression="LastName">Last Name</a></th>
+            <th><a href="#" class="sortable-header-users" data-sort-expression="Phone">Contact Number</a></th>
+            <th><a href="#" class="sortable-header-users" data-sort-expression="AadharNumber">Aadhar Number</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table body will be dynamically populated via JavaScript -->
+    </tbody>
+</table>
+
+<div class="page-numbers-container" id="paginationUserList"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/UserListV2.js"></script>

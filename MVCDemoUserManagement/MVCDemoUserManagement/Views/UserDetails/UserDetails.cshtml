@@ -1,0 +1,847 @@
+﻿@model DemoUserManagement.ViewModel.AllViewModel
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<link href="~/Content/index.css" rel="stylesheet" />
+
+@using (Html.BeginForm("SubmitForm", "UserDetails", FormMethod.Post, new { id = Model.UserDetails.StudentID }))
+{
+    @Html.Hidden("studentID", Model.UserDetails.StudentID);
+
+    <div class="box-main-main">
+
+        <h1><u>Admission Form</u></h1>
+
+        <fieldset>
+            <legend>
+                <h2>PERSONAL DETAILS:</h2>
+            </legend>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4 p-3">
+                        <div>
+                            <span id="starSign" class="text-danger font-weight-bold">*</span>
+                            <label for="fname">First Name:</label>
+
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#129489;</span>
+                            </div>
+                            @Html.TextBoxFor(m => m.UserDetails.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                        </div>
+                        <div class="error-display-box" id="errorMessageFirstNameDiv">@Html.ValidationMessageFor(m => m.UserDetails.FirstName)</div>
+
+                    </div>
+
+                    <div class="col-sm-4 p-3">
+
+                        <div>
+                            <label for="mname">Middle Name:</label>
+                        </div>
+                        <div>
+                            @Html.TextBoxFor(m => m.UserDetails.MiddleName, new { @class = "form-control", placeholder = "Middle Name" })
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-4 p-3">
+
+                        <div>
+                            <label for="lname">Last Name:</label>
+                        </div>
+                        <div>
+                            @Html.TextBoxFor(m => m.UserDetails.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <!--<div class="col-sm-4 p-3">
+                    <div>
+                        <span id="starSign" class="text-danger font-weight-bold">*</span>
+                        <label for="email">Email:</label>-->
+                    <!-- Added for attribute for associating label with input -->
+                    <!--</div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#9993;</span>
+                            </div>
+                            @Html.TextBoxFor(m => m.UserDetails.Email, new { @class = "form-control", placeholder = "Email", id = "email" })
+                        </div>
+                        <div id="lblEmailError" class="error-display-box-email"></div>
+                    </div>-->
+
+                    <div class="col-sm-4 p-3">
+                        <div>
+                            <span id="starSign" class="text-danger font-weight-bold">*</span>
+                            <label for="email">Email:</label>
+                            <!-- Added for attribute for associating label with input -->
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#9993;</span>
+                            </div>
+                            @Html.TextBoxFor(m => m.UserDetails.Email, new { @class = "form-control", placeholder = "Email", id = "email" })
+                        </div>
+                        <div id="lblEmailError" class="error-display-box-email"></div>
+                    </div>
+
+
+
+                    <div class="col-sm-4 p-3">
+                        <div>
+                            <span id="starSign" class="text-danger font-weight-bold">*</span>
+                            <label for="password">Password:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#128274;</span>
+                            </div>
+                            @Html.PasswordFor(m => m.UserDetails.Password, new { @class = "form-control", placeholder = "Password", id = "password" })
+                        </div>
+                        <div id="errorMessagePasswordDiv" class="error-display-box"></div>
+
+                    </div>
+
+                    <!-- Column 3 -->
+                    <div class="col-sm-4 p-3">
+                        <!-- Two Divs in Column 3 -->
+                        <div>
+                            <span id="starSign" class="text-danger font-weight-bold">*</span>
+                            <label for="confirmPassword">Confirm Password:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#128274;</span>
+                            </div>
+                            @Html.PasswordFor(m => m.UserDetails.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password", id = "confirmPassword" })
+                        </div>
+                        <div id="errorMessageConfirmPasswordDiv" class="error-display-box"></div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4 p-3">
+                        <div>
+                            <label for="birthday">Birthday:</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">&#127856;</span>
+                            </div>
+                            @Html.TextBoxFor(m => m.UserDetails.DateOfBirth, new { @class = "form-control", type = "date" })
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 p-3">
+                        <div>
+                            <label for="gender">Gender:</label>
+                        </div>
+                        <div class="radio-button">
+                            <div class="radio-container form-control">
+                                @Html.RadioButtonFor(m => m.UserDetails.Gender, "male", new { data_store = "Gender", id = "male" })
+                                @*<input type="radio" id="male" name="gender" value="male" data-store="Gender">*@
+                                <label for="male">Male</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.RadioButtonFor(m => m.UserDetails.Gender, "female", new { data_store = "Gender", id = "female" })
+                                <label for="female">Female</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-4 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="phone">Contact No:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#x260E;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.UserDetails.Phone, new { @class = "form-control", type = "tel", placeholder = "Please Enter 10 Digits", data_store = "Phone" })
+                            </div>
+                            <div id="errorMessageContactDiv" class="error-display-box"></div>
+
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="col-sm-4 p-3">
+
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="aadhar">Aadhar No:</label>
+                            </div>
+                            <div>
+                                @Html.TextBoxFor(m => m.UserDetails.AadharNumber, new { @class = "form-control", type = "number", placeholder = "Please Enter 12 Digits", data_store = "Aadhar" })
+                            </div>
+                            <div id="errorMessageAadharDiv" class="error-display-box"></div>
+
+                        </div>
+
+                        <!-- Column 3 -->
+                        <div class="col-sm-4 p-3">
+
+                            <label for="fileUpload">Upload Aadhar Card PDF:</label>
+                            <input type="file" id="fileUpload" class="form-control" />
+
+                            <div class="form-group">
+                                <label id="aadharCardUploadLabel"></label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+        <div class="extra-space"></div>
+
+        <fieldset>
+            <legend>
+                <h2>ADDRESS:</h2>
+            </legend>
+
+            <h3>Current Address:</h3>
+
+            <div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="country">Country:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127758;</span>
+                                </div>
+                                @Html.DropDownListFor(m => m.AddressDetail.CountryID, new SelectList(ViewBag.Countries, "CountryID", "CountryName"), "Select Country", new { id = "cCountry", @class = "form-control", data_store = "CurrentCountry" })
+
+                                @*<select id="cCountry" name="country" data-store="CurrentCountry" class="form-control">
+                                        <option value="" disabled selected>Select Country</option>
+
+                                        @foreach (var country in ViewBag.Countries)
+                                        {
+                                            <option value="@country.CountryID">@country.CountryName</option>
+                                        }
+
+                                    </select>*@
+                            </div>
+                        </div>
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="state">State:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#x1F5FA;</span>
+                                </div>
+                                @Html.DropDownListFor(m => m.AddressDetail.StateID, new List<SelectListItem> { new SelectListItem { Text = "Select State", Value = "" } }, new { id = "cState", @class = "form-control", data_store = "CurrentState" })
+
+                                @*<select id="cState" name="state" class="form-control" data-store="CurrentState">
+                                        <option value="" disabled selected>Select State</option>
+                                    </select>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="c1address">Address Line 1:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127968;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.AddressDetail.AddressLine1, new { @class = "form-control", placeholder = "Address Line 1", id = "c1Address", data_store = "CurrentAddressLine1" })
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="c2address">Address Line 2:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127968;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.AddressDetail.AddressLine2, new { @class = "form-control", placeholder = "Address Line 2", id = "c2Address", data_store = "CurrentAddressLine2" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="pinCode">Pincode:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#x1F4CD;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.AddressDetail.Pincode, new { @class = "form-control", type = "number", placeholder = "Pincode", id = "cPinCode", data_store = "CurrentPinCode" })
+                            </div>
+                            <div id="errorMessageCurrentPinCodeDiv" class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="same-curr">
+                <input type="checkbox" id="sameAsCurrent" name="sameAsCurrent" value="true">
+                <label for="sameAsCurrent">Permanent Address Same as Current Address.</label>
+            </div>
+
+            <h3>Permanent Address:</h3>
+
+            <div>
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="country">Country:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127758;</span>
+                                </div>
+
+                                @Html.DropDownListFor(m => m.PermanentAddressDetail.CountryID, new SelectList(ViewBag.Countries, "CountryID", "CountryName"), "Select Country", new { id = "pCountry", @class = "form-control", data_store = "PermanentCountry" })
+
+
+                                @*<select id="pCountry" name="country" data-store="PermanentCountry" class="form-control">
+                                        <option value="" disabled selected>Select Country</option>
+                                        @foreach (var country in ViewBag.Countries)
+                                        {
+                                            <option value="@country.CountryID">@country.CountryName</option>
+                                        }
+                                    </select>*@
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-6 p-3">
+                            <!-- Two Divs in Column 2 -->
+                            <div>
+                                <label for="state">State:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#x1F5FA;</span>
+                                </div>
+                                @Html.DropDownListFor(m => m.PermanentAddressDetail.StateID, new List<SelectListItem> { new SelectListItem { Text = "Select State", Value = "" } }, new { id = "pState", @class = "form-control", data_store = "PermanentState" })
+
+                                @*<select id="pState" name="state" class="form-control" data-store="PermanentState">
+                                        <option value="" disabled selected>Select State</option>
+                                    </select>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="p1address">Address Line 1:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127968;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.PermanentAddressDetail.AddressLine1, new { @class = "form-control", placeholder = "Address Line 1", id = "p1Address", data_store = "PermanentAddressLine1" })
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="p2address">Address Line 2:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127968;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.PermanentAddressDetail.AddressLine2, new { @class = "form-control", placeholder = "Address Line 2", id = "p2Address", data_store = "PermanentAddressLine2" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="pinCode">Pincode:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#x1F4CD;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.PermanentAddressDetail.Pincode, new { @class = "form-control", type = "number", placeholder = "Pincode", id = "pPinCode", data_store = "PermanentPinCode" })
+                            </div>
+                            <div id="errorMessagePermanentPinCodeDiv" class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        <div class="extra-space"></div>
+
+        <fieldset>
+            <legend>
+                <h2>EDUCATION:</h2>
+            </legend>
+
+            <h3>MATRICULATION(10)</h3>
+            <div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="instname">Institute Name:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127979;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail10.InstituteName, new { @class = "form-control", placeholder = "Institute Name", id = "instName10", data_store = "InstituteName10" })
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstitute10Div"></div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="board">Board:</label>
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(m => m.EducationDetail10.Board, new SelectList(new[]
+                                            {
+                                                new SelectListItem { Text = "ICSE", Value = "icse" },
+                                                new SelectListItem { Text = "CBSE", Value = "cbse" },
+                                                new SelectListItem { Text = "State Board", Value = "satetBoard" }
+                                            }, "Value", "Text"), new { @class = "form-control", id = "board10", data_store = "Board10" })
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label>Marks:</label>
+                            </div>
+                            <div class="radio-button">
+                                <div class="radio-container form-control">
+                                    @Html.RadioButtonFor(m => m.EducationDetail10.Marks, "cgpa", new { data_store = "Marks10", id = "cgpa10" })
+                                    <label for="cgpa10">CGPA</label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    @Html.RadioButtonFor(m => m.EducationDetail10.Marks, "percentage", new { data_store = "Marks10", id = "percentage10" })
+                                    <label for="percentage10">Percentage</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label>Enter Aggregate:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#128203;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail10.Aggregate, new { @class = "form-control", placeholder = "Enter Aggregate", id = "grade10Value", data_store = "Aggregate10" })
+                            </div>
+                            <div id='errorMessageAggregate10Div' class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="yop">Year of Passing:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127891;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail10.YearOfCompletion, new { @class = "form-control", placeholder = "YOP", id = "yop10", data_store = "YOP10" })
+                            </div>
+                            <div id="errorMessageYOP10Div" class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <h3>Intermediate(12)</h3>
+            <div>
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="instname">Institute Name:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127979;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail12.InstituteName, new { @class = "form-control", placeholder = "Institute Name", id = "instName12", data_store = "InstituteName12" })
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstitute12Div"></div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="board">Board:</label>
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(m => m.EducationDetail12.Board, new SelectList(new[]
+    {
+                                                new SelectListItem { Text = "ICSE", Value = "icse" },
+                                                new SelectListItem { Text = "CBSE", Value = "cbse" },
+                                                new SelectListItem { Text = "State Board", Value = "satetBoard" }
+                                            }, "Value", "Text"), new { @class = "form-control", id = "board12", data_store = "Board12" })
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label>Marks:</label>
+                            </div>
+                            <div>
+                                <div class="radio-button">
+                                    <div class="radio-container form-control">
+                                        @Html.RadioButtonFor(m => m.EducationDetail12.Marks, "cgpa", new { id = "cgpa12", data_store = "Marks12" })
+                                        <label for="cgpa12">CGPA</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @Html.RadioButtonFor(m => m.EducationDetail12.Marks, "percentage", new { id = "percentage12", data_store = "Marks12" })
+                                        <label for="percentage12">Percentage</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <!-- Two Divs in Column 2 -->
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label>Enter Aggregate:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#128203;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail12.Aggregate, new { @class = "form-control", placeholder = "Enter Aggregate", id = "grade12Value", data_store = "Aggregate12" })
+                            </div>
+                            <div id='errorMessageAggregate12Div' class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="yop">Year of Passing:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127891;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetail12.YearOfCompletion, new { @class = "form-control", placeholder = "YOP", id = "yop12", data_store = "YOP12" })
+                            </div>
+                            <div id="errorMessageYOP12Div" class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Graduate:</h3>
+            <div>
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="instname">Institute Name:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127979;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetailGraduation.InstituteName, new { @class = "form-control", placeholder = "Institute Name", id = "instNameG", data_store = "InstituteNameG" })
+                            </div>
+                            <div class="mandotory error-display-box" id="errorMessageInstituteDiv"></div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label for="board">Board:</label>
+                            </div>
+                            <div>
+                                @Html.DropDownListFor(m => m.EducationDetailGraduation.Board, new SelectList(new[]
+    {
+                                                new SelectListItem { Text = "ICSE", Value = "icse" },
+                                                new SelectListItem { Text = "CBSE", Value = "cbse" },
+                                                new SelectListItem { Text = "State Board", Value = "satetBoard" }
+                                            }, "Value", "Text"), new { @class = "form-control", id = "boardG", data_store = "BoardG" })
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <label>Marks:</label>
+                            </div>
+                            <div>
+                                <div class="radio-button">
+                                    <div class="radio-container form-control">
+                                        @Html.RadioButtonFor(m => m.EducationDetailGraduation.Marks, "cgpa", new { data_store = "MarksG", id = "cgpaG" })
+                                        <label for="cgpa">CGPA</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @Html.RadioButtonFor(m => m.EducationDetailGraduation.Marks, "percentage", new { data_store = "Marks12", id = "percentageG" })
+                                        <label for="percentage">Percentage</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label>Enter Aggregate:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#128203;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetailGraduation.Aggregate, new { @class = "form-control", placeholder = "Enter Aggregate", id = "gradeGValue", data_store = "AggregateG" })
+                            </div>
+                            <div id='errorMessageAggregateGDiv' class="error-display-box"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid">
+                    <!-- Single Row with Two Columns -->
+                    <div class="row">
+                        <div class="col-sm-6 p-3">
+                            <div>
+                                <span id="starSign" class="text-danger font-weight-bold">*</span>
+                                <label for="yop">Year of Passing:</label>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">&#127891;</span>
+                                </div>
+                                @Html.TextBoxFor(m => m.EducationDetailGraduation.YearOfCompletion, new { @class = "form-control", placeholder = "YOP", id = "yopG", data_store = "YOPG" })
+                            </div>
+                            <div id="errorMessageYOPGDiv" class="error-display-box"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <div class="extra-space"></div>
+
+        <fieldset>
+            <legend>
+                <h2>HOBBY:</h2>
+            </legend>
+
+            <div class="container mt-4">
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <div class="form-check hobby_check">
+                            <input type="checkbox" id="checkbox1" name="checkbox1" class="form-check-input" @(ViewBag.checkbox1Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox1">Dancing</label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox2" name="checkbox2" class="form-check-input" @(ViewBag.checkbox2Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox2">Singing</label>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox3" name="checkbox3" class="form-check-input" @(ViewBag.checkbox3Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox3">Coding</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox4" name="checkbox4" class="form-check-input" @(ViewBag.checkbox4Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox4">Web Designing</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox5" name="checkbox5" class="form-check-input" @(ViewBag.checkbox5Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox5">Board Games</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox6" name="checkbox6" class="form-check-input" @(ViewBag.checkbox6Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox6">Camping</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox7" name="checkbox7" class="form-check-input" @(ViewBag.checkbox7Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox7">Running</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox8" name="checkbox8" class="form-check-input" @(ViewBag.checkbox8Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox8">Sleeping</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check">
+                            <input type="checkbox" id="checkbox9" name="checkbox9" class="form-check-input" @(ViewBag.checkbox9Checked ? "checked" : "") />
+                            <label class="form-check-label" for="checkbox9">Reading</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-4">
+                <div class="message-feedback-container">
+                    <h3>Message and Feedback:</h3>
+
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <input type="text" id="message" class="form-control text-message-feedback" placeholder="Enter message you want to provide." data-store="Message" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="feedback">Feedback:</label>
+                        <input type="text" id="feedback" class="form-control text-message-feedback" placeholder="Please feel free to give any feedback to us." data-store="Feedback" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+
+
+        <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
+            <button type="submit" class="btn btn-success SubmitButton" id="submitButton">Submit</button>
+            <button type="submit" class="btn btn-danger ResetButton ml-2" formaction="@Url.Action("ResetForm", "UserDetails")">Reset</button>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="~/Scripts/UserDetails.js"></script>
+        <script src="~/Scripts/CheckEmail.js"></script>   
+
+        @{
+            int studentID = Convert.ToInt32(Request.QueryString["studentID"]);
+            int objectType = DemoUserManagement.UtilityLayer.NoteType.ObjectType;
+            var checkEmailUrl = Url.Action("CheckEmail", "UserDetails");
+        }
+        <input type="hidden" id="checkEmailUrl" value="@checkEmailUrl" />
+
+        @if (studentID != 0)
+        {
+            @Html.Action("GetNotes", "Note", new { objectId = studentID, objectType = objectType })
+            @Html.Action("GetDocuments", "Document", new { objectId = studentID, objectType = objectType })
+        }
+
+
+        @*@Html.Action("GetNotes", "Note", new { objectId = studentID, objectType = objectType })
+            @Html.Action("GetDocuments", "Document", new { objectId = studentID, objectType = objectType })*@
+
+    </div>
+}

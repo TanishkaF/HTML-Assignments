@@ -1,0 +1,134 @@
+﻿/* Reset CSS */
+* {
+    margin: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 400px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #9c6f44;
+    font-weight: bold;
+    margin-bottom: 20px; /* Add some space below the heading */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%; /* Take up full width of container */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+#error-message {
+    color: red;
+    margin-bottom: 10px; /* Add some space below the error message */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+    .button-container button {
+        flex: 1; 
+        background: #007bff;
+        color: #fff;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px; 
+        transition: background-color 0.3s ease; 
+    }
+
+        .button-container button:hover {
+            background-color: #0056b3; 
+        }
+
+.table-container {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    text-align:center;
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+
+
+
+tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+#addButton {  
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; 
+    padding: 10px 20px;
+    font-weight: bolder;
+    font-size: larger;
+    color: black;
+    border: black;
+}
+
+/* Hover effect: Change background color and cursor */
+#addButton:hover {
+    background-color: #45a049; /* Darker background color */
+    cursor: pointer;
+}
+
+/* Click effect: Add a slight shadow */
+#addButton:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px); /* Move the button down slightly */
+}

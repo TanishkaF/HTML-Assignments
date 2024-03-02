@@ -1,0 +1,44 @@
+﻿@model List<DemoUserManagement.ViewModel.NoteViewModel>
+
+<link href="~/Content/PartialViewStyleSheet.css" rel="stylesheet" />
+
+@{
+    int defaultPageIndex = DemoUserManagement.UtilityLayer.NoteType.PageIndex;
+    int defaultPageSize = DemoUserManagement.UtilityLayer.NoteType.PageSize;
+    string defaultSortExpression = DemoUserManagement.UtilityLayer.NoteType.SortExpression;
+    string defaultSortDirection = DemoUserManagement.UtilityLayer.NoteType.SortDirection;
+}
+
+<input type="hidden" id="pageIndex" value="@defaultPageIndex" />
+<input type="hidden" id="pageSize" value="@defaultPageSize" />
+<input type="hidden" id="sortExpression" value="@defaultSortExpression" />
+<input type="hidden" id="sortDirection" value="@defaultSortDirection" />
+
+@using (Html.BeginForm("Add", "NoteUserControllerV2", FormMethod.Post, new { id = "addNoteForm" }))
+{
+    <input type="text" name="noteText" id="noteText" class="text-box-class" />
+    <input type="button" value="Add Note" id="addButton" />
+}
+
+<table class="table-container" id="noteTable">
+    <thead>
+        <tr>
+            <th><a href="#" class="sortable-header1" data-sort-expression="NoteID">NoteID</a></th>
+            <th><a href="#" class="sortable-header1" data-sort-expression="ObjectID">Object ID</a></th>
+            <th><a href="#" class="sortable-header1" data-sort-expression="ObjectType">Object Type</a></th>
+            <th><a href="#" class="sortable-header1" data-sort-expression="NoteText">Note Text</a></th>
+            <th><a href="#" class="sortable-header1" data-sort-expression="TimeStamp">TimeStamp</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table body will be dynamically populated via JavaScript -->
+    </tbody>
+</table>
+
+
+<div class="page-numbers-container" id="paginationNote">
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/NoteUserControl.js"></script>
+   

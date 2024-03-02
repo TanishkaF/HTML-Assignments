@@ -1,0 +1,110 @@
+﻿@using System.Collections.Generic
+@{
+    List<DemoUserManagement.ViewModel.DocumentClass> documentList = ViewBag.DocumentList;
+}
+@model List<DemoUserManagement.ViewModel.DocumentViewModel>
+
+<link href="~/Content/PartialViewStyleSheet.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/UploadFile.js"></script>
+
+
+@using (Html.BeginForm("Add", "Document", FormMethod.Post))
+{
+    @Html.Hidden("objectId", Model.FirstOrDefault()?.ObjectID)
+    @Html.Hidden("objectType", Model.FirstOrDefault()?.ObjectType)
+
+    <div class="row">
+        <div class="col-sm-4  extra-space-left">
+            <div class="p-3">
+                <label id="lblDdlOptions" for="ddlOptions">Select Option:</label>
+
+                @if (documentList != null && documentList.Any())
+                {
+                    <select id="ddlOptions" class="form-control">
+                        <option value="">Select Option</option>
+                        @foreach (var item in documentList)
+                        {
+                            <option value="@item.documentType">@item.documentName</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <p>No dropdown list data available.</p>
+                }
+            </div>
+            <div class="col-sm-4">
+                <input type="file" id="fileInput" name="file" />
+            </div>
+            <div class="col-sm-4">
+                <button id="btnAddDocument" type="button">Add Document</button>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table-container">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Document ID", "GetDocuments", new { sortExpression = "DocumentID", sortDirection = ViewBag.SortExpression == "DocumentID" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Object ID", "GetDocuments", new { sortExpression = "ObjectID", sortDirection = ViewBag.SortExpression == "ObjectID" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Object Type", "GetDocuments", new { sortExpression = "ObjectType", sortDirection = ViewBag.SortExpression == "ObjectType" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Document Type", "GetDocuments", new { sortExpression = "DocumentType", sortDirection = ViewBag.SortExpression == "DocumentType" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Original Name", "GetDocuments", new { sortExpression = "OriginalDocumentName", sortDirection = ViewBag.SortExpression == "OriginalDocumentName" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Time Stamp", "GetDocuments", new { sortExpression = "TimeStamp", sortDirection = ViewBag.SortExpression == "TimeStamp" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DocumentID</td>
+                <td>@item.ObjectID</td>
+                <td>@item.ObjectType</td>
+                <td>@item.DocumentType</td>
+                <td>@item.OriginalDocumentName</td>
+                <td>@item.Timestamp</td>
+                <td>
+                    <a href="@Url.Action("DownloadFile", "File", new { documentId = item.DocumentID })">Download</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="page-numbers-container">
+
+    @if (Model.FirstOrDefault()?.PageIndex > 0)
+    {
+        @Html.ActionLink("<< Previous", "GetDocuments", new { pageIndex = Model.FirstOrDefault()?.PageIndex - 1, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType }, new { @class = "page-numbers" })
+    }
+    else
+    {
+        <span class="page-numbers"><< Previous</span>
+    }
+
+    @for (int i = 0; i < Model.FirstOrDefault()?.TotalPages; i++)
+    {
+        if (i == Model.FirstOrDefault()?.PageIndex)
+        {
+            <span class="page-numbers"> @(i + 1) </span>
+        }
+        else
+        {
+            @Html.ActionLink((i + 1).ToString(), "GetDocuments", new { pageIndex = i, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType }, new { @class = "page-numbers" })
+        }
+    }
+
+    @if (Model.FirstOrDefault()?.PageIndex < Model.FirstOrDefault()?.TotalPages - 1)
+    {
+        @Html.ActionLink("Next >>", "GetDocuments", new { pageIndex = Model.FirstOrDefault()?.PageIndex + 1, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType }, new { @class = "page-numbers" })
+    }
+    else
+    {
+        <span class="page-numbers">Next >></span>
+    }
+</div>

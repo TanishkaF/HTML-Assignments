@@ -1,0 +1,72 @@
+﻿@model List<DemoUserManagement.ViewModel.UserDetailsViewModel>
+
+<link href="~/Content/GridViewTable.css" rel="stylesheet" />
+@using (Html.BeginForm("Add", "UserList", FormMethod.Post, new { }))
+{
+    <input type="submit" value="Add User" id="addButton"/>
+}
+
+
+<table class="table-container">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("UserID", "GetUsers", new { sortExpression = "StudentID", sortDirection = ViewBag.SortExpression == "StudentID" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>@Html.ActionLink("First Name", "GetUsers", new { sortExpression = "FirstName", sortDirection = ViewBag.SortExpression == "FirstName" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>@Html.ActionLink("Last Name", "GetUsers", new { sortExpression = "LastName", sortDirection = ViewBag.SortExpression == "LastName" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>@Html.ActionLink("Contact Number", "GetUsers", new { sortExpression = "Phone", sortDirection = ViewBag.SortExpression == "Phone" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>@Html.ActionLink("Birthday", "GetUsers", new { sortExpression = "DateOfBirth", sortDirection = ViewBag.SortExpression == "DateOfBirth" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>@Html.ActionLink("Aadhar Number", "GetUsers", new { sortExpression = "AadharNumber", sortDirection = ViewBag.SortExpression == "AadharNumber" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC" })</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.StudentID</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Phone</td>
+                <td>@user.DateOfBirth</td>
+                <td>@user.AadharNumber</td>
+                <td>
+                    @Html.ActionLink("Edit", "UserDetails", "UserDetails", new { StudentID = user.StudentID }, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    Page @(Model.FirstOrDefault()?.PageIndex + 1) of @(Model.FirstOrDefault()?.TotalPages)
+
+    @if (Model.FirstOrDefault()?.PageIndex > 0)
+    {
+        @Html.ActionLink("<< Previous", "GetUsers", new { pageIndex = Model.FirstOrDefault()?.PageIndex - 1 })
+    }
+    else
+    {
+        <span><< Previous</span>
+    }
+
+    @for (int i = 0; i < Model.FirstOrDefault()?.TotalPages; i++)
+    {
+        if (i == Model.FirstOrDefault()?.PageIndex)
+        {
+            <text> @(i + 1) </text>
+        }
+        else
+        {
+            @Html.ActionLink((i + 1).ToString(), "GetUsers", new { pageIndex = i })
+        }
+    }
+
+    @if (Model.FirstOrDefault()?.PageIndex < Model.FirstOrDefault()?.TotalPages - 1)
+    {
+        @Html.ActionLink("Next >>", "GetUsers", new { pageIndex = Model.FirstOrDefault()?.PageIndex + 1 })
+    }
+    else
+    {
+        <span>Next >></span>
+    }
+</div>

@@ -1,0 +1,84 @@
+﻿@model List<DemoUserManagement.ViewModel.NoteViewModel>
+
+<link href="~/Content/PartialViewStyleSheet.css" rel="stylesheet" />
+@using (Html.BeginForm("Add", "Note", FormMethod.Post, new { id = "addNoteForm" }))
+{
+    @Html.Hidden("objectId", 5)
+    @Html.Hidden("objectType", 1)
+    @Html.TextBoxFor(m => m.FirstOrDefault().NoteText, new { @class = "text-box-class", id = "noteText" })
+    <input type="button" value="Add Note" id="addButton" />
+}
+
+<table class="table-container" id="noteTable">
+    <thead>
+        <tr>
+            <th><a href="#" class="sortable-header" data-sort-expression="NoteID">NoteID</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="ObjectID">Object ID</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="ObjectType">Object Type</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="NoteText">Note Text</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="TimeStamp">TimeStamp</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NoteID</td>
+                <td>@item.ObjectID</td>
+                <td>@item.ObjectType</td>
+                <td>@item.NoteText</td>
+                <td>@item.TimeStamp</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination-container" id="pagination">
+    @* Pagination links will be loaded here *@
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Add Note AJAX
+            $("#addButton").click(function () {
+                $.ajax({
+                    url: "@Url.Action("Add", "Note")",
+                    type: "POST",
+                    data: $("#addNoteForm").serialize(),
+                    success: function (response) {
+                        refreshNotes();
+                    }
+                });
+            });
+
+            // Sortable Header Click
+            $(document).on("click", ".sortable-header", function () {
+                var sortExpression = $(this).data("sort-expression");
+                var sortDirection = $(this).hasClass("asc") ? "DESC" : "ASC";
+                $.get("@Url.Action("GetNotes", "Note")", {
+                    objectId: 5,
+                    objectType: 1,
+                    sortExpression: sortExpression,
+                    sortDirection: sortDirection
+                }, function (data) {
+                    $("#noteTable").html(data);
+                });
+                return false;
+            });
+
+            refreshNotes();
+        });
+
+        function refreshNotes() {
+            var url = "@Url.Action("GetNotes", "Note")";
+            $.get(url, {
+                objectId: 5,
+                objectType: 1
+            }, function (data) {
+                $("#noteTable").html(data);
+            });
+        }
+    </script>
+}

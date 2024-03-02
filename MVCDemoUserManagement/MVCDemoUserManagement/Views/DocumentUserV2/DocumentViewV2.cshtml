@@ -1,0 +1,61 @@
+﻿
+@model List<DemoUserManagement.ViewModel.DocumentViewModel>
+
+<h2>DocumentViewV2</h2>
+
+<link href="~/Content/PartialViewStyleSheet.css" rel="stylesheet" />
+
+@{
+    int defaultPageIndexDocument = DemoUserManagement.UtilityLayer.DocumentType.PageIndex;
+    int defaultPageSizeDocument = DemoUserManagement.UtilityLayer.DocumentType.PageSize;
+    string defaultSortExpressionDocument = DemoUserManagement.UtilityLayer.DocumentType.SortExpression;
+    string defaultSortDirectionDocument = DemoUserManagement.UtilityLayer.DocumentType.SortDirection;
+}
+
+<input type="hidden" id="pageIndexDocument" value="@defaultPageIndexDocument" />
+<input type="hidden" id="pageSizeDocument" value="@defaultPageSizeDocument" />
+<input type="hidden" id="sortExpressionDocument" value="@defaultSortExpressionDocument" />
+<input type="hidden" id="sortDirectionDocument" value="@defaultSortDirectionDocument" />
+
+
+<div class="row">
+    <div class="col-sm-4 extra-space-left">
+        <div class="p-3">
+            <label id="lblDdlOptions" for="ddlOptions">Select Option:</label>
+            <select id="ddlOptions" class="form-control">
+                <option value="">Select Option</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <input type="file" id="fileInput" name="file" />
+    </div>
+    <div class="col-sm-4">
+        <button id="btnAddDocument" type="button">Add Document</button>
+    </div>
+</div>
+
+<table class="table-container" id="documentTable">
+    <thead>
+        <tr>
+            <th><a href="#" class="sortable-header" data-sort-expression="DocumentID">Document ID</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="ObjectID">Object ID</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="DocumentType">Document Type</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="OriginalDocumentName">Original Document Name</a></th>
+            <th><a href="#" class="sortable-header" data-sort-expression="TimeStamp">TimeStamp</a></th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table body will be dynamically populated via JavaScript -->
+    </tbody>
+</table>
+
+
+<div class="page-numbers-container" id="paginationDocument">
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/DocumentUserControl.js"></script>
+
+

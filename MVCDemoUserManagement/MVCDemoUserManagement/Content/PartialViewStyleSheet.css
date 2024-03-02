@@ -1,0 +1,77 @@
+﻿.table-container {
+    margin: 30px auto; /* Center the table horizontally with 30px margin on all sides */
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: auto; /* Center the table horizontally */
+}
+
+th, td {
+    padding: 10px;
+    text-align: center; /* Center align text in table headers and data cells */
+    border-bottom: 1px solid #ddd;
+}
+
+thead {
+    background-color: #f2f2f2; /* Light gray background for table header */
+}
+
+tr:nth-child(even) {
+    background-color: #ffffff; /* White background for even rows */
+}
+
+tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light gray background for odd rows */
+}
+
+#addButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    padding: 10px 20px;
+    font-weight: bold; /* Use 'bold' instead of 'bolder' for consistent font weight */
+    font-size: larger;
+}
+
+.text-box-class {
+    margin: 10px 0 10px 55px;
+    height: 50px;
+    width: 250px;
+}
+    #addButton:hover {
+        background-color: #45a049; /* Darker green background color on hover */
+    }
+
+    #addButton:active {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: translateY(1px); /* Move the button down slightly on click */
+    }
+
+
+.page-numbers-container {
+    margin-top: 10px;
+}
+
+.page-numbers {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+}
+
+    .page-numbers.active {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+.extra-space-left{
+    margin-left:35px;
+}

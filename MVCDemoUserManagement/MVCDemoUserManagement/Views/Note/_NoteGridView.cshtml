@@ -1,0 +1,72 @@
+﻿
+@model List<DemoUserManagement.ViewModel.NoteViewModel>
+
+<link href="~/Content/PartialViewStyleSheet.css" rel="stylesheet" />
+@using (Html.BeginForm("Add", "Note", FormMethod.Post))
+{
+    @Html.Hidden("objectId", Model.FirstOrDefault()?.ObjectID) <!-- Hidden field for objectId -->
+    @Html.Hidden("objectType", Model.FirstOrDefault()?.ObjectType) <!-- Hidden field for objectType -->
+    @Html.TextBoxFor(m => m.FirstOrDefault().NoteText, new { @class = "text-box-class" }) <!-- Corrected TextBoxFor syntax -->
+
+    <input type="submit" value="Add Note" id="addButton" />
+}
+
+<table class="table-container">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("NoteID", "GetNotes", new { sortExpression = "NoteID", sortDirection = ViewBag.SortExpression == "NoteID" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Object ID", "GetNotes", new { sortExpression = "ObjectID", sortDirection = ViewBag.SortExpression == "ObjectID" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Object Type", "GetNotes", new { sortExpression = "ObjectType", sortDirection = ViewBag.SortExpression == "ObjectType" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("Note Text", "GetNotes", new { sortExpression = "NoteText", sortDirection = ViewBag.SortExpression == "NoteText" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+            <th>@Html.ActionLink("TimeStamp", "GetNotes", new { sortExpression = "TimeStamp", sortDirection = ViewBag.SortExpression == "TimeStamp" && ViewBag.SortDirection == "ASC" ? "DESC" : "ASC", objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.NoteID</td>
+                <td>@item.ObjectID</td>
+                <td>@item.ObjectType</td>
+                <td>@item.NoteText</td>
+                <td>@item.TimeStamp</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="page-numbers-container">
+    @*Page @(Model.FirstOrDefault()?.PageIndex + 1) of @(Model.FirstOrDefault()?.TotalPages)*@
+
+    @if (Model.FirstOrDefault()?.PageIndex > 0)
+    {
+        <a href="@Url.Action("GetNotes", new { pageIndex = Model.FirstOrDefault()?.PageIndex - 1, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })" class="page-numbers">&lt;&lt; Previous</a>
+    }
+    else
+    {
+        <span class="page-numbers">&lt;&lt; Previous</span>
+    }
+
+    @for (int i = 0; i < Model.FirstOrDefault()?.TotalPages; i++)
+    {
+        if (i == Model.FirstOrDefault()?.PageIndex)
+        {
+            <span class="page-numbers">@((i + 1))</span>
+        }
+        else
+        {
+            <a href="@Url.Action("GetNotes", new { pageIndex = i, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })" class="page-numbers">@((i + 1))</a>
+        }
+    }
+
+    @if (Model.FirstOrDefault()?.PageIndex < Model.FirstOrDefault()?.TotalPages - 1)
+    {
+        <a href="@Url.Action("GetNotes", new { pageIndex = Model.FirstOrDefault()?.PageIndex + 1, objectId = Model.FirstOrDefault()?.ObjectID, objectType = Model.FirstOrDefault()?.ObjectType })" class="page-numbers">Next &gt;&gt;</a>
+    }
+    else
+    {
+        <span class="page-numbers">Next &gt;&gt;</span>
+    }
+</div>
+
