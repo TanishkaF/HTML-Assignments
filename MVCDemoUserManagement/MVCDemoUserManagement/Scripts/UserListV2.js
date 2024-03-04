@@ -3,13 +3,10 @@
 });
 
 $("#btnAddUser").click(function () {
-    // Send an AJAX request to the "Add" action of the "UserListV2" controller
     $.ajax({
         url: "/UserListV2/Add",
         type: 'GET',
         success: function () {
-            // After successfully triggering the "Add" action,
-            // manually navigate to the "UserDetails" view
             window.location.href = "/UserDetails/UserDetails?studentid=0";
         },
         error: function () {
@@ -31,11 +28,18 @@ function loadUserListPartialView(pageIndex = $("#pageIndexUserList").val(), page
         success: function (data) {
             $("#userListTable tbody").empty();
             $.each(data, function (index, item) {
-                $("#userListTable tbody").append("<tr><td>" + item.StudentID + "</td><td>" + item.FirstName + "</td><td>" + item.LastName + "</td><td>" + item.Phone + "</td><td>" + item.AadharNumber);
+                var editButton = "<button class='editUserButton' data-student-id='" + item.StudentID + "'>Edit</button>"; // Create edit button
+                $("#userListTable tbody").append("<tr><td>" + item.StudentID + "</td><td>" + item.FirstName + "</td><td>" + item.LastName + "</td><td>" + item.Phone + "</td><td>"
+                    + item.AadharNumber + "</td><td>" + editButton + "</td></tr>"); // Append edit button to table row
             });
             renderPaginationUserList(data[0].PageIndex, data[0].TotalPages);
-            // renderPagination(pageIndex, 4);
+            $(".editUserButton").click(function () {
+                var x = item.StudentID;
+                var studentID = $(this).data(x);
+                window.location.href = "/UserDetailsV2/UserDetailsV2?StudentID=" + studentID;
+            });
         },
+
         error: function () {
             console.log("Error");
         }
