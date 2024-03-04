@@ -31,13 +31,11 @@ function loadUserListPartialView(pageIndex = $("#pageIndexUserList").val(), page
                 var editButton = "<button class='editUserButton' data-student-id='" + item.StudentID + "'>Edit</button>"; // Create edit button
                 $("#userListTable tbody").append("<tr><td>" + item.StudentID + "</td><td>" + item.FirstName + "</td><td>" + item.LastName + "</td><td>" + item.Phone + "</td><td>"
                     + item.AadharNumber + "</td><td>" + editButton + "</td></tr>"); // Append edit button to table row
+                row += "<td><a href='/UserDetailsV2/UserDetailsV2?StudentID=" + item.StudentID + "' class='edit-link' data-edit-id='" + item.StudentID + "'>Edit</a></td></tr>";
+              //  $("#userListTable tbody").append(row);
             });
             renderPaginationUserList(data[0].PageIndex, data[0].TotalPages);
-            $(".editUserButton").click(function () {
-                var x = item.StudentID;
-                var studentID = $(this).data(x);
-                window.location.href = "/UserDetailsV2/UserDetailsV2?StudentID=" + studentID;
-            });
+          
         },
 
         error: function () {

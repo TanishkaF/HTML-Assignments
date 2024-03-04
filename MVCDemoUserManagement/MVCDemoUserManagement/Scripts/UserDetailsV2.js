@@ -658,19 +658,12 @@ function copyPermanentAddress() {
 
     if (sameAsCurrent) {
         // Copy values from permanent address to current address
-        $("#DdlPresentCountry").val($("#DdlPermanentCountry").val());
-        $("#DdlPresentState").val($("#DdlPermanentState").val());
-        $("#TxtPresentCity").val($("#TxtPermanentCity").val());
-        $("#TxtPresentPincode").val($("#TxtPermanentPincode").val());
-        $("#TxtPresentAddressLine").val($("#TxtPermanentAddressLine").val());
-    } else {
-        // Clear current address fields
-        $("#DdlPresentCountry").val('');
-        $("#DdlPresentState").val('');
-        $("#TxtPresentCity").val('');
-        $("#TxtPresentPincode").val('');
-        $("#TxtPresentAddressLine").val('');
-    }
+        $("#pCountry").val($("#cCountry").val());
+        $("#pState").val($("#cState").val());
+        $("#p1Address").val($("#c1Address").val());
+        $("#p2Address").val($("#c2Address").val());
+        $("#pPinCode").val($("#cPinCode").val());
+    } 
 }
 
 $("#sameAsCurrent").change(function () {

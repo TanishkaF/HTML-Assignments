@@ -25,7 +25,7 @@ namespace MVCDemoUserManagement
                     // Your code here
                 }
 
-                else if (actionName != "loginv2") 
+                else if (actionName != "loginv2")
                 {
                     filterContext.Result = new RedirectResult("~/LogInV2/LogInV2");
                 }
@@ -89,14 +89,18 @@ namespace MVCDemoUserManagement
         public static bool CheckAuthenticationV2(int userID)
         {
             LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
-            if (userID == logInSessionModel.UserID || logInSessionModel.IsAdmin)
+            if (logInSessionModel != null)
             {
-                return true;
+                if (userID == logInSessionModel.UserID || logInSessionModel.IsAdmin)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }
