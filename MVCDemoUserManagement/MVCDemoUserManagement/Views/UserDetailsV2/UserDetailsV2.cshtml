@@ -800,27 +800,38 @@
             <button type="submit" class="btn btn-danger ResetButton ml-2" onclick="return resetForm()">Reset</button>
         </div>
 
-        <input type="hidden" id="objectId" value="5" />
-        <input type="hidden" id="objectType" value="1" />
 
-        if(studentID!=0){
-        <div id="notePartialView">
-            @Html.Partial("~/Views/NoteUserV2/NoteViewV2.cshtml", new ViewDataDictionary { { "objectId", 5 }, { "objectType", 1 } });
-        </div>
+        @{
+            ViewBag.Title = "User Details";
+            int userId = 0;
+            var userSession = DemoUserManagement.UtilityLayer.ConstantValues.GetUserSessionInfo();
 
-        <div id="documentPartialView">
-            @Html.Partial("~/Views/DocumentUserV2/DocumentViewV2.cshtml", new ViewDataDictionary { { "objectId", 5 }, { "objectType", 1 } });
-        </div>
+            if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
+            {
+                int.TryParse(Request.QueryString["userId"], out userId);
+            }
+            else
+            {
+                userId = userSession?.UserID ?? 0;
+            }
 
-
+            int objectType = DemoUserManagement.UtilityLayer.NoteType.ObjectType;
         }
 
 
+        if(userId!=0){
+        <div id="notePartialView">
+            @Html.Partial("~/Views/NoteUserV2/NoteViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
+        </div>
 
+        <div id="documentPartialView">
+            @Html.Partial("~/Views/DocumentUserV2/DocumentViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
+        </div>
+        }
 
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/Scripts/UploadFile.js"></script>
+    <script src="~/Scripts/UserDetailsV2.js"></script>
     <script src="~/Scripts/CheckEmail.js"></script>
 </body>
 

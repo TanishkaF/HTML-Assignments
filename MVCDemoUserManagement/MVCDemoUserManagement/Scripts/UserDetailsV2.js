@@ -652,3 +652,28 @@ function resetForm() {
     });
     return false; // Prevent form submission
 }
+
+function copyPermanentAddress() {
+    var sameAsCurrent = $("#sameAsCurrent").prop("checked");
+
+    if (sameAsCurrent) {
+        // Copy values from permanent address to current address
+        $("#DdlPresentCountry").val($("#DdlPermanentCountry").val());
+        $("#DdlPresentState").val($("#DdlPermanentState").val());
+        $("#TxtPresentCity").val($("#TxtPermanentCity").val());
+        $("#TxtPresentPincode").val($("#TxtPermanentPincode").val());
+        $("#TxtPresentAddressLine").val($("#TxtPermanentAddressLine").val());
+    } else {
+        // Clear current address fields
+        $("#DdlPresentCountry").val('');
+        $("#DdlPresentState").val('');
+        $("#TxtPresentCity").val('');
+        $("#TxtPresentPincode").val('');
+        $("#TxtPresentAddressLine").val('');
+    }
+}
+
+$("#sameAsCurrent").change(function () {
+    copyPermanentAddress();
+});
+

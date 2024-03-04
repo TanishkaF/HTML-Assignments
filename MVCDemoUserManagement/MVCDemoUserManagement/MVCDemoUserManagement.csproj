@@ -197,7 +197,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\NoteUserControl.js" />
     <Content Include="Scripts\NoteV2.js" />
-    <Content Include="Scripts\UploadFile.js" />
+    <Content Include="Scripts\UserDetailsV2.js" />
     <Content Include="Scripts\UserDetails.js" />
     <Content Include="Scripts\UserListV2.js" />
     <Content Include="Web.config" />
