@@ -30,11 +30,11 @@ namespace MVCDemoUserManagement.Controllers
 
                 if (userSession.IsAdmin)
                 {
-                    return Json(new { success = true });
+                    return Json(new { success = true, isAdmin = true});
                 }
                 else
                 {
-                    return Json(new { success = true });
+                    return Json(new { success = true, isAdmin = false, userID = ConstantValues.GetUserSessionInfo().UserID }); ;
                 }
             }
             else

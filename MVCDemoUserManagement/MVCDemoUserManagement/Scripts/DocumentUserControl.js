@@ -19,13 +19,13 @@
 
 function loadDocumentPartialView(pageIndex = $("#pageIndexDocument").val(), pageSize = $("#pageSizeDocument").val(),
     sortExpression = $("#sortExpressionDocument").val(), sortDirection = $("#sortDirectionDocument").val()) {
-    var objectId = $("#objectId").val();
-    var objectType = $("#objectType").val();
+    //var objectId = $("#objectId").val();
+    //var objectType = $("#objectType").val();
 
     $.ajax({
         type: "GET",
-        url: "/DocumentUserV2/GetDocuments",
-        data: { objectId: objectId, objectType: objectType, pageIndex: pageIndex, pageSize: pageSize, sortExpression: sortExpression, sortDirection: sortDirection },
+        url: "/DocumentUserV2/GetDocuments?objectId=" + objectID + "&objectType=" + objectType + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize + "&sortExpression=" + sortExpression + "&sortDirection=" + sortDirection,
+      //  data: { objectId: objectID, objectType: objectType, pageIndex: pageIndex, pageSize: pageSize, sortExpression: sortExpression, sortDirection: sortDirection },
         dataType: "json",
         success: function (data) {
             $("#documentTable tbody").empty();

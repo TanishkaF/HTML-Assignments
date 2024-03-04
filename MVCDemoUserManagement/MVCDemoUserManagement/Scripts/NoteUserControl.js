@@ -3,13 +3,15 @@
 });
 
 function loadNotePartialView(pageIndex = $("#pageIndex").val(), pageSize = $("#pageSize").val(), sortExpression = $("#sortExpression").val(), sortDirection = $("#sortDirection").val()) {
-    var objectId = $("#objectId").val();
-    var objectType = $("#objectType").val();
+    //var objectId = $("#objectId").val();
+    //var objectType = $("#objectType").val();
 
     $.ajax({
         type: "GET",
-        url: "/NoteUserV2/GetNotes",
-        data: { objectId: objectId, objectType: objectType, pageIndex: pageIndex, pageSize: pageSize, sortExpression: sortExpression, sortDirection: sortDirection },
+      //  url: "/NoteUserV2/GetNotes",
+        url: "/NoteUserV2/GetNotes?objectId=" + objectID + "&objectType=" + objectType + "&pageIndex=" + pageIndex + "&pageSize=" + pageSize + "&sortExpression=" + sortExpression + "&sortDirection=" + sortDirection,
+
+     //   data: { objectId: objectId, objectType: objectType, pageIndex: pageIndex, pageSize: pageSize, sortExpression: sortExpression, sortDirection: sortDirection },
         dataType: "json",
         success: function (data) {
             $("#noteTable tbody").empty();

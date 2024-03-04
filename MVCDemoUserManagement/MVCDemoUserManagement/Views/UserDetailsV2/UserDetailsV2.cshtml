@@ -806,9 +806,9 @@
             int userId = 0;
             var userSession = DemoUserManagement.UtilityLayer.ConstantValues.GetUserSessionInfo();
 
-            if (!string.IsNullOrEmpty(Request.QueryString["userId"]))
+            if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
             {
-                int.TryParse(Request.QueryString["userId"], out userId);
+                int.TryParse(Request.QueryString["StudentID"], out userId);
             }
             else
             {
@@ -819,14 +819,18 @@
         }
 
 
-        if(userId!=0){
-        <div id="notePartialView">
-            @Html.Partial("~/Views/NoteUserV2/NoteViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
-        </div>
+        @{
 
-        <div id="documentPartialView">
-            @Html.Partial("~/Views/DocumentUserV2/DocumentViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
-        </div>
+            if (userId != 0)
+            {
+                <div id="notePartialView">
+                    @Html.Partial("~/Views/NoteUserV2/NoteViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
+                </div>
+
+                <div id="documentPartialView">
+                    @Html.Partial("~/Views/DocumentUserV2/DocumentViewV2.cshtml", new ViewDataDictionary { { "objectId", userId }, { "objectType", objectType } });
+                </div>
+            }
         }
 
     </div>

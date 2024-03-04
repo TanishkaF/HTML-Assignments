@@ -4,19 +4,21 @@
         window.location.href = "/UserDetailsV2/UserDetailsV2?StudentID=0";
     });
 
+   
+
     $("#btnLogin").click(function () {
         var email = $("#txtEmail").val();
         var password = $("#txtPassword").val();
 
         $.ajax({
-            url: "LogInV2/ValidateUserV2",
+            url: "/LogInV2/ValidateUserV2", // Corrected URL
             type: "POST",
-            data: { email: email, password: password }, // Pass email and password as data
+            data: { email: email, password: password },
             success: function (response) {
-                if (response.success) {
-                    window.location.href = "/UserListV2/UserListV2";
+                if (response.success) { // Check for success field
+                    window.location.href = response.isAdmin ? "/UserListV2/UserListV2" : "/UserDetailsV2/UserDetailsV2?StudentID=" + response.userID; // Updated redirection based on isAdmin flag
                 } else {
-                    window.location.href = "/UserDetailsV2/UserDetailsV2?StudentID=5";
+                    $("#lblError").text(response.errorMessage); // Display error message
                 }
             },
             error: function (xhr, status, error) {
@@ -24,5 +26,6 @@
             }
         });
     });
+
 
 });
