@@ -12,6 +12,8 @@ namespace MVCDemoUserManagement.Controllers
     public class UserListV2Controller : Controller
     {
         // GET: UserListV2
+
+        [SessionCheckV2]
         public ActionResult UserListV2()
         {
             GetUsers();
@@ -19,7 +21,6 @@ namespace MVCDemoUserManagement.Controllers
         }
 
 
-        [SessionCheckV2]
         public ActionResult GetUsers(int pageIndex=1, int pageSize = 10, string sortExpression="StudentID", string sortDirection = "ASC")
         {
             string actualSortDirection = sortDirection.ToUpper() == "DESC" ? "DESC" : "ASC";

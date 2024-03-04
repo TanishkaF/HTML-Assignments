@@ -11,7 +11,7 @@
         var password = $("#txtPassword").val();
 
         $.ajax({
-            url: "/LogInV2/ValidateUserV2", // Corrected URL
+            url: "/LogInV2/ValidateUserV2", 
             type: "POST",
             data: { email: email, password: password },
             success: function (response) {

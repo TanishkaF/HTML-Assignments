@@ -16,6 +16,7 @@ namespace MVCDemoUserManagement.Controllers
     public class UserDetailsV2Controller : Controller
     {
         // GET: UserDetailsV2
+        [SessionCheckV2]
         public ActionResult UserDetailsV2()
         {
             return View();
@@ -33,7 +34,6 @@ namespace MVCDemoUserManagement.Controllers
             return JsonConvert.SerializeObject(states);
         }
 
-        [SessionCheckV2]
         [HttpPost]
         public ActionResult CheckAdmin()
         {
@@ -48,7 +48,6 @@ namespace MVCDemoUserManagement.Controllers
         }
 
         [HttpPost]
-        [SessionCheckV2]
         public JsonResult GetStudentDetails(int studentID)
         {
             try

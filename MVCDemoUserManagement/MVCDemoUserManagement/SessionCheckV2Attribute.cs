@@ -25,12 +25,12 @@ namespace MVCDemoUserManagement
                     // Your code here
                 }
 
-                else if (actionName != "index") 
+                else if (actionName != "loginv2") 
                 {
                     filterContext.Result = new RedirectResult("~/LogInV2/LogInV2");
                 }
             }
-            else if (actionName == "index")
+            else if (actionName == "loginv2")
             {
                 if (logInSessionModel.IsAdmin)
                 {
@@ -41,7 +41,7 @@ namespace MVCDemoUserManagement
                     filterContext.Result = new RedirectResult("~/UserDetailsV2/UserDetailsV2?StudentID" + logInSessionModel.UserID);
                 }
             }
-            else if (actionName == "getusers" && !logInSessionModel.IsAdmin)
+            else if (actionName == "getusersv2" && !logInSessionModel.IsAdmin)
             {
                 filterContext.Result = new RedirectResult("~/LogInV2/LogInV2");
             }
@@ -49,7 +49,7 @@ namespace MVCDemoUserManagement
             {
                 CheckAuthorizationAndLoadUserDetails(filterContext);
             }
-            else if (actionName == "userdetails" && !logInSessionModel.IsAdmin)
+            else if (actionName == "userdetailsv2" && !logInSessionModel.IsAdmin)
             {
                 CheckAuthorizationAndLoadUserDetails(filterContext);
             }

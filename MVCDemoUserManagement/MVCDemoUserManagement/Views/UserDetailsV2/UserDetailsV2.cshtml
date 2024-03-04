@@ -806,15 +806,17 @@
             int userId = 0;
             var userSession = DemoUserManagement.UtilityLayer.ConstantValues.GetUserSessionInfo();
 
-            if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
-            {
-                int.TryParse(Request.QueryString["StudentID"], out userId);
-            }
-            else
-            {
-                userId = userSession?.UserID ?? 0;
-            }
+            //if (!string.IsNullOrEmpty(Request.QueryString["StudentID"]))
+            //{
+            //    int.TryParse(Request.QueryString["StudentID"], out userId);
+            //}
+            //else
+            //{
+            //    userId = userSession?.UserID ?? 0;
+            //}
 
+
+            userId = userSession?.UserID ?? 0 ;
             int objectType = DemoUserManagement.UtilityLayer.NoteType.ObjectType;
         }
 
