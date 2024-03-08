@@ -1,0 +1,10 @@
+Time: 07-03-2024 05:09:22 PM
+-----------------------------------------------------------
+Exception Details:
+Message: Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+StackTrace:    at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at AirportFuelManagement.DataAccessLayer.AirportDAL.AddAircraft(Aircraft viewModelAircraft) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.DataAccessLayer\AirportDAL.cs:line 115
+Source: EntityFramework
+TargetSite: Int32 SaveChanges()
+-----------------------------------------------------------
+

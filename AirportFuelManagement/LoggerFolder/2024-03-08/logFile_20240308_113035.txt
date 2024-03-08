@@ -1,0 +1,55 @@
+Time: 08-03-2024 11:30:35 AM
+-----------------------------------------------------------
+Exception Details:
+Message: Column 'AirportID' does not belong to table .
+StackTrace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at AirportBL.ConvertDataTableToTransactionList(DataTable dt) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 198
+Source: System.Data
+TargetSite: System.Data.DataColumn GetDataColumn(System.String)
+-----------------------------------------------------------
+
+Time: 08-03-2024 11:30:35 AM
+-----------------------------------------------------------
+Exception Details:
+Message: Column 'AirportID' does not belong to table .
+StackTrace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at AirportBL.ConvertDataTableToTransactionList(DataTable dt) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 198
+Source: System.Data
+TargetSite: System.Data.DataColumn GetDataColumn(System.String)
+-----------------------------------------------------------
+
+Time: 08-03-2024 11:30:35 AM
+-----------------------------------------------------------
+Exception Details:
+Message: Column 'AirportID' does not belong to table .
+StackTrace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at AirportBL.ConvertDataTableToTransactionList(DataTable dt) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 198
+Source: System.Data
+TargetSite: System.Data.DataColumn GetDataColumn(System.String)
+-----------------------------------------------------------
+
+Time: 08-03-2024 11:30:35 AM
+-----------------------------------------------------------
+Exception Details:
+Message: Column 'AirportID' does not belong to table .
+StackTrace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at AirportBL.ConvertDataTableToTransactionList(DataTable dt) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 198
+Source: System.Data
+TargetSite: System.Data.DataColumn GetDataColumn(System.String)
+-----------------------------------------------------------
+
+Time: 08-03-2024 11:30:35 AM
+-----------------------------------------------------------
+Exception Details:
+Message: Column 'AirportID' does not belong to table .
+StackTrace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at AirportBL.ConvertDataTableToTransactionList(DataTable dt) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 198
+Source: System.Data
+TargetSite: System.Data.DataColumn GetDataColumn(System.String)
+-----------------------------------------------------------
+

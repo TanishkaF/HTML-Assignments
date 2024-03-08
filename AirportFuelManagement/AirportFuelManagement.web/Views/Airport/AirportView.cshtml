@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "AirportView";
+}
+
+<link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
+
+<h2>Airport Details</h2>
+
+@{
+    int airportDefaultPageIndex = AirportFuelManagement.UtilityLayer.AirportConstants.PageIndex;
+    int airportDefaultPageSize = AirportFuelManagement.UtilityLayer.AirportConstants.PageSize;
+    string airportDefaultSortExpression = AirportFuelManagement.UtilityLayer.AirportConstants.SortExpression;
+    string airportDefaultSortDirection = AirportFuelManagement.UtilityLayer.AirportConstants.SortDirection;
+}
+
+<input type="hidden" id="pageIndexAirportList" value="@airportDefaultPageIndex" />
+<input type="hidden" id="pageSizeAirportList" value="@airportDefaultPageSize" />
+<input type="hidden" id="sortExpressionAirportList" value="@airportDefaultSortExpression" />
+<input type="hidden" id="sortDirectionAirportList" value="@airportDefaultSortDirection" />
+
+<div class="table-container">
+    <div class="row">
+        <div class="col">
+            <table id="airportTable" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        @*<th><a href="#" class="sortable-header-airports" data-sort-expression="AirportUID">Sl No.</a></th>*@
+                        <th><a href="#" class="sortable-header-airports" data-sort-expression="AirportID">Airport ID</a></th>
+                        <th><a href="#" class="sortable-header-airports" data-sort-expression="AirportName">Airport Name</a></th>
+                        <th><a href="#" class="sortable-header-airports" data-sort-expression="FuelCapacity">Fuel Capacity</a></th>
+                        <th><a href="#" class="sortable-header-airports" data-sort-expression="FuelAvailable">Fuel Available</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+            <div class="page-numbers-container" id="paginationAirportList"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <button id="addAirportButton" class="btn btn-primary">Add Airport</button>
+        </div>
+    </div>
+    <div id="airportFormContainer" class="CustomFormContainer"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/airport-list.js"></script>
+<script src="~/Scripts/log-in.js"></script>

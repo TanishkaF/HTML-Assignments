@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between navbar-custom">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        @Html.ActionLink("Airport", "AirportView", "Airport", new { area = "" }, new { @class = "nav-link", id = "airport-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Aircraft", "AircraftView", "Aircraft", new { area = "" }, new { @class = "nav-link", id = "aircraft-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Transaction", "TransactionView", "Transaction", new { area = "" }, new { @class = "nav-link", id = "transaction-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Airport Fuel Summary", "AirportFuelView", "AirportFuel", new { area = "" }, new { @class = "nav-link", id = "airport-fuel-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Fuel Consumption Report", "GetFuelConsumptionReportView", "GetFuelConsumptionReport", new { area = "" }, new { @class = "nav-link", id = "fuel-consumption-report-link" })
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        @Html.ActionLink("LogOut", "LogOutView", "LogOut", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        @*<footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>*@
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

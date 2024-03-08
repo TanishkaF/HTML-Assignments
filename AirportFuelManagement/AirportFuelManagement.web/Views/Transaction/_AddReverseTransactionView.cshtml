@@ -1,0 +1,51 @@
+﻿@model AirportFuelManagement.ViewModel.AllViewModel.FuelTransaction
+
+
+<form id="reverseTransactionForm" class="transactionFormClass">
+    <div class="extra-padding">
+        <label for="TransactionType">Transaction Type:</label>
+        @*<input type="text" id="TransactionType" name="TransactionType" value="@Model.TransactionType" required />*@
+        <div class="radio-background">
+            <label style="display: inline-block; margin-right: 10px;">
+                <input type="radio" name="TransactionDirection" value="IN" @(Model.TransactionType == 1 ? "checked" : "")> IN
+            </label>
+            <label style="display: inline-block;">
+                <input type="radio" name="TransactionDirection" value="OUT" @(Model.TransactionType == 2 ? "checked" : "")> OUT
+            </label>
+        </div>
+    </div>
+
+
+    <div class="extra-padding">
+        <label for="AirportID">Airport Name:</label>
+        <input type="text" id="AirportID" name="AirportID" value="@Model.AirportID" readonly />
+    </div>
+
+    <div class="extra-padding">
+        <label for="AircraftID">Aircraft Name:</label>
+        <input type="text" id="AircraftID" name="AircraftID"  value="@Model.AircraftID" readonly  />
+    </div>
+
+    @*<div class="extra-padding">
+        <label for="AirportID">Airport Name:</label>
+        <select id="AirportID" name="AirportID" value="@Model.AirportID" readonly></select>
+    </div>
+    <div class="extra-padding">
+        <label for="AircraftID">Aircraft Name:</label>
+        <select id="AircraftID" name="AircraftID" value="@Model.AircraftID" readonly></select>
+    </div>*@
+
+    <div class="extra-padding">
+        <label for="Quantity">Quantity:</label>
+        <input type="number" id="Quantity" name="Quantity" value="@Model.Quantity" readonly />
+    </div>
+    <div class="extra-padding">
+        <label for="TransactionID">Transaction ID:</label>
+        <input type="text" id="TransactionID" name="TransactionID" value="@Model.TransactionID" readonly />
+
+    </div>
+    <div class="extra-padding">
+        <button type="submit" id="submitReverseTransactionButton">Submit</button>
+    </div>
+</form>
+<script src="~/Scripts/transaction-list.js"></script>

@@ -1,0 +1,54 @@
+﻿@model List<AirportFuelManagement.ViewModel.AllViewModel.FuelConsumptionReportItem>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuel Consumption Report</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/FuelConsumptionReport.css" rel="stylesheet" />
+    <link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+
+    <h2>Fuel Consumption Report</h2>
+
+    @foreach (var item in Model)
+    {
+        <div class="report-section">
+            <h3>Airport: @item.AirportName</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Date/time</th>
+                            <th>Type</th>
+                            <th>Fuel</th>
+                            <th>Aircraft</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in item.Transactions)
+                        {
+                            <tr>
+                                <td>@transaction.DateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@transaction.Type</td>
+                                <td>@transaction.Fuel</td>
+                                <td>@transaction.Aircraft</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <p>Fuel Available: @item.FuelAvailable</p>
+        </div>
+    }
+
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ExportFuelConsumptionReportToPDF", "ExportToPDF")'">Export to PDF</button>
+
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/log-in.js"></script>

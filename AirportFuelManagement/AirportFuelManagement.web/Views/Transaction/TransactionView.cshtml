@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "TransactionView";
+}
+
+<link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
+
+<h2>Transaction List</h2>
+
+@{
+    int TransactionDefaultPageIndex = AirportFuelManagement.UtilityLayer.TransactionConstants.PageIndex;
+    int TransactionDefaultPageSize = AirportFuelManagement.UtilityLayer.TransactionConstants.PageSize;
+    string TransactionDefaultSortExpression = AirportFuelManagement.UtilityLayer.TransactionConstants.SortExpression;
+    string TransactionDefaultSortDirection = AirportFuelManagement.UtilityLayer.TransactionConstants.SortDirection;
+}
+
+<input type="hidden" id="pageIndexTransactionList" value="@TransactionDefaultPageIndex" />
+<input type="hidden" id="pageSizeTransactionList" value="@TransactionDefaultPageSize" />
+<input type="hidden" id="sortExpressionTransactionList" value="@TransactionDefaultSortExpression" />
+<input type="hidden" id="sortDirectionTransactionList" value="@TransactionDefaultSortDirection" />
+
+<div class="table-container">
+    <div class="row">
+        <div class="col">
+            <table id="TransactionTable" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="TransactionID">Transaction ID</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="TimeStamp">Created Date</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="TransactionType">Transaction Type</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="AirportName">Airport Name</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="AircraftID">Aircraft Name</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="Quantity">Quantity</a></th>
+                        <th><a href="#" class="sortable-header-fuel-transaction" data-sort-expression="TransactionIDParent">Parent ID</a></th>
+                        <th>Reverse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+            <div class="page-numbers-container" id="paginationFuelTransactionList"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <button id="removeAllTransactionsButton"  class="btn btn-primary">Remove All Transaction</button>
+            <button id="addTransactionButton"  class="btn btn-primary">Add New Transaction</button>
+        </div>
+    </div>
+    <div id="transactionFormContainer"  class="CustomFormContainer"></div>
+    <div id="addReverseTransactionFormContainer"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/transaction-list.js"></script>
+<script src="~/Scripts/log-in.js"></script>

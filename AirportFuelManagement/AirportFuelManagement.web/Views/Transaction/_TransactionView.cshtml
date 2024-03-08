@@ -1,0 +1,46 @@
+﻿@model AirportFuelManagement.ViewModel.AllViewModel.FuelTransaction
+
+<link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
+
+<form id="transactionForm" class="transactionFormClass">
+
+    <div class="form-group">
+        <label for="TransactionType">Transaction Type:</label>
+        <div class="radio-background">
+            <label style="display: inline-block; margin-right: 10px;"><input type="radio" name="TransactionDirection" value="IN"> IN</label>
+            <label style="display: inline-block;"><input type="radio" name="TransactionDirection" value="OUT"> OUT</label>
+        </div>
+    </div>
+
+    @*<div class="form-row">
+        <div class="form-group">
+            <label for="Source">Source:</label>
+            <select type="text" id="Source" name="Source" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="Destination">Destination:</label>
+            <select type="text" id="Destination" name="Destination" class="form-control" />
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <label for="AirportID">Airport Name:</label>
+        <select id="AirportID" name="AirportID" class="form-control" required></select>
+    </div>
+
+    <div class="form-group">
+        <label for="AircraftID">Aircraft Name:</label>
+        <select id="AircraftID" name="AircraftID" class="form-control" required></select>
+    </div>
+
+    <div class="form-group">
+        <label for="Quantity">Quantity:</label>
+        <input type="number" id="Quantity" name="Quantity" placeholder="0 (In Litre)" required />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" id="submitTransactionButton">Submit</button>
+    </div>
+
+</form>
+<script src="~/Scripts/transaction-list.js"></script>

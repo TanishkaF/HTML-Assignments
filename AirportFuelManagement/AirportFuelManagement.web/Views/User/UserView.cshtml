@@ -1,0 +1,41 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Sign Up</title>
+    <link href="~/Content/LogInStyleSheet.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>Register Yourself</h2>
+        <form id="userForm" method="post">
+            <div>
+                <label for="Name">Name:</label>
+                <input type="text" id="Name" name="Name" />
+            </div>
+            <div>
+                <label for="EmailID">Email:</label>
+                <input type="email" id="EmailID" name="EmailID" />
+                <label id="lblEmailError" />
+            </div>
+            <div>
+                <label for="Password">Password:</label>
+                <input type="password" id="Password" name="Password" />
+            </div>
+            <div  class="button-container">
+                <button type="button" id="resetForm">Reset</button>
+                <button type="button" id="addUser">Add</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/user.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+﻿@model List<AirportFuelManagement.ViewModel.AllViewModel.AirportFuelSummary>
+
+<link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
+
+<h2>Airport Summary Report</h2>
+
+@{
+    int airportFuelSummaryDefaultPageIndex = AirportFuelManagement.UtilityLayer.AirportFuelConstants.PageIndex;
+    int airportFuelSummaryDefaultPageSize = AirportFuelManagement.UtilityLayer.AirportFuelConstants.PageSize;
+    string airportFuelSummaryDeafultSortExpression = AirportFuelManagement.UtilityLayer.AirportFuelConstants.SortExpression;
+    string airportFuelSummaryDefaultSortDirection = AirportFuelManagement.UtilityLayer.AirportFuelConstants.SortDirection;
+}
+
+<input type="hidden" id="pageIndexAirportFuelList" value="@airportFuelSummaryDefaultPageIndex" />
+<input type="hidden" id="pageSizeAirportFuelList" value="@airportFuelSummaryDefaultPageSize" />
+<input type="hidden" id="sortExpressionAirportFuelList" value="@airportFuelSummaryDeafultSortExpression" />
+<input type="hidden" id="sortDirectionAirportFuelList" value="@airportFuelSummaryDefaultSortDirection" />
+
+<div class="table-container">
+    <div class="row">
+        <div class="col">
+            <table id="airportFuelTable" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><a href="#" class="sortable-header-airportFuels" data-sort-expression="Airport">Airport</a></th>
+                        <th><a href="#" class="sortable-header-airportFuels" data-sort-expression="FuelAvailable">Fuel Available</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+            <div class="page-numbers-container" id="paginationAirportFuelList"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ExportAirportFuelConsumptionReportToPDF", "ExportToPDF")'">Export to PDF</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/airport-fuel-summary.js"></script>
+<script src="~/Scripts/log-in.js"></script>

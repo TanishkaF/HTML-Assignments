@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "AircraftView";
+}
+
+<link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
+<link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+<h2>Aircraft Details</h2>
+
+@{
+    int aircraftDefaultPageIndex = AirportFuelManagement.UtilityLayer.AircraftConstants.PageIndex;
+    int aircraftDefaultPageSize = AirportFuelManagement.UtilityLayer.AircraftConstants.PageSize;
+    string aircraftDefaultSortExpression = AirportFuelManagement.UtilityLayer.AircraftConstants.SortExpression;
+    string aircraftDefaultSortDirection = AirportFuelManagement.UtilityLayer.AircraftConstants.SortDirection;
+}
+
+
+<input type="hidden" id="pageIndexAircraftList" value="@aircraftDefaultPageIndex" />
+<input type="hidden" id="pageSizeAircraftList" value="@aircraftDefaultPageSize" />
+<input type="hidden" id="sortExpressionAircraftList" value="@aircraftDefaultSortExpression" />
+<input type="hidden" id="sortDirectionAircraftList" value="@aircraftDefaultSortDirection" />
+
+<div class="table-container">
+    <div class="row">
+        <div class="col">
+            <table id="aircraftTable" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        @*<th><a href="#" class="sortable-header-aircrafts" data-sort-expression="AircraftUID">Sl No.</a></th>*@
+                        <th><a href="#" class="sortable-header-aircrafts" data-sort-expression="AircraftID">Aircraft ID</a></th>
+                        <th><a href="#" class="sortable-header-aircrafts" data-sort-expression="AircraftNumber">Aircraft Number</a></th>
+                        <th><a href="#" class="sortable-header-aircrafts" data-sort-expression="AirLine">AirLine</a></th>
+                        <th><a href="#" class="sortable-header-aircrafts" data-sort-expression="Source">Source</a></th>
+                        <th><a href="#" class="sortable-header-aircrafts" data-sort-expression="Destination">Destination</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated dynamically -->
+                </tbody>
+            </table>
+            <div class="page-numbers-container" id="paginationAircraftList"></div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <button id="addAircraftButton" class="btn btn-primary">Add Aircraft</button>
+        </div>
+    </div>
+    <div id="aircraftFormContainer" class="CustomFormContainer"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/aircraft-list.js"></script>
+<script src="~/Scripts/log-in.js"></script>

@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFuelManagement.web", "AirportFuelManagement.web.csproj", "{8A8BA8ED-CB28-451C-AC70-E39DEB8F6F2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFuelManagement.BusinessLayer", "..\AirportFuelManagement.BusinessLayer\AirportFuelManagement.BusinessLayer.csproj", "{7C165AB3-897B-4A68-9716-2EEE189D57A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFuelManagement.DataAccessLayer", "..\AirportFuelManagement.DataAccessLayer\AirportFuelManagement.DataAccessLayer.csproj", "{1F466016-875F-4C76-AC54-37282AFFAE78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFuelManagement.UtilityLayer", "..\AirportFuelManagement.UtilityLayer\AirportFuelManagement.UtilityLayer.csproj", "{D299D071-B9B6-406F-B331-AB1C4CAFF4B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirportFuelManagement.ViewModel", "..\AirportFuelManagement.ViewModel\AirportFuelManagement.ViewModel.csproj", "{C508F0B9-D02F-45CE-B052-6203B200BD70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A8BA8ED-CB28-451C-AC70-E39DEB8F6F2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8BA8ED-CB28-451C-AC70-E39DEB8F6F2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8BA8ED-CB28-451C-AC70-E39DEB8F6F2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8BA8ED-CB28-451C-AC70-E39DEB8F6F2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C165AB3-897B-4A68-9716-2EEE189D57A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C165AB3-897B-4A68-9716-2EEE189D57A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C165AB3-897B-4A68-9716-2EEE189D57A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C165AB3-897B-4A68-9716-2EEE189D57A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F466016-875F-4C76-AC54-37282AFFAE78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F466016-875F-4C76-AC54-37282AFFAE78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F466016-875F-4C76-AC54-37282AFFAE78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F466016-875F-4C76-AC54-37282AFFAE78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D299D071-B9B6-406F-B331-AB1C4CAFF4B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D299D071-B9B6-406F-B331-AB1C4CAFF4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D299D071-B9B6-406F-B331-AB1C4CAFF4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D299D071-B9B6-406F-B331-AB1C4CAFF4B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C508F0B9-D02F-45CE-B052-6203B200BD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C508F0B9-D02F-45CE-B052-6203B200BD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C508F0B9-D02F-45CE-B052-6203B200BD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C508F0B9-D02F-45CE-B052-6203B200BD70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B55C36A1-04AD-4D89-AD5E-13C92B6BC867}
+	EndGlobalSection
+EndGlobal

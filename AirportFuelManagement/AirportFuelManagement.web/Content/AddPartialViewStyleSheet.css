@@ -1,0 +1,118 @@
+﻿a {
+    padding-right: 10px;
+}
+
+
+.extra-padding {
+    margin: 10px;
+}
+
+.radio-background {
+    width: 85%;
+    background-color: white;
+    padding: 8px; /* Adjust padding as needed */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+.extra-padding select {
+    width: 450px;
+    background-color: white;
+    border: none;
+    height: 40px;
+}
+
+.error-message {
+    position: absolute;
+    margin: 3px;
+    color: white;
+    border: 1px solid red;
+    background-color: #D24545;
+}
+
+
+#aircraftForm,
+#airportForm,
+.transactionFormClass {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+    #aircraftForm .form-group,
+    #airportForm .form-group,
+    .transactionFormClass .form-group {
+        margin-bottom: 35px;
+    }
+
+    #aircraftForm label,
+    #airportForm label,
+    .transactionFormClass label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-size: large;
+        color: darkcyan;
+    }
+
+    #aircraftForm input[type="text"],
+    #airportForm input[type="text"],
+    .transactionFormClass input[type="text"],
+    .transactionFormClass input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /*#aircraftForm input[type="select"],
+    .transactionFormClass input[type="select"]
+    {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }*/
+
+    #aircraftForm select,
+    .transactionFormClass select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+
+    #aircraftForm button,
+    #airportForm button,
+    .transactionFormClass button {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        #aircraftForm button:hover,
+        #airportForm button:hover,
+        .transactionFormClass button:hover {
+            background-color: #45a049;
+        }
+
+#removeAllTransactionsButton{
+    background-color: darkred;
+    color: white;
+    border: none;
+}
+
+#addTransactionButton{
+    background-color: green;
+}
