@@ -66,7 +66,7 @@ function getAirports(airportDropdownId) {
             $('#' + airportDropdownId).trigger('change');
         },
         error: function (xhr, status, error) {
-            console.error('Error fetching airports:', error);
+         //   console.error('Error fetching airports:', error);
         }
     });
 }

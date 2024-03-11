@@ -36,7 +36,7 @@ function renderAirportFuelPagination(currentPageIndex, totalPages) {
             if (i === currentPageIndex) {
                 pageLink.addClass("active");
             }
-            console.log("Generated pagination link:", pageLink); // Log the generated pagination link
+         //   console.log("Generated pagination link:", pageLink); // Log the generated pagination link
             $("#paginationAirportFuelList").append(pageLink);
         }
     }

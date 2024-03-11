@@ -111,7 +111,6 @@ namespace AirportFuelManagement.DataAccessLayer
             catch (Exception ex)
             {
                 Logger.AddData(ex);
-                Console.WriteLine("Error: " + ex.Message);
                 return false;
             }
         }

@@ -1,9 +1,106 @@
 ﻿$(document).ready(function () {
 
+    $("#submitTransactionButton").click(function (event) {
+
+        if (validateTransactionAdd) {
+
+            var transactionDirection = $("input[name='TransactionDirection']:checked").val();
+
+            var transactionType;
+            if (transactionDirection === "IN") {
+                transactionType = 1;
+            } else if (transactionDirection === "OUT") {
+                transactionType = 2;
+            }
+
+            var transactionData = {
+                TransactionType: transactionType,
+                AirportID: $("#AirportID").val(),
+                AircraftID: $("#AircraftID").val(),
+                Quantity: $("#Quantity").val(),
+            };
+
+            $.ajax({
+                url: '/Transaction/AddTransaction',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(transactionData),
+                success: function (response) {
+                    if (response && response.hasOwnProperty('success')) {
+                        if (response.success) {
+                            $('#transactionForm')[0].reset();
+                            loadTransactionForm(1);
+                            alert('Success to add transaction');
+                        } else {
+                            alert('Failed to add transaction: ' + response.message);
+                        }
+                    } else {
+                        alert('Invalid response received from the server.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error occurred while adding transaction: ' + error);
+                }
+            });
+        }
+        return false;
+
+    });
+
+    $('#submitReverseTransactionButton').click(function (event) {
+
+        if (validateTransactionAdd) {
+
+            var transactionIDParent = $('#TransactionID').val();
+            var transactionDirection = $("input[name='TransactionDirection']:checked").val();
+
+            var transactionType;
+            if (transactionDirection === "IN") {
+                transactionType = 1;
+            } else if (transactionDirection === "OUT") {
+                transactionType = 2;
+            }
+
+            var transactionData = {
+                TransactionType: transactionType,
+                AirportID: $('#AirportID').val(),
+                AircraftID: $('#AircraftID').val(),
+                Quantity: $('#Quantity').val(),
+                TransactionIDParent: transactionIDParent
+            };
+
+            $.ajax({
+                url: '/Transaction/AddTransaction',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(transactionData),
+                success: function (response) {
+                    if (response && response.hasOwnProperty('success')) {
+                        if (response.success) {
+                            ///  $("#reverseTransactionForm")[0].reset();
+                            loadReverseTransactionForm(1);
+                            alert('Failed to add transaction: ' + response.message);
+                        } else {
+                            alert('Failed to add transaction: ' + response.message);
+                        }
+                    } else {
+                        alert('Invalid response received from the server.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error occurred while adding transaction: ' + error);
+                }
+            });
+        }
+        return false;
+    });
+
     getAirports('AirportID');
     getAircrafts('AircraftID');   
 
     loadFuelTransactionList();
+
+    
 });
 
 function getAirports(airportDropdownId) {
@@ -26,7 +123,7 @@ function getAirports(airportDropdownId) {
             $('#' + airportDropdownId).trigger('change');
         },
         error: function (xhr, status, error) {
-            console.error('Error fetching airports:', error);
+          //  console.error('Error fetching airports:', error);
         }
     });
 }
@@ -38,12 +135,10 @@ function getAircrafts(aircraftDropdownId) {
         dataType: 'json',
         success: function (data) {
             $('#' + aircraftDropdownId).empty();
-            // Add default option
             $('#' + aircraftDropdownId).append($('<option>', {
                 value: '',
                 text: 'Choose Aircraft name'
             }));
-            // Populate dropdown with fetched data
             $.each(data, function (index, aircraft) {
                 $('#' + aircraftDropdownId).append($('<option>', {
                     value: aircraft.AircraftID,
@@ -77,7 +172,6 @@ $("#removeAllTransactionsButton").click(function () {
             if (response.success) {
                 alert('All transactions removed successfully.');
                 loadFuelTransactionList();
-                // Optionally, you can update the UI or reload data after successful removal
             } else {
                 alert('Failed to remove transactions. Please try again later.');
             }
@@ -87,7 +181,6 @@ $("#removeAllTransactionsButton").click(function () {
         }
     });
 });
-
 
 function toggleTransactionFormDisplay(reverseFormVisible) {
     var addReverseTransactionFormContainer = document.getElementById("addReverseTransactionFormContainer");
@@ -101,99 +194,6 @@ function toggleTransactionFormDisplay(reverseFormVisible) {
         transactionFormContainer.style.display = "block";
     }
 }
-
-$("#submitTransactionButton").click(function (event) {
-
-    if (validateTransactionAdd) {
-
-        var transactionDirection = $("input[name='TransactionDirection']:checked").val();
-
-        var transactionType;
-        if (transactionDirection === "IN") {
-            transactionType = 1;
-        } else if (transactionDirection === "OUT") {
-            transactionType = 2;
-        }
-
-        var transactionData = {
-            TransactionType: transactionType,
-            AirportID: $("#AirportID").val(),
-            AircraftID: $("#AircraftID").val(),
-            Quantity: $("#Quantity").val(),
-        };
-
-        $.ajax({
-            url: '/Transaction/AddTransaction',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(transactionData),
-            success: function (response) {
-                if (response && response.hasOwnProperty('success')) {
-                    if (response.success) {
-                        $('#transactionForm')[0].reset();
-                        loadTransactionForm(1);
-                    } else {
-                        alert('Failed to add transaction: ' + response.message);
-                    }
-                } else {
-                    alert('Invalid response received from the server.');
-                }
-            },
-            error: function (xhr, status, error) {
-                alert('Error occurred while adding transaction: ' + error);
-            }
-        });
-    }
-        return false;
-
-});
-
-$('#submitReverseTransactionButton').click(function (event) {
-
-    if (validateTransactionAdd) {
-
-        var transactionIDParent = $('#TransactionID').val();
-        var transactionDirection = $("input[name='TransactionDirection']:checked").val();
-
-        var transactionType;
-        if (transactionDirection === "IN") {
-            transactionType = 1;
-        } else if (transactionDirection === "OUT") {
-            transactionType = 2;
-        }
-
-        var transactionData = {
-            TransactionType: transactionType,
-            AirportID: $('#AirportID').val(),
-            AircraftID: $('#AircraftID').val(),
-            Quantity: $('#Quantity').val(),
-            TransactionIDParent: transactionIDParent
-        };
-
-        $.ajax({
-            url: '/Transaction/AddTransaction',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(transactionData),
-            success: function (response) {
-                if (response && response.hasOwnProperty('success')) {
-                    if (response.success) {
-                        ///  $("#reverseTransactionForm")[0].reset();
-                        loadReverseTransactionForm(1);
-                    } else {
-                        alert('Failed to add transaction: ' + response.message);
-                    }
-                } else {
-                    alert('Invalid response received from the server.');
-                }
-            },
-            error: function (xhr, status, error) {
-                alert('Error occurred while adding transaction: ' + error);
-            }
-        });
-    }
-    return false;
-});
 
 $(document).on("click", ".page-numbers", function () {
     var pageIndex = $(this).data("page-index");
@@ -279,7 +279,7 @@ function loadFuelTransactionList(pageIndex = $("#pageIndexTransactionList").val(
 
 function formatDate(timestamp) {
     var date = new Date(parseInt(timestamp.substr(6)));
-    return date.toLocaleString(); // Adjust the date format as needed
+    return date.toLocaleString(); 
 }
 
 function renderPagination(currentPageIndex, totalPages) {
@@ -291,7 +291,7 @@ function renderPagination(currentPageIndex, totalPages) {
             if (i === currentPageIndex) {
                 pageLink.addClass("active");
             }
-            console.log("Generated pagination link:", pageLink); // Log the generated pagination link
+           // console.log("Generated pagination link:", pageLink); 
             $("#paginationFuelTransactionList").append(pageLink);
         }
     }
