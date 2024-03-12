@@ -9,15 +9,14 @@ namespace AirportFuelManagement.ViewModel
         {
             public string AirportName { get; set; }
             public decimal FuelAvailable { get; set; }
-
-            public decimal FuelTotal { get; set;}
+            public decimal FuelTotal { get; set; }
         }
 
         public class User
         {
-            public int UserID { get; set; }
+            public int UserId { get; set; }
             public string Name { get; set; }
-            public string EmailID { get; set; }
+            public string EmailId { get; set; }
             public string Password { get; set; }
         }
 
@@ -33,14 +32,14 @@ namespace AirportFuelManagement.ViewModel
         public class FuelConsumptionReportItem
         {
             public string AirportName { get; set; }
-            public string  AirportID { get; set; }
+            public string AirportId { get; set; }
             public List<FuelTransactionItem> Transactions { get; set; }
             public decimal FuelAvailable { get; set; }
         }
 
         public class FuelTransactionItem
         {
-            public DateTime DateTime { get; set; }
+            public DateTime CreatedDateTime { get; set; }
             public string Type { get; set; }
             public decimal Fuel { get; set; }
             public string Aircraft { get; set; }
@@ -74,11 +73,5 @@ namespace AirportFuelManagement.ViewModel
             public int UserID { get; set; }
             public bool IsAdmin { get; set; }
         }
-
-        public struct TransactionType
-        {
-            public const int In = 1;
-            public const int Out = 2;
-        }  
     }
 }

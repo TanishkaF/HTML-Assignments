@@ -4,17 +4,17 @@
     <div class="form-row">
         <div class="form-group">
             <label for="AircraftID">Aircraft ID:</label>
-            <input type="text" id="AircraftID" name="AircraftID" placeholder="Please Enter Aircraft ID" class="form-control" />
+            <input type="text" id="AircraftID" name="AircraftID" placeholder="Please Enter Aircraft ID" class="form-control"  value="@Model.AircraftID" @(Model.AircraftID != null ? "readonly" : "") />
         </div>
         <div class="form-group">
             <label for="AircraftNumber">Aircraft Number:</label>
-            <input type="text" id="AircraftNumber" name="AircraftNumber" placeholder=" Please Enter Aircraft Number" class="form-control" />
+            <input type="text" id="AircraftNumber" name="AircraftNumber" placeholder=" Please Enter Aircraft Number" class="form-control" value="@Model.AircraftNumber" />
         </div>
     </div>
 
     <div class="form-group">
         <label for="AirLine">Airline:</label>
-        <input type="text" id="AirLine" name="AirLine" placeholder="Please Enter Airline" class="form-control" />
+        <input type="text" id="AirLine" name="AirLine" placeholder="Please Enter Airline" class="form-control" value="@Model.AirLine" />
     </div>
 
     <div class="form-row">
@@ -22,6 +22,7 @@
             <label for="Source">Source:</label>
             <select type="text" id="Source" name="Source" class="form-control" />
         </div>
+
         <div class="form-group">
             <label for="Destination">Destination:</label>
             <select type="text" id="Destination" name="Destination" class="form-control" />

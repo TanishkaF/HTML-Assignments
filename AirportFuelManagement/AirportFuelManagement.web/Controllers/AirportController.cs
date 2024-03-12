@@ -22,7 +22,15 @@ namespace AirportFuelManagement.Controllers
         [HttpGet]
         public ActionResult AddAirportForm()
         {
-            return PartialView("_AddAirportFormView");
+            var newAirport = new AllViewModel.Airport();
+            return PartialView("_AddAirportFormView",newAirport);
+        }
+
+        [HttpPost]
+        public ActionResult AddAirportForm(string airportID)
+        {
+            var airport = AirportBL.GetAirportById(airportID);
+            return PartialView("_AddAirportFormView", airport);
         }
 
         [HttpPost]
@@ -37,6 +45,26 @@ namespace AirportFuelManagement.Controllers
                 else
                 {
                     return Json(new { success = false, message = "Failed to add airport. Please try again." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }        
+        
+        [HttpPost]
+        public ActionResult UpdateAirport(AllViewModel.Airport airport)
+        {
+            try
+            {
+                if (AirportBL.UpdateAirport(airport))
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Failed to update airport. Please try again." });
                 }
             }
             catch (Exception ex)

@@ -18,10 +18,30 @@ namespace AircraftFuelManagement.Controllers
             return View();
         }
 
+
         [HttpGet]
         public ActionResult AddAircraftForm()
         {
-            return PartialView("_AddAircraftFormView");
+            var newAircraft = new AirportFuelManagement.ViewModel.AllViewModel.Aircraft();
+            return PartialView("_AddAircraftFormView", newAircraft);
+        }
+
+        //[HttpPost]
+        //public ActionResult AddAircraftForm(string aircraftID)
+        //{
+        //    var aircraft = AirportBL.GetAircraftById(aircraftID);
+        //    return PartialView("_AddAircraftFormView", aircraft);
+        //}
+
+
+        [HttpPost]
+        public ActionResult AddAircraftForm(string aircraftID)
+        {
+            var aircraft = AirportBL.GetAircraftById(aircraftID);
+            var airports = AirportBL.GetAirportList();
+            ViewBag.AvailableAirports = new SelectList(airports, "AirportID", "AirportName", aircraft);
+         //  return Json(aircraft, JsonRequestBehavior.AllowGet);
+          return PartialView("_AddAircraftFormView", aircraft);
         }
 
         [HttpPost]
@@ -36,6 +56,26 @@ namespace AircraftFuelManagement.Controllers
                 else
                 {
                     return Json(new { success = false, message = "Failed to add aircraft. Please try again." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateAircraft(AllViewModel.Aircraft aircraft)
+        {
+            try
+            {
+                if (AirportBL.UpdateAircraft(aircraft))
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Failed to update aircraft. Please try again." });
                 }
             }
             catch (Exception ex)

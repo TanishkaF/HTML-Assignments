@@ -1,10 +1,27 @@
 ﻿$(document).ready(function () {
 
     loadAircraftList();
+
     getAirports('Source');
     getAirports('Destination');
 
     $("#submitAircraft").click(function () {
+
+        var aircraftID = $("#AircraftID").val();
+        var isReadOnly = $("#AircraftID").prop("readonly");
+
+        if (isReadOnly) {
+            updateAircraft(aircraftID);
+        } else {
+            insertAircraft();
+        }
+
+        return false;
+    });
+
+});
+
+function insertAircraft() {
         if (validateAircraftAdd()) {
             var aircraftData = {
                 AircraftID: $("#AircraftID").val(),
@@ -28,6 +45,7 @@
                             $("#Source").val("");
                             $("#Destination").val("");
                             loadAircraftList();
+                            $('#aircraftFormContainer').hide();
                             alert('Successfully added aircraft.');
                         } else {
                             alert('Failed to add aircraft: ' + response.message);
@@ -42,9 +60,48 @@
             });
         }
 
-    });
+}
 
-});
+function updateAircraft() {
+        if (validateAircraftAdd()) {
+            var aircraftData = {
+                AircraftID: $("#AircraftID").val(),
+                AircraftNumber: $("#AircraftNumber").val(),
+                AirLine: $("#AirLine").val(),
+                Source: $("#Source").val(),
+                Destination: $("#Destination").val()
+            };
+
+            $.ajax({
+                url: '/Aircraft/UpdateAircraft',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(aircraftData),
+                success: function (response) {
+                    if (response && response.hasOwnProperty('success')) {
+                        if (response.success) {
+                            $("#AircraftID").val("");
+                            $("#AircraftNumber").val("");
+                            $("#AirLine").val("");
+                            $("#Source").val("");
+                            $("#Destination").val("");
+                            loadAircraftList();
+                            $('#aircraftFormContainer').hide();
+                            alert('Successfully updated aircraft.');
+                        } else {
+                            alert('Failed to update aircraft: ' + response.message);
+                        }
+                    } else {
+                        alert('Invalid response received from the server.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error occurred while adding aircraft: ' + error);
+                }
+            });
+        }
+
+}
 
 function getAirports(airportDropdownId) {
     $.ajax({
@@ -79,6 +136,7 @@ function loadAircraftList(pageIndex = $("#pageIndexAircraftList").val(), pageSiz
         success: function (data) {
             $("#aircraftTable tbody").empty();
             $.each(data.Aircrafts, function (index, item) {
+                var editButton = '<button class="btn btn-secondary edit-aircraft" data-aircraft-id="' + item.AircraftID + '">Edit</button>';
                 $('#aircraftTable tbody').append(
                     '<tr>' +
                     //'<td>' + item.AircraftUID + '</td>' + 
@@ -87,6 +145,7 @@ function loadAircraftList(pageIndex = $("#pageIndexAircraftList").val(), pageSiz
                     '<td>' + item.AirLine + '</td>' +
                     '<td>' + item.Source + '</td>' +
                     '<td>' + item.Destination + '</td>' +
+                    '<td>' + editButton + '</td>' + 
                     '</tr>'
                 );
             });
@@ -95,6 +154,42 @@ function loadAircraftList(pageIndex = $("#pageIndexAircraftList").val(), pageSiz
         error: function () {
             alert("Error occurred while retrieving aircrafts.");
         }
+    });
+}
+
+$(document).on('click', '.edit-aircraft', function () {
+    var aircraftID = $(this).data('aircraft-id');
+    $.ajax({
+        url: '/Aircraft/AddAircraftForm',
+        type: 'POST',
+        data: { aircraftID: aircraftID },
+        success: function (response) {            
+            $('#aircraftFormContainer').html(response);
+            populateSourceDropdown(response.Source);
+        },
+        error: function (xhr, status, error) {
+            alert('Error occurred while loading aircraft form: ' + error);
+        }
+    });
+});
+
+function populateSourceDropdown(selectedValue) {
+    var sourceDropdown = $('#Source');
+    sourceDropdown.empty();
+    $.each(sourceData, function (index, airport) {
+        var option = $('<option></option>').attr('value', airport.AirportID).text(airport.AirportName);
+        if (airport.AirportID === selectedValue) {
+            option.prop('selected', true);
+        }
+        sourceDropdown.append(option);
+    });
+}
+
+function populateDestinationDropdown(destinationData) {
+    var destinationDropdown = $('#Destination');
+    destinationDropdown.empty();
+    $.each(destinationData, function (key, value) {
+        destinationDropdown.append($('<option></option>').attr('value', key).text(value));
     });
 }
 
@@ -137,7 +232,6 @@ $(document).on("click", ".sortable-header-aircrafts", function () {
 });
 
 $("#addAircraftButton").click(function () {
-
     $.ajax({
         url: '/Aircraft/AddAircraftForm',
         type: 'GET',

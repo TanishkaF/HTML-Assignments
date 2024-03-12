@@ -5,6 +5,12 @@
 <link href="~/Content/TableViewStyleSheet.css" rel="stylesheet" />
 <link href="~/Content/AddPartialViewStyleSheet.css" rel="stylesheet" />
 
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.SuccessMessage
+    </div>
+}
+
 <h2>Transaction List</h2>
 
 @{
@@ -43,12 +49,17 @@
         </div>
     </div>
     <div class="row mt-4">
-        <div class="col">
-            <button id="removeAllTransactionsButton"  class="btn btn-primary">Remove All Transaction</button>
-            <button id="addTransactionButton"  class="btn btn-primary">Add New Transaction</button>
+        <div class="col-4">
+            @*<button id="removeAllTransactionsButton"  class="btn btn-primary">Remove All Transaction</button>*@
+            <form id="removeAllTransactionsForm" action="/Transaction/RemoveAllTransactions" method="post">
+                <button type="submit" class="btn btn-primary">Remove All Transactions</button>
+            </form>
+        </div>
+        <div class="col-4">
+            <button id="addTransactionButton" class="btn btn-primary">Add New Transaction</button>
         </div>
     </div>
-    <div id="transactionFormContainer"  class="CustomFormContainer"></div>
+    <div id="transactionFormContainer" class="CustomFormContainer"></div>
     <div id="addReverseTransactionFormContainer"></div>
 </div>
 

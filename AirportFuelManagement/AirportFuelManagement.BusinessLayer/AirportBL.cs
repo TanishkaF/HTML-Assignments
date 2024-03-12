@@ -20,7 +20,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return null;
         }
     }
@@ -37,7 +37,24 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
+            return false;
+        }
+    } 
+    
+    public static bool UpdateAirport(AllViewModel.Airport airport)
+    {
+        try
+        {
+            if (AirportDAL.UpdateAirport(airport))
+            {
+                return true;
+            }
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Logger.AddLogException(ex);
             return false;
         }
     }
@@ -52,7 +69,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return null;
         }
     } 
@@ -65,9 +82,14 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return -1;
         }
+    }
+
+    public static AllViewModel.Airport GetAirportById(string airportId)
+    {
+        return AirportDAL.GetAirportById(airportId);
     }
 
     public static List<AllViewModel.Aircraft> GetAircraftList()
@@ -82,7 +104,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return null;
         }
     }
@@ -100,7 +122,24 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
+            return false;
+        }
+    }
+
+    public static bool UpdateAircraft(AllViewModel.Aircraft aircraft)
+    {
+        try
+        {
+            if (AirportDAL.UpdateAircraft(aircraft))
+            {
+                return true;
+            }
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Logger.AddLogException(ex);
             return false;
         }
     }
@@ -115,9 +154,14 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return null;
         }
+    }
+
+    public static AllViewModel.Aircraft GetAircraftById(string aircraftId)
+    {
+        return AirportDAL.GetAircraftById(aircraftId);
     }
 
     public static int GetTotalAircraftCount()
@@ -128,7 +172,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return -1;
         }
     }
@@ -144,7 +188,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return new List<AllViewModel.FuelTransaction>();
         }
     }
@@ -161,7 +205,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return false;
         }
     }
@@ -179,7 +223,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return -1;
         }
     }
@@ -192,7 +236,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             return false;
         }
     }
@@ -205,7 +249,7 @@ public class AirportBL
         }
         catch (Exception ex)
         {
-            Logger.AddData(ex);
+            Logger.AddLogException(ex);
             throw;
         }
     }
@@ -244,7 +288,7 @@ internal static class DataTableExtensions
                     }
                     catch (Exception ex)
                     {
-                        Logger.AddData(ex);
+                        Logger.AddLogException(ex);
                     }
                 }
             }
@@ -299,7 +343,7 @@ internal static class DataTableExtensions
 //        }
 //        catch (Exception ex)
 //        {
-//            Logger.AddData(ex);
+//            Logger.AddLogException(ex);
 //        }
 //    }
 

@@ -28,7 +28,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return null;
             }
         }
@@ -55,7 +55,51 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
+                return false;
+            }
+        }
+
+        public static bool UpdateAirport(AllViewModel.Airport viewModelAirport)
+        {
+            try
+            {
+                using (var context = new AirportDBEntities())
+                {
+                    var dbAirport = context.Airports.FirstOrDefault(a => a.AirportID == viewModelAirport.AirportID);
+
+                    if (dbAirport != null)
+                    {
+                        dbAirport.AirportName = viewModelAirport.AirportName;
+                        dbAirport.FuelCapacity = viewModelAirport.FuelCapacity;
+                        var fuelAvailable = (context.FuelTransactions
+                  .Where(ft => ft.AirportID == viewModelAirport.AirportID && ft.TransactionType == 1)
+                  .Sum(ft => (decimal?)ft.Quantity) ?? 0)
+                  - (context.FuelTransactions
+                      .Where(ft => ft.AirportID == viewModelAirport.AirportID && ft.TransactionType == 2)
+                      .Sum(ft => (decimal?)ft.Quantity) ?? 0);
+
+                        if(fuelAvailable >= dbAirport.FuelCapacity)
+                        {
+                            dbAirport.FuelAvailable = 0;
+                        }
+                        else
+                        {
+                            dbAirport.FuelAvailable = fuelAvailable;
+                        }
+
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -87,7 +131,7 @@ namespace AirportFuelManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        Logger.AddData(ex);
+                        Logger.AddLogException(ex);
                     }
                 }
             }
@@ -108,10 +152,45 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
             }
 
             return totalCount;
+        }
+
+        public static AllViewModel.Airport GetAirportById(string airportId)
+        {
+            try
+            {
+                using (var context = new AirportDBEntities())
+                {
+                    // Retrieve the aircraft entity from the database
+                    var dbAirport = context.Airports.FirstOrDefault(a => a.AirportID == airportId);
+
+                    if (dbAirport != null)
+                    {
+
+                        var viewModelAircraft = new AllViewModel.Airport
+                        {
+                            AirportID = dbAirport.AirportID,
+                            AirportName = dbAirport.AirportName,
+                            FuelCapacity = dbAirport.FuelCapacity,
+                            FuelAvailable = dbAirport.FuelAvailable
+                        };
+
+                        return viewModelAircraft;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddLogException(ex);
+                return null;
+            }
         }
 
         public static List<AllViewModel.Aircraft> GetAircraftList()
@@ -127,7 +206,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return null;
             }
         }
@@ -154,7 +233,38 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
+                return false;
+            }
+        }
+
+        public static bool UpdateAircraft(AllViewModel.Aircraft viewModelAircraft)
+        {
+            try
+            {
+                using (var context = new AirportDBEntities())
+                {
+                    var dbAircraft = context.Aircraft.FirstOrDefault(a => a.AircraftID == viewModelAircraft.AircraftID);
+
+                    if (dbAircraft != null)
+                    {
+                        dbAircraft.AircraftNumber = viewModelAircraft.AircraftNumber;
+                        dbAircraft.AirLine = viewModelAircraft.AirLine;
+                        dbAircraft.Source = viewModelAircraft.Source;
+                        dbAircraft.Destination = viewModelAircraft.Destination;
+
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -186,7 +296,7 @@ namespace AirportFuelManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        Logger.AddData(ex);
+                        Logger.AddLogException(ex);
                     }
                 }
             }
@@ -206,11 +316,52 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
             }
 
             return totalCount;
         }
+
+        public static AllViewModel.Aircraft GetAircraftById(string aircraftId)
+        {
+            try
+            {
+                using (var context = new AirportDBEntities())
+                {
+                    // Retrieve the aircraft entity from the database
+                    var dbAircraft = context.Aircraft.FirstOrDefault(a => a.AircraftID == aircraftId);
+
+                    if (dbAircraft != null)
+                    {
+                        // Fetch the airport names for Source and Destination based on AirportID
+                        var sourceAirport = context.Airports.FirstOrDefault(a => a.AirportID == dbAircraft.Source);
+                        var destinationAirport = context.Airports.FirstOrDefault(a => a.AirportID == dbAircraft.Destination);
+
+                        var viewModelAircraft = new AllViewModel.Aircraft
+                        {
+                            AircraftID = dbAircraft.AircraftID,
+                            AircraftNumber = dbAircraft.AircraftNumber,
+                            AirLine = dbAircraft.AirLine,
+                            // Set the Source and Destination properties to airport names
+                            Source = sourceAirport != null ? sourceAirport.AirportName : string.Empty,
+                            Destination = destinationAirport != null ? destinationAirport.AirportName : string.Empty
+                        };
+
+                        return viewModelAircraft;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.AddLogException(ex);
+                return null;
+            }
+        }
+
 
         public static bool AddTransaction(AllViewModel.FuelTransaction viewModelTransaction)
         {
@@ -231,11 +382,6 @@ namespace AirportFuelManagement.DataAccessLayer
                             .Where(ft => ft.AirportID == viewModelTransaction.AirportID && ft.TransactionType == 2)
                             .Sum(ft => (decimal?)ft.Quantity) ?? 0)
                         + viewModelTransaction.Quantity;
-
-                    if (totalFuelAvailable > airport.FuelCapacity)
-                    {
-                        return false;
-                    }
 
                     FuelTransaction dbTransaction = new FuelTransaction
                     {
@@ -258,15 +404,26 @@ namespace AirportFuelManagement.DataAccessLayer
                             .Where(ft => ft.AirportID == viewModelTransaction.AirportID && ft.TransactionType == 2)
                             .Sum(ft => (decimal?)ft.Quantity) ?? 0);
 
+
+                    if (fuelAvailable < 0 || fuelAvailable > airport.FuelCapacity)
+                    {
+                        context.FuelTransactions.Remove(dbTransaction);
+                        context.SaveChanges();
+                        return false;
+                    }
+
+                    context.SaveChanges();
+
                     airport.FuelAvailable = fuelAvailable;
                     context.SaveChanges();
 
                     return true;
                 }
+
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -315,7 +472,7 @@ namespace AirportFuelManagement.DataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        Logger.AddData(ex);
+                        Logger.AddLogException(ex);
                     }
                 }
             }
@@ -335,7 +492,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
             }
 
             return totalCount;
@@ -348,14 +505,16 @@ namespace AirportFuelManagement.DataAccessLayer
                 using (var context = new AirportDBEntities())
                 {
                     var transactions = context.FuelTransactions.ToList();
+                    context.FuelTransactions.RemoveRange(transactions);
 
-                    foreach (var transaction in transactions)
-                    {
-                        context.FuelTransactions.Remove(transaction);
-                    }
+                    //foreach (var transaction in transactions)
+                    //{
+                    //    context.FuelTransactions.Remove(transaction);
+                    //}
                     context.SaveChanges();
 
                     var airports = context.Airports.ToList();
+
                     foreach (var airport in airports)
                     {
                         airport.FuelAvailable = 0;
@@ -367,7 +526,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -400,7 +559,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return null;
             }
         }
@@ -413,12 +572,13 @@ namespace AirportFuelManagement.DataAccessLayer
                     .Select(airport => new AirportFuelSummary
                     {
                         AirportName = airport.AirportName,
-                        FuelAvailable = (context.FuelTransactions
-                                .Where(ft => ft.AirportID == airport.AirportID && ft.TransactionType == 1)
-                                .Sum(ft => (decimal?)ft.Quantity) ?? 0)
-                            - (context.FuelTransactions
-                                .Where(ft => ft.AirportID == airport.AirportID && ft.TransactionType == 2)
-                                .Sum(ft => (decimal?)ft.Quantity) ?? 0)
+                        FuelAvailable = (decimal)airport.FuelAvailable
+                        //FuelAvailable = (context.FuelTransactions
+                        //        .Where(ft => ft.AirportID == airport.AirportID && ft.TransactionType == 1)
+                        //        .Sum(ft => (decimal?)ft.Quantity) ?? 0)
+                        //    - (context.FuelTransactions
+                        //        .Where(ft => ft.AirportID == airport.AirportID && ft.TransactionType == 2)
+                        //        .Sum(ft => (decimal?)ft.Quantity) ?? 0)
                     });
 
                 switch (sortExpression)
@@ -468,7 +628,7 @@ namespace AirportFuelManagement.DataAccessLayer
                                          .OrderBy(ft => ft.TimeStamp)
                                          .Select(ft => new FuelTransactionItem
                                          {
-                                             DateTime = ft.TimeStamp,
+                                             CreatedDateTime = ft.TimeStamp,
                                              Type = ft.TransactionType == 1 ? "In" : "Out",
                                              Fuel = ft.Quantity,
                                              Aircraft = ft.AircraftID ?? ""

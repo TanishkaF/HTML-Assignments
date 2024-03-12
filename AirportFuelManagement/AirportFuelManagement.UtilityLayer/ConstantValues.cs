@@ -5,15 +5,27 @@ namespace AirportFuelManagement.UtilityLayer
 {
     public class ConstantValues
     {
-        public static AllViewModel.LogInSessionModel GetUserSessionInfo()
+        public static AllViewModel.LogInSessionModel UserSessionInfo
         {
-            return HttpContext.Current.Session["UserSessionInfo"] as AllViewModel.LogInSessionModel;
+            get
+            {
+                return HttpContext.Current.Session["UserSessionInfo"] as AllViewModel.LogInSessionModel;
+            }
+            set
+            {
+                HttpContext.Current.Session["UserSessionInfo"] = value;
+            }
         }
 
-        public static void SetUserSessionInfo(AllViewModel.LogInSessionModel userSessionInfo)
-        {
-           HttpContext.Current.Session["UserSessionInfo"] = userSessionInfo;
-        }
+        //public static AllViewModel.LogInSessionModel GetUserSessionInfo()
+        //{
+        //    return HttpContext.Current.Session["UserSessionInfo"] as AllViewModel.LogInSessionModel;
+        //}
+
+        //public static void SetUserSessionInfo(AllViewModel.LogInSessionModel userSessionInfo)
+        //{
+        //    HttpContext.Current.Session["UserSessionInfo"] = userSessionInfo;
+        //}
     }
 
     public struct TransactionType
@@ -33,7 +45,7 @@ namespace AirportFuelManagement.UtilityLayer
     public struct AircraftConstants
     {
         public const int PageIndex = 0;
-        public const int PageSize = 15;
+        public const int PageSize = 5;
         public const string SortExpression = "AircraftNumber";
         public const string SortDirection = "ASC";
     }
@@ -49,7 +61,7 @@ namespace AirportFuelManagement.UtilityLayer
     public struct AirportFuelConstants
     {
         public const int PageIndex = 0;
-        public const int PageSize = 3;
+        public const int PageSize = 5;
         public const string SortExpression = "FuelAvailable";
         public const string SortDirection = "DESC";
     }

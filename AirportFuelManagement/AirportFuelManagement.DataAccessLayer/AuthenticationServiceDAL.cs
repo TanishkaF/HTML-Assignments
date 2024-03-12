@@ -19,7 +19,7 @@ namespace AirportFuelManagement.DataAccessLayer
                     User userEntity = new User
                     {
                         Name = userViewModel.Name,
-                        EmailID = userViewModel.EmailID,
+                        EmailID = userViewModel.EmailId,
                         Password = userViewModel.Password
                     };
 
@@ -34,7 +34,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -66,7 +66,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
             }
         }
 
@@ -82,7 +82,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -110,7 +110,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -127,7 +127,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return -1;
             }
         }
@@ -149,7 +149,7 @@ namespace AirportFuelManagement.DataAccessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }

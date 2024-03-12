@@ -1,51 +1,115 @@
 ﻿$(document).ready(function () {
 
     $("#submitAirport").click(function () {
-        if (validateAirportAdd()) {
-            var airportData = {
-                AirportID: $("#AirportID").val(),
-                AirportName: $("#AirportName").val(),
-                FuelCapacity: $("#FuelCapacity").val()
-            };
 
-            $.ajax({
-                url: '/Airport/AddAirport',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(airportData),
-                success: function (response) {
-                    if (response && response.hasOwnProperty('success')) {
-                        if (response.success) {
-                            // Success message or action
-                            $("#AirportID").val("");
-                            $("#AirportName").val("");
-                            $("#FuelCapacity").val("");
-                            loadAirportList();
-                            //alert('Airport added successfully.');
-                        } else {
-                           // alert('Failed to add airport: ' + response.message);
-                        }
-                    } else {
-                       // alert('Invalid response received from the server.');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    // alert('Error occurred while adding airport: ' + error);
-                }
-            });
+        var airportID = $("#AirportID").val();
+        var isReadOnly = $("#AirportID").prop("readonly");
+
+        if (isReadOnly) {
+            updateAirport(airportID);
+        } else {
+            insertAirport();
         }
-        // Return false to prevent default form submission
+   
         return false;
     });
 
-
     loadAirportList();
 });
+
+function insertAirport() {
+    if (validateAirportAdd()) {
+
+        var airportData = {
+            AirportID: $("#AirportID").val(),
+            AirportName: $("#AirportName").val(),
+            FuelCapacity: $("#FuelCapacity").val()
+        };
+
+        $.ajax({
+            url: '/Airport/AddAirport',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(airportData),
+            success: function (response) {
+                if (response && response.hasOwnProperty('success')) {
+                    if (response.success) {
+                        $("#AirportID").val("");
+                        $("#AirportName").val("");
+                        $("#FuelCapacity").val("");
+                        loadAirportList();
+                        alert('Airport added successfully.');
+                        $('#airportFormContainer').hide();
+                    } else {
+                        alert('Failed to add airport: ' + response.message);
+                    }
+                } else {
+                    alert('Invalid response received from the server.');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error occurred while adding airport: ' + error);
+            }
+        });
+    }
+}
+function updateAirport() {
+
+    if (validateAirportAdd()) {
+
+        var airportData = {
+            AirportID: $("#AirportID").val(),
+            AirportName: $("#AirportName").val(),
+            FuelCapacity: $("#FuelCapacity").val()
+        };
+
+        $.ajax({
+            url: '/Airport/UpdateAirport',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(airportData),
+            success: function (response) {
+                if (response && response.hasOwnProperty('success')) {
+                    if (response.success) {
+                        $("#AirportID").val("");
+                        $("#AirportName").val("");
+                        $("#FuelCapacity").val("");
+                        loadAirportList();
+                        alert('Airport updated successfully.');
+                        $('#airportFormContainer').hide();
+                    } else {
+                        alert('Failed to add airport: ' + response.message);
+                    }
+                } else {
+                    alert('Invalid response received from the server.');
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error occurred while adding airport: ' + error);
+            }
+        });
+    }
+}
 
 $("#addAirportButton").click(function () {
     $.ajax({
         url: '/Airport/AddAirportForm',
         type: 'GET',
+        success: function (response) {
+            $('#airportFormContainer').html(response);
+        },
+        error: function (xhr, status, error) {
+            alert('Error occurred while loading airport form: ' + error);
+        }
+    });
+});
+
+$(document).on('click', '.edit-airport', function () {
+    var airportID = $(this).data('airport-id');
+    $.ajax({
+        url: '/Airport/AddAirportForm',
+        type: 'POST',
+        data: { airportID: airportID },
         success: function (response) {
             $('#airportFormContainer').html(response);
         },
@@ -63,6 +127,8 @@ function loadAirportList(pageIndex = $("#pageIndexAirportList").val(), pageSize 
         success: function (data) {
             $("#airportTable tbody").empty();
             $.each(data.Airports, function (index, item) {
+                var editButton = '<button class="btn btn-secondary edit-airport" data-airport-id="' + item.AirportID + '">Edit</button>';
+
                 $('#airportTable tbody').append(
                     '<tr>' +
                     //'<td>' + item.AirportUID + '</td>' +
@@ -70,6 +136,7 @@ function loadAirportList(pageIndex = $("#pageIndexAirportList").val(), pageSize 
                     '<td>' + item.AirportName + '</td>' +
                     '<td>' + (item.FuelCapacity ?? 'N/A') + '</td>' +
                     '<td>' + (item.FuelAvailable ?? 'N/A') + '</td>' +
+                    '<td>' + editButton + '</td>' +
                     '</tr>'
                 );
             });

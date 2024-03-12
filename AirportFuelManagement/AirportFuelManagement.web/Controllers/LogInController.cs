@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
 using static AirportFuelManagement.ViewModel.AllViewModel;
 
 namespace AirportFuelManagement.Controllers
@@ -30,7 +31,8 @@ namespace AirportFuelManagement.Controllers
                 IsAdmin = AuthenticationServiceBL.IsAdmin(email)
             };
 
-            ConstantValues.SetUserSessionInfo(userSession);
+            ConstantValues.UserSessionInfo = userSession;
+            // ConstantValues.SetUserSessionInfo(userSession);
 
             return Json(new { success = isValidUser, errorMessage = errorMessage });
         }

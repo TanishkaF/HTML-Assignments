@@ -13,7 +13,9 @@ namespace AirportFuelManagement.Attribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            LogInSessionModel logInSessionModel = ConstantValues.GetUserSessionInfo();
+            //LogInSessionModel logInSessionModel = ConstantValues.UserSessionInfo();
+            LogInSessionModel logInSessionModel = ConstantValues.UserSessionInfo;
+
             string actionName = filterContext.ActionDescriptor.ActionName.ToLower();
 
             if (logInSessionModel == null)

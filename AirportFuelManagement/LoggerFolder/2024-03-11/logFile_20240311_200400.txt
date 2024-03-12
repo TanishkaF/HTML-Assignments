@@ -1,0 +1,16 @@
+Time: 11-03-2024 08:04:00 PM
+-----------------------------------------------------------
+Exception Details:
+Message: The cast to value type 'System.Decimal' failed because the materialized value is null. Either the result type's generic parameter or the query must use a nullable type.
+StackTrace:    at System.Data.Entity.Core.Common.Internal.Materialization.Shaper.ErrorHandlingValueReader`1.GetValue(DbDataReader reader, Int32 ordinal)
+   at lambda_method(Closure , Shaper )
+   at System.Data.Entity.Core.Common.Internal.Materialization.Coordinator`1.ReadNextElement(Shaper shaper)
+   at System.Data.Entity.Core.Common.Internal.Materialization.Shaper`1.SimpleEnumerator.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at AirportFuelManagement.DataAccessLayer.AirportDAL.GetAirportFuelSummary(String sortExpression, String sortDirection, Int32 currentPageIndex, Int32 pageSize) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.DataAccessLayer\AirportDAL.cs:line 444
+   at AirportBL.GetAllFuelSummary(String sortExpression, String sortDirection, Int32 startRowIndex, Int32 pageSize) in C:\Users\tanishkaf\Desktop\dotnetprac\AirportFuelManagement\AirportFuelManagement.BusinessLayer\AirportBL.cs:line 204
+Source: EntityFramework
+TargetSite: T GetValue(System.Data.Common.DbDataReader, Int32)
+-----------------------------------------------------------
+

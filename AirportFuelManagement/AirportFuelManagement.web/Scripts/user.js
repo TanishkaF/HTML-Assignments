@@ -26,6 +26,7 @@
                 if (response.success) {
                     alert('User added successfully.');
                     $("#userForm")[0].reset();
+
                 } else {
                     alert('Failed to add user: ' + response.message);
                 }

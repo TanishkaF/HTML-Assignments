@@ -19,20 +19,20 @@ namespace AirportFuelManagement.BusinessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
 
-        public static bool CheckEmailExists(string email, int userID)
+        public static bool CheckEmailExists(string email, int userId)
         {
             try
             {
-                return AuthenticationServiceDAL.CheckEmailExists(email, userID);
+                return AuthenticationServiceDAL.CheckEmailExists(email, userId);
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -45,7 +45,7 @@ namespace AirportFuelManagement.BusinessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }
@@ -58,7 +58,7 @@ namespace AirportFuelManagement.BusinessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return -1;
             }
         }
@@ -71,7 +71,7 @@ namespace AirportFuelManagement.BusinessLayer
             }
             catch (Exception ex)
             {
-                Logger.AddData(ex);
+                Logger.AddLogException(ex);
                 return false;
             }
         }

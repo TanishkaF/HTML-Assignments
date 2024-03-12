@@ -15,6 +15,9 @@
 
     <h2>Fuel Consumption Report</h2>
 
+    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ExportFuelConsumptionReportToPDF", "ExportToPDF")'">Export to PDF</button>
+    <div class="extra-padding"></div>
+
     @foreach (var item in Model)
     {
         <div class="report-section">
@@ -33,7 +36,7 @@
                         @foreach (var transaction in item.Transactions)
                         {
                             <tr>
-                                <td>@transaction.DateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                <td>@transaction.CreatedDateTime.ToString("yyyy-MM-dd HH:mm:ss")</td>
                                 <td>@transaction.Type</td>
                                 <td>@transaction.Fuel</td>
                                 <td>@transaction.Aircraft</td>

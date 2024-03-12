@@ -6,7 +6,7 @@ namespace AirportFuelManagement.UtilityLayer
 {
     public class Logger
     {
-        public static void AddData(Exception inputData)
+        public static void AddLogException(Exception inputData)
         {
             try
             {

@@ -16,6 +16,10 @@ namespace AirportFuelManagement.Controllers
         [SessionCheck]
         public ActionResult TransactionView()
         {
+            if (TempData["SuccessMessage"] != null)
+            {
+                ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            }
             return View();
         }
 
@@ -112,11 +116,11 @@ namespace AirportFuelManagement.Controllers
         [HttpPost]
         public ActionResult RemoveAllTransactions()
         {
-            bool success = AirportBL.RemoveAllTransactions();
-
-            if (success)
+            if (AirportBL.RemoveAllTransactions())
             {
-                return Json(new { success = true });
+                TempData["SuccessMessage"] = "Successfully removed all Transactions.";
+                return RedirectToAction("TransactionView");
+                    //Json(new { success = true });                
             }
             else
             {
