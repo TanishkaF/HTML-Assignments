@@ -1,47 +1,42 @@
 # Airport Fuel Inventory Management System
 
-## Introduction
-
-This is a web-based application designed to manage and maintain fuel consumption at airports. It provides an interface for airport administrators to track fuel levels, manage aircraft, record fuel transactions, and generate reports.
+Welcome to the Airport Fuel Inventory Management System! This application provides an interface for managing fuel consumption at airports, including features for signing in, initializing data, managing airports, aircraft, transactions, and generating reports.
 
 ## Features
 
-- **User Authentication**: Users can sign in using their email and password.
-- **Data Initialization**: Allows initializing data by adding airports, aircraft, and removing all transactional data.
-- **Airport Management**: Admins can view a list of airports, add new airports, and update existing ones.
-- **Aircraft Management**: Admins can view a list of aircraft, add new aircraft, and update existing ones.
-- **Transaction Management**: Admins can view a list of transactions, add new transactions, and reverse existing ones.
-- **Reports**: Provides comprehensive reports including Airport Summary Report and Fuel Consumption Report.
+- **Sign-in**: Users can sign in with a default user account.
+- **Initialize**: Data can be initialized with options to add airports, aircraft, and manage fuel transaction data.
+- **Airport Management**: Allows listing and addition of airports.
+- **Aircraft Management**: Facilitates listing and addition of aircraft.
+- **Transaction Management**: Supports listing, addition, and reversal of transactions.
+- **Reports**: Generates and displays reports, including Airport Summary Report and Fuel Consumption Report.
 
-## Technologies Used
+## Entities / Attributes
 
-- Ruby on Rails: Backend framework for handling server-side logic and database management.
-- React.js: Frontend library for building user interfaces.
-- MySQL: Relational database management system for storing application data.
-- HTML/CSS: Markup and styling for the frontend views.
-- JavaScript: Programming language for frontend interactivity and logic.
+- **User**: user_id, name, email, password
+- **Airport**: airport_id, airport_name, fuel_capacity, fuel_available
+- **Aircraft**: aircraft_id, aircraft_no, airline, source, destination
+- **Transaction**: transaction_id, transaction_date_time, transaction_type, airport_id, aircraft_id, quantity, transaction_id_parent
 
-## Setup and Installation
+## Technologies / Tools
 
-1. Clone the repository from GitHub.
-2. Navigate to the project directory.
-3. Install dependencies using `bundle install` for Ruby gems and `npm install` for Node.js packages.
-4. Configure the database connection in `config/database.yml`.
-5. Run database migrations with `rails db:migrate` to set up the database schema.
-6. Seed the database with sample data using `rails db:seed`.
-7. Start the Rails server with `rails server`.
-8. Navigate to `http://localhost:3000` in your web browser to access the application.
+- **MVC Framework**: Utilized for application development
+- **HTML/CSS Template**: Chosen based on preference
+- **Database**: Utilized for data storage
 
-## Usage
+## How to Run
 
-- Upon accessing the application, sign in using the default user credentials.
-- Navigate through the sections to perform various operations such as initializing data, managing airports, aircraft, transactions, and generating reports.
-- Follow on-screen instructions and prompts to complete tasks and view reports.
+1. Clone the repository: `git clone [repository_url]`
+2. Set up the database with the provided schema and sample data.
+3. Run the MVC application.
+4. Sign in with the default user credentials.
+5. Use the interface to manage airports, aircraft, transactions, and generate reports.
 
-## Contributing
+## Deliverables
 
-Contributions are welcome! If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+- All features are fully functional.
+- Object-oriented approach used with clean and modular code.
+- Code comments and documentation provided where necessary.
+- Unit tests included for implementation.
+- README.md file created to guide users on how to run the program.
+- Fixed the bugs found by my peers

@@ -945,8 +945,10 @@
         </form>
         <uc:NoteUserControlV2 runat="server" id="NoteUserControlV2" />
         <uc1:DocumentUserControlV2 ID="DocumentUserControlV2" runat="server" />
+
 <%--        <uc:NoteUserControl ID="NoteUserControl" runat="server" />--%>
 <%--        <uc1:DocumentUserControl ID="DocumentUserControl" runat="server" />--%>
+
         <!-- BUTTONS -->
         <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">
             <button type="button" class="btn btn-success SubmitButton" id="submitButton" onclick="return submitUserDetails()">Submit</button>

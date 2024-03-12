@@ -858,6 +858,8 @@
                 </div>
             </fieldset>
         </div>
+        
+        
         <uc:NoteUserControl ID="NoteUserControl" runat="server" />
         <uc1:DocumentUserControl ID="DocumentUserControl" runat="server" />
         <div class="fixed-bottom p-3 bg-transparent d-flex justify-content-end footer-buttons">

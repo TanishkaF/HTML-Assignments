@@ -338,8 +338,7 @@ namespace DemoUserManagement.web
 
             return educationDetails;
         }      
-
-        
+                
         protected void PopulateStudentTableDetails(int studentID)
         {
             UserDetailsViewModel studentDetailsTable = UserBusiness.GetUserDetails(studentID);
@@ -475,7 +474,6 @@ namespace DemoUserManagement.web
             }
         }
 
-
         private void PopulateDropdownCountry(string selectedItem, DropDownList dropdown)
         {
             dropdown.Items.Clear();
@@ -490,7 +488,6 @@ namespace DemoUserManagement.web
                 }
             }
         }
-
 
         protected void PopulatedEducationDetails(int studentID)
         {

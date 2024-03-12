@@ -1,0 +1,26 @@
+﻿@model List<MVCUtilityLayer.EmployeeViewModel>
+
+@{
+    ViewBag.Title = "All Employees";
+}
+
+<h2>All Employees</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Gender</th>
+        <th>City</th>
+    </tr>
+    @foreach (var employee in Model)
+    {
+        <tr>
+            <td>@employee.EmployeeID</td>
+            <td>@employee.EmployeeName</td>
+            <td>@employee.Gender</td>
+            <td>@employee.City</td>
+        </tr>
+    }
+</table>
+
